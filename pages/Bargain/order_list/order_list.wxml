@@ -1,0 +1,113 @@
+<!-- 活动页面 -->
+<view class='bargain-top' wx:if="{{bargain}}">
+  <view class="bargain-banner">
+    <image src='../../../images/kj-banner.png'></image>
+  </view>
+  <view class='bargain-tab'>
+    <block wx:for="{{bargainList}}" wx:key="{{index}}">
+        <view  id="{{item.id}}"  class="bt-item {{activeBargainId == item.id ? 'type-item-on' : ''}}" bindtap="changeTabs">{{item.name}}</view>
+    </block>
+  </view>
+</view>
+<view class="pro-list" wx:if="{{bargain}}">
+ 
+  <view class='pro-items' wx:for="{{BargainList}}">
+    <navigator class='pl-left'><image src="{{item.original_img?url + item.original_img : '../../../images/unknow.png'}}"></image></navigator>
+    <view class="pl-right">
+      <view class="pr-title">{{item.goods_name || ''}}</view>
+      <view class="pr-price" >
+        <view>最低可砍至 <text class='pp-price'>¥{{item.end_price || 0}}</text></view>
+        <view>
+          <view class='original-residue'>原价 ¥{{item.shop_price || 0}}</view>
+          <view class='original-residue'>剩余 {{item.remain_num || 0}}件</view>
+        </view>
+      </view>    
+      <navigator wx:if="{{item.bargain_first.id}}" url="../../Bargain/bargain/bargain?id={{item.bargain_first.id}}" class="bg-btn">砍价中</navigator>  
+       <navigator wx:else url="../../goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}&item_id={{item.item_id > 0?item.item_id:''}}" class="bg-btn">去砍价</navigator>  
+    </view>
+  </view>
+</view>
+
+
+
+<!-- 订单列表 -->
+<view class="ol-fiexd" wx:if="{{!bargain}}">
+   <view class="ol-tabs" >
+   <block wx:for="{{categories}}" wx:key="{{index}}">
+        <view id="{{item.id}}"  class="{{activeCategoryId == item.id ? 'type-item-on' : ''}}" bindtap="changeTab" > {{item.name}}</view>
+    </block>
+  </view>
+</view>
+<view class='ol-list' wx:if="{{!bargain}}">
+  
+  <view class='ol-product' wx:for="{{orderList}}" wx:key="{{index}}" data-id="{{item.id}}" data-datas="{{item}}"  bindtap='redirectPage' >
+    <view class="ol-left">
+      <navigator><image src="{{item.original_img?url + item.original_img : '../../../images/unknow.png'}}"></image></navigator>
+    </view>
+    <view class="ol-right">
+      <view class="pr-title">{{item.promotionBargain.goods_name}}{{item.item_key?item.item_key:''}}</view>
+      <view class="pr-price" style="width:542rpx;">
+        <view class="overtiome-price" wx:if="{{item.status == 0}}">
+            <view class="orders-detail">
+                <view>
+                <view class="pp-price">现价 ¥{{item.end_price}}</view>
+                <view class="original-residues">原价 ¥{{item.goods_price}}</view>
+                </view>
+                <view class="original-residues">剩余{{item.remain_num}}</view>
+               <view class="bg-btn">砍价中</view>
+            </view>          
+        </view>
+        <view class="overtiome-price" wx:if="{{item.status == 1}}">
+            <view class="orders-detail">
+                    <view>
+                    <view class="pp-price">已砍至最低价 ¥{{item.end_price}}</view>
+                    <view class="original-residues"></view>
+                    </view>
+                    <view class="original-residues"></view>
+                <view class="bg-btn">待购买</view>
+                </view>          
+        </view>
+        <view class="overtiome-price" wx:if="{{item.status == 2}}">
+             <view class="orders-detail">
+                    <view>
+                    <view class="pp-price">成交价 ¥{{item.end_price}}</view>
+                    <view class="original-residues"></view>
+                    </view>
+                    <view class="original-residues"></view>
+                <view class="bg-btn">已支付</view>
+                </view>          
+        </view>
+        <view class="overtiome-price" wx:if="{{item.status == 3}}">
+                <view class="orders-detail">
+                    <view>
+                    <view class="pp-price">成交价 ¥{{item.end_price}}</view>
+                    <view class="original-residues"></view>
+                    </view>
+                    <view class="original-residues"></view>
+                <view class="cj-btn">未支付</view>
+                </view>  
+        </view>
+        <view class="overtiome-price" wx:if="{{item.status == 4}}">
+       
+            <view class="orders-detail">
+                    <view>
+                    <view class="pp-price">{{item.order_status == 5 ? '订单作废':item.order_id == 0 ? '活动结束' : '订单取消'}}</view>
+                    <view class="original-residues"></view>
+                    </view>
+                    <view class="original-residues"></view>
+                    <view class="cj-btn">失败</view>
+             </view> 
+            
+        </view>
+      </view>
+     
+    </view>
+  </view>
+
+  
+</view>
+
+ <view class='bargain-accounts'>
+    <view catchtap='show' data-type="bargain"  class="{{menu_selected?'bg-clr':''}}">砍价商品列表</view>
+    <view catchtap='show' data-type="order"  class="{{!menu_selected?'bg-clr':''}}">我的砍价</view>
+  </view>

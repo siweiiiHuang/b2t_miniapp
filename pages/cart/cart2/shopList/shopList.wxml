@@ -1,0 +1,29 @@
+<!--address_list.wxml-->
+
+<view class="container">
+  <radio-group class="radio-group" bindchange="radioChange">
+    <view class="address-box" wx:for="{{shopList}}" wx:key="{{index}}">
+        <view class="address-user">
+                    <label class="radio" >                        
+                            <radio value="{{index}}" checked="{{index==selected}}"/>                     
+                    </label>
+        </view>
+        <view class="address-info"  bindtap="selectAddress" data-index="{{index}}">
+            <view class="mobile "><text>{{item.shop_name}}</text> <text wx:if="{{index == 0}}" class="text-center">离我最近</text> <text class="float">{{item.distance_text}}</text></view>
+           
+            <view class="address text">{{item.shop_address}} <image class="float"  catchtap='shop_page' data-index="{{index}}"       src="../../../../images/z-dingw1.png"></image></view>
+              <view class="mobile text">{{item.phone}}</view>
+        </view>
+     
+    </view>            
+     </radio-group>
+</view>
+
+    
+
+  <navigator class="address-create" >
+        <view class="create-btn" catchtap='formSubmit'>确定</view>
+    </navigator>
+
+
+

@@ -1,0 +1,49 @@
+  <!-- 商品评论 -->
+        <view class="goods-comment" >
+         
+            <view class="comment-list">
+                <view class="comment-item" >
+                    <view class="comment-title">
+                        <view class="user-name">
+                            <view class="user-pic"><image class="wh100" src="{{comments.is_anonymous ? defaultAvatar : comments.head_pic ? comments.head_pic : defaultAvatar}}"></image></view>
+                            {{comments.is_anonymous ? '匿名用户' : comments.username}}
+                        </view>
+                        <view>{{comments.addTimeFormat}}</view>
+                    </view>
+                    <view class="comment-cont">
+                        <view class="stars">
+                            <view class="stars-checked">
+                                <image class="star" src="../../../images/star-red.png" wx:for="{{comments.goods_rank}}"  wx:key="{{index}}"></image>
+                            </view>
+                            <view class="stars-unchecked">
+                                <image class="star" src="../../../images/star-gray.png" wx:for="{{5-item.goods_rank}}" wx:key="{{index}}"></image>
+                            </view>
+                        </view>
+                        <view class="comment-mes">{{comments.content}}</view>
+                        <view class="img-ul">
+                             <view class="img-li" wx:for="{{comments.img}}"  wx:key="{{index}}">
+                                <image class="wh100" src="{{url + item}}" bindtap="previewCommentImgs" data-cidx="{{cIdx}}" data-id="{{index}}"></image>
+                             </view>
+                        </view>                                              
+                    </view>                    
+                </view>
+
+<block wx:if="{{reply.length > 0}}">
+                <view class="reply-count" wx:if="{{reply_count > 0}}">回复<text style="color: #c1c1c1;">({{reply_count}})</text></view>
+                   <view class="comment-item" wx:for="{{reply}}" >                  
+                    <view class="comment-title">
+                        <view class="user-name">
+                            <view class="user-pic"><image class="wh100" src="{{defaultAvatar}}"></image></view>
+                            {{item.user_name}}
+                        </view>
+                        <view>{{item.reply_time}}</view>
+                    </view>
+                    <view class="comment-cont">
+                    <view class="comment-mes reply_content" >回复：{{item.to_name}}</view>
+                        <view class="comment-mes reply_content" >{{item.content}}</view>                    
+                    </view>                    
+                </view>
+          </block>
+            </view>
+        </view>
+      

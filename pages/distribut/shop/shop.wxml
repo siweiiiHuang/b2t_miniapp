@@ -1,0 +1,52 @@
+<!--index.wxml-->
+<!-- 账户信息开始 -->
+<view class='account_info'>
+  <image src="{{store.store_img?url+store.store_img:'../../../images/distribut/team_bg@2x.png'}}" class='info_bg'></image>
+  <view class='header_image'>
+    <image src='{{userInfo.head_pic}}'></image>
+  </view>
+  <view class='shop_title'>{{store.store_name||'我的店铺'}}</view>
+  <navigator class='add' url="/pages/distribut/good_list/good_list">
+        <view >添加商品</view>
+  </navigator>
+    <view class='info_data'>
+        <view class='products' >
+        <navigator url="/pages/distribut/distribut_list/distribut_list" class='sum'>{{list.length}}</navigator>
+        <navigator url="/pages/distribut/distribut_list/distribut_list" class='writing'>我的商品</navigator>
+        </view>
+        <view class='line'></view>
+        <view class='products' >
+        <navigator url="/pages/distribut/good_list/good_list" class='sum' style='font-size:34rpx;'>{{goods.length}}</navigator>
+        <navigator url="/pages/distribut/good_list/good_list" class='writing'>待上架商品</navigator>
+        </view>
+    </view>
+</view>
+<!-- 账户信息结束 -->
+<!-- 商品信息开始 -->
+<view class='product_info clearfix'>
+
+<block wx:for="{{list}}">
+  <navigator class='product_list' url='/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}'>
+    <view class='product_image'>
+      <view class='product_image_title'>TPshop</view>
+      <view class='product_image_content'>开源商城</view>
+      <image src='{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400'></image>
+    </view>
+    <view class='product_list_title'>{{item.goods_name}}</view>
+    <view class='activities clearfix'>
+      <view class='activity' wx:if="{{item.label_id != '' }}">{{item.label_id}}</view>
+      <view class='activity'  wx:if="{{item.is_free_shipping == 1 }}">包邮</view>
+    </view>
+   <view class='product_data clearfix'>
+      <view class='price'>￥<view>{{item.shop_price}}</view></view>
+      <view class='amount'>已售{{item.sales_sum}}件</view>
+    </view>
+  </navigator>
+ </block>
+</view>
+<!-- 商品信息结束 -->
+
+
+<!-- 底部菜单 -->
+<import src="../../index/publics/publics.wxml"/>
+<template is="distributMenu" data="{{page:page}}" />

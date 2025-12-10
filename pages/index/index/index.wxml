@@ -1,0 +1,200 @@
+<!--index.wxml-->
+<!-- 非自定义页面 -->
+<view wx:if="{{is_block==0}}" class="container">
+    <!--搜索栏-->
+    <view class="search-box {{scrollTop>10?'search-fixed':''}}">
+        <view class="search-inner">
+            <!-- <view class="logo"><image class="wh100" src="{{url + wap_home_logo}}"></image></view> -->
+            <view class="search-img"><image class="wh100" src="../../../images/search.png"></image></view>
+            <input class="search-cont" placeholder-class='placeholder' placeholder="请输入您所搜索的商品" type="text" bindfocus="jumpSearch"/>
+        </view>
+    </view>
+    <!--轮播图indicator-color="#090909" indicator-active-color="#fff"-->
+    <block wx:if="{{homeData.banner.length >0}}">
+        <view>
+            <swiper class="swiper_box" indicator-dots="true" vertical="" autoplay="true" interval="3000" duration="1000" indicator-color="#B5B7B9" indicator-active-color="#fff">
+                <block wx:for="{{homeData.banner}}" wx:key="index">
+                    <swiper-item>
+                        <image bindtap='adTopage' data-type='{{item.media_type}}' data-link='{{item.ad_link}}' src="{{item.ad_code}}" class="slide-image"/>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </block>
+    <view class="venues_box">
+    <view class="venues_list">
+        <view class="venues_item">
+            <navigator url="/pages/goods/categoryList/categoryList" >
+                <image src="../../../images/ico-nav1.png"/>
+                <view>全部分类</view>
+            </navigator>
+        </view>
+        <view class="venues_item">
+            <navigator url="/pages/goods/brandstreet/brandstreet">
+                <image src="../../../images/ico-nav3.png"/>
+                <view>品牌街</view>
+            </navigator>
+        </view>
+        <view class="venues_item">
+            <navigator url="/pages/cart/cart/cart">
+                <image src="../../../images/ico-nav15.png"/>
+                <view>购物车</view>
+            </navigator>
+        </view>
+        <view class="venues_item">
+            <navigator url="/pages/activity/sales_list/sales_list">
+                <image src="../../../images/ico-nav16.png"/>
+                <view>优惠活动</view>
+            </navigator>
+        </view>
+        <!-- <view class="venues_item">
+            <navigator url="/pages/activity/coupon_list/coupon_list">
+                <image src="../../../images/ico-nav7.png"/>
+                <view>领券中心</view>
+            </navigator>
+        </view> -->
+        <view class="venues_item">
+            <navigator url="/pages/activity/group_list/group_list">
+                <image src="../../../images/ico-nav6.png"/>
+                <view>团购</view>
+            </navigator>
+        </view>
+        <view class="venues_item">
+            <navigator url="/pages/user/order_list/order_list">
+                <image src="../../../images/ico-nav11.png"/>
+                <view>我的订单</view>
+            </navigator>
+        </view>
+        <view class="venues_item">
+            <navigator url="/pages/goods/integralMall/integralMall">
+                <image src="../../../images/ico-nav8.png"/>
+                <view>积分商城</view>
+            </navigator>
+        </view>
+        <view class="venues_item">
+            <navigator url="/pages/team/index/index">
+                <image src="../../../images/ico-nav12.png"/>
+                <view>拼团</view>
+            </navigator>
+        </view>
+        <!-- <view class="venues_item">
+            <navigator url="/pages/user/index/index" >
+                <image src="../../../images/ico-nav10.png"/>
+                <view>个人中心</view>
+            </navigator>
+        </view> -->
+    </view>
+    </view>
+    <!--秒杀-->
+    <view wx:if="{{sale.good}}" class="seckill">
+        <view class="seckill-time">
+            <view class="classname">
+                <view class="sk-tips"><image style='width:120rpx;height:30rpx;' src='../../../images/s2.png'></image></view>
+                <view class="sk-time sk-tit">12点场</view>
+                <view class='time-n'>
+                    <view class="sk-time skt-pub">{{sale.countTime.hour}}</view>
+                    <view class="sk-time skt-pub">{{sale.countTime.minute}}</view>
+                    <view class="sk-time">{{sale.countTime.second}}</view>
+                </view>
+            </view>
+            <navigator url="/pages/activity/seckill_list/seckill_list"><image class="sk-pic" src="../../images/s.png"></image> 更多秒杀 </navigator>
+        </view>
+        <view class="seckill-list">
+            <block wx:for="{{saleGoods}}" wx:key="index">
+                <navigator url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}&item_id={{item.item_id >0 ? item.item_id: ''}}">
+                    <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+                    <view>{{item.goods_name}}</view>
+                    <view class='smj' style='margin:0rpx 5rpx 0rpx 15rpx'>¥</view>
+                    <view class="co-red">{{item.price[0]}}.</view>
+                    <view class='smj'>{{item.price[1]}}</view>
+                    <view class='s-vol'>已售{{item.buy_num}}</view>
+                </navigator>
+            </block>
+        </view>
+    </view>
+    <view class='without' wx:else>
+        <text>暂无秒杀商品~</text>
+        <navigator url="/pages/activity/seckill_list/seckill_list">
+            <image src='/images/icon_flash_sale.png'></image>
+            <!-- <image class="sk-pic" src="../../images/s.png"></image> -->
+             限时抢购</navigator>
+    </view>
+
+
+    <!-- 广告图 -->
+    <view class='h-adv' >
+        <navigator wx:if="{{homeData.ad.ad_507}}" url='{{homeData.ad.ad_507.ad_link}}' class='f-classify-s'><image src='{{homeData.ad.ad_507.ad_code}}' style='width:100%;height:100%'></image></navigator>
+        <navigator wx:if="{{homeData.ad.ad_508}}"  url='{{homeData.ad.ad_508.ad_link}}' class='f-classify-s'><image src='{{homeData.ad.ad_508.ad_code}}' style='width:100%;height:100%'></image></navigator>
+        <navigator wx:if="{{homeData.ad.ad_509}}"  url='{{homeData.ad.ad_509.ad_link}}'class='f-classify-s'><image src='{{homeData.ad.ad_509.ad_code}}' style='width:100%;height:100%'></image></navigator>
+        <navigator wx:if="{{homeData.ad.ad_510}}"  url='{{homeData.ad.ad_510.ad_link}}' class='f-classify-s'><image src='{{homeData.ad.ad_510.ad_code}}' style='width:100%;height:100%'></image></navigator>
+    </view>
+        <navigator wx:if="{{homeData.ad.ad_506}}"  url='{{homeData.ad.ad_506.ad_link}}' class='f-classify-b'><image src='{{homeData.ad.ad_506.ad_code}}' style='width:100%;height:100%'></image></navigator>
+    <!-- 广告图 -->
+    <!--特色推荐-->
+    <view class="section">
+        <view class="section-title">特色推荐</view>
+        <view class="section-subtitle"><image class="wh100" src="../../../images/pic-interesting.png" ></image></view>
+    </view>
+
+    <view class="choice_box">
+        <view class="choice_list">
+            <block wx:for="{{recommend}}" wx:key="index">
+                <view class="choice_item">
+                    <navigator url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                        <view class='h-label'  wx:if="{{item.label_name}}" style='background: url(/images/h-label.png) no-repeat;background-size:175rpx 40rpx;'>{{item.label_name}}</view>
+                        <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image></navigator>
+                    <view class='right'>
+                            <navigator class="title ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+                        <view class='pro-label' style="{{itme.label_name? '' : 'border:none'}}">{{itme.label_name}}</view>
+                        <view class="choice_footer">
+                            <view class="price" >￥<view class="b-price">{{item.shop_price[0]}}</view >.{{item.shop_price[1]}}</view>
+                            <view class="similer">已售{{item.virtual_sales_sum + item.sales_sum}}件
+                                <text>{{item.favorable_rate}}%好评</text>
+                            </view>
+                        </view>
+                    </view>
+                    
+                </view>
+            </block>
+        </view>
+    </view>
+    <view class='cop-footer'>
+        <view class='show'>
+            <image src='../../../images/c-line.png'></image>
+            <text>已显示完该类商品</text>
+        </view>
+    <!-- {{wap_home_logo}} -->
+      <image src='../../../images/TPstore.png' style='width:44rpx;height:44rpx;margin-top:37rpx; border-radius:50%'></image>
+      <!-- <view class='cf-sup'>{{appName}}提供技术支持</view> -->
+      <view class='cf-sup'>TPshop提供技术支持</view>
+    </view>
+</view>
+
+<!-- 自定义页面 -->
+<view  style='background-color: #fff;margin-top:{{search.length>0?100:0}}rpx;padding-bottom: 120rpx' wx:else>
+    <!-- 自定义组件 -->
+    <block wx:if="{{block_model}}">
+        <import  src="../../index/custom/custom.wxml"  />
+        <template is="custom" data="{{block_model:block_model,url:url,countDownList:countDownList,search:search,scrollTop:scrollTop,wap_home_logo:wap_home_logo,iflogin:iflogin,content:content,goods_show:goods_show,goods_show_fid:goods_show_fid,video:video,shop_list:shop_list,ad:ad,address:address,custom_skill_status:custom_skill_status,intelligence_date,from_address}}" />
+   </block>
+</view>
+
+
+
+<!-- 底部菜单 -->
+<import src="../../index/publics/publics.wxml"/>
+<block wx:if="{{menu_model.length > 0}}">
+    <template is="model" data="{{page:menu_index,menu_model:menu_model,url:url,defaultMenu:defaultMenu}}" />
+</block>
+
+<block wx:else>
+    <template is="model" data="{{page:0,menu_model:[],url:url,defaultMenu:defaultMenu}}" />
+</block>
+
+
+
+<!-- 选择地址弹框  -->
+<import src="../../../utils/regions/regions.wxml"/>
+<template is="regions" data="{{regions}}"/>
+
+

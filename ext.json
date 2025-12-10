@@ -1,0 +1,9 @@
+{
+    "extEnable": false,
+    "extAppid": "wx0355086f1ee9a78c",
+    "ext": {
+        "store_name": "TPshop商城",
+        "store_logo": "../../../images/logo.png",
+        "request_url": "xuxing.yunpute.com"
+    }
+}

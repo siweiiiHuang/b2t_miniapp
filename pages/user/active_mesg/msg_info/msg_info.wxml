@@ -1,0 +1,11 @@
+<import src="../../../../utils/wxParse/wxParse.wxml"/>
+<view class='mesg_detail'>
+    <text class='mesg_title'>{{message_details.message_title}}</text>
+    <view class='mesg_info'>
+        <text>类型：{{message_details.category_name}}</text>
+        <text>时间：{{message_details.send_time_texts}}</text>
+    </view>
+    <view class='mesg_content'>
+        <template is="wxParse" data="{{wxParseData:message_content.nodes}}"/>
+    </view>
+</view>

@@ -1,0 +1,194 @@
+/* pages/user/binding/binding_info.wxss */
+page{
+  background-color: #fff;
+}
+.binding-top{
+  width: 100%;
+  height: 450rpx;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.user-logo{ 
+  width: 190rpx; 
+  height: 190rpx; 
+  border-radius: 50%; 
+  border: 2px solid #fff; 
+  overflow: hidden; 
+  position: absolute; 
+  left: 50%; 
+  margin-left: -95rpx; 
+  top: 60rpx;
+}
+
+.user-logo image{ 
+  width: 100%; 
+  height: 100%;
+}
+.user-text{ 
+  margin-top: -100px;
+}
+.user-text text{ 
+  display: block; 
+  margin-top: 16rpx; 
+  color: #fff;
+}
+.userbj-cover{ 
+  width: 100%; 
+  height: 46rpx; 
+  position: absolute; 
+  left: 0; 
+  bottom: 0; 
+  z-index: 20;
+}
+.userbj-cover image{
+  width: 100%; 
+  height: 46rpx;
+}
+.binding-container{ 
+  width: 100%; 
+  padding-top: 15px;
+}
+.binding-tips{ 
+  font-size: 11px; 
+  color: #666; 
+  text-align: center; 
+  letter-spacing: 2rpx;
+}
+.correlation-cont{
+	width: 600rpx;
+	margin: 0 auto;
+  margin-top: 40rpx;
+  overflow: hidden;
+}
+.connect-item{
+	width: 296rpx;
+	height: 78rpx;
+	line-height: 78rpx;
+	font-size: 14px;
+  text-align: center;
+  border: 1px solid #b7b7b7;
+  float: left;
+}
+.correlation-cont .connect-item:first-child{
+	border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+}
+.correlation-cont .connect-item:last-child{
+	border-bottom-right-radius: 30px;
+  border-top-right-radius: 30px;
+}
+.tp-list-bg{
+	color: #fff;
+	background: #e23435;
+	border:1px solid #e23435!important;
+}
+
+/*绑定模块*/
+.correlation-input-wrap{
+	margin-top: 56rpx;
+	width: 100%;
+}
+.item_cont {
+  width: 660rpx;
+	height:96rpx;
+  margin: 0 auto;
+	position: relative;
+	line-height:96rpx;
+  border-bottom: 1px solid #e6e6e6;
+} 
+.item_cont image{
+	width: 48rpx;
+	height: 48rpx;
+  vertical-align: middle;
+}
+.item_cont text{ 
+  font-size: 12px; 
+  vertical-align: middle; 
+  color: #666; 
+  margin-left: 16rpx;
+}
+.item_cont input{
+	border: 0px;
+	font-size: 12px;
+	height: 50rpx;
+	line-height: 50rpx;
+	display: inline-block;
+  vertical-align: middle;
+  width: 400rpx;
+  margin-left: 30rpx;
+}   
+.tp-get-gode{
+  position: absolute;
+	right: 0;
+	top: 20rpx;
+  border-radius: 30rpx;
+  background-color: #f05052;
+  color: #fff;
+  height: 56rpx;
+	width: 140rpx;
+	font-size: 22rpx;
+  line-height: 56rpx;
+  z-index: 50
+}
+.correlation-submit{
+	width: 660rpx;
+	height: 96rpx;
+  line-height: 96rpx;
+	background: #db261e;
+  border: none;
+  border-radius:6px;
+  color: #ffffff;
+  font-size: 20px;
+  margin-top: 40rpx;
+}
+.bingding-agreement{ 
+  width: 660rpx; 
+  margin: 0 auto; 
+  margin-top: 20rpx; 
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+.bingding-agreement label{ 
+  vertical-align: middle; 
+  color: #333; 
+  margin-left: 10rpx;
+}
+.bingding-agreement navigator{ 
+  vertical-align: middle; 
+  color: #0094ca; 
+  display: inline-block;
+}
+/*checkbox样式*/
+checkbox .wx-checkbox-input{
+   border-radius: 50%;
+   width: 36rpx;
+   height: 36rpx;
+}
+checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+   border: none;
+   background: red;
+   width: 40rpx;
+   height: 40rpx;
+}
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+   border-radius: 50%;
+   width: 36rpx;
+   height: 36rpx;
+   line-height: 36rpx;
+   text-align: center;
+   font-size:30rpx;
+   color:#fff;
+   background: transparent;
+   transform:translate(-50%, -50%) scale(1);
+   -webkit-transform:translate(-50%, -50%) scale(1);
+}
+
+.img_back {
+  width: 100%;
+}
+.countDownNum{
+  background-color:#999;
+  width:32%;
+  text-align: center;
+}

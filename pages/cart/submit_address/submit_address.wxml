@@ -1,0 +1,36 @@
+<!--address_list.wxml-->
+
+<view class="container">
+  <radio-group class="radio-group" bindchange="radioChange">
+    <view class="address-box" wx:for="{{addresses}}" wx:key="{{index}}">
+        <view class="address-user">
+                    <label class="radio" >                        
+                            <radio value="{{index}}" checked="{{index==selected?true:false}}"/>                     
+                    </label>
+        </view>
+        <view class="address-info"  bindtap="selectAddress" data-item="{{item}}">
+            <view class="mobile flex"><view><text>{{item.shop_name}}</text></view> <text wx:if="{{index == 0}}" class="text-center">离我最近</text> <text class="float">{{item.distance_text}}</text></view>
+           
+            <view class="address text">{{item.shop_address}} <image class="float" catchtap='shop_page'  data-id="{{item.shop_id}}"       src="../../../images/z-dingw1.png"></image></view>
+              <view class="mobile text">{{item.phone}}</view>
+        </view>
+     
+    </view>            
+     </radio-group>
+     
+  
+</view>
+
+    <view class="set-mes">
+    <view class="use-item set-item " catchtap='getUser'>
+            <view class="text-overflow">提货人 : <text class="text">{{name}}</text>   </view>
+             <view class="text-overflow">电话 : <text class="text">{{mobile}}</text>   </view>         
+            <view>                 
+                <image class="arrow-rigth"src="../../../images/icon-arrowdown.png" catchtap='getUser' ></image>
+            </view>
+        </view>
+    </view>
+
+  <navigator class="address-create" url="/pages/user/add_address/add_address">
+        <view class="create-btn" catchtap='formSubmit'>确定</view>
+    </navigator>

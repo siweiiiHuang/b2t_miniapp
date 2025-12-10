@@ -1,0 +1,122 @@
+<view class='bargain-bd' style="{{datas.cut_actor_info.length > 0? '' : 'height:100%;'}}">
+  
+  <!-- 好友砍价show -->
+  <view class="bargain-wd" wx:if='{{helpFriend}}'>
+    <view class="bargain-wdkj" >
+    <image src='../../../images/bargain-bg2.png'></image>
+        <view class="friend-bargain">
+            <view class='help-b'>您已成功帮好友砍掉</view>
+            <view class="bw-price">￥{{datas.user_cut_price.cut_price}}</view>
+            <view class="get-chance">并且获得一次发起砍价的机会</view>
+            <navigator class='invite' url="../../goods/goodsInfo/goodsInfo?goods_id={{datas.bargain_info.goods_id}}&item_id={{datas.bargain_first_info.item_id > 0?datas.bargain_first_info.item_id:''}}">
+                我也要砍价{{datas.bargain_info.end_price}}元购
+            </navigator>
+        </view>
+    </view>
+    <view class="bg-close" bindtap='helpFriend'>
+    <image src='../../../images/bargain-close.png'></image>
+    </view>
+  </view>
+
+
+<!-- 本人砍show -->
+  <view class="bargain-wd" wx:if='{{helpFriendMy}}'>
+    <view class="bargain-wdkjs" >
+     <image src='../../../images/kjh3306.png' style="margin-top:130px;"></image>
+        <view class="bargain-wdkjs-padding">
+            <view>你已经砍掉了<text style="color: #FF580C;">￥{{datas.user_cut_price.cut_price}}</text>元</view>
+            <view class="get-chance-my">点击右上角分享，邀请更多好友来给你砍价吧 !</view>
+            <view class='invites'>
+                <view bindtap='helpFriendMy'>知道了</view>
+            </view>
+        </view>
+    </view>
+  </view>
+
+
+  <view class="bargain-rule" wx:if="{{bargainRule}}">
+      <view class="br-window">
+        <view class="rule-top">
+          <image src='../../../images/bargain-rule.png'></image>
+        </view>
+        <view class="rule-bottom" style="background: url(../../img/rule-content.png) no-repeat center center;background-size: 580rpx 450rpx;">
+          <view class="rb-title">—  活动说明  —</view>
+          <view>1、选择想买的商品分享到好友让他们帮你砍价；</view>
+          <view>2、每位好友砍掉的金额随机；</view>
+          <view>3、消费者须在有效期内购买砍价商品，逾期商品将恢复原价；</view>
+          <view>4、砍价商品数量有限，商品售罄后，将无法购买，即使您已经发起了砍价；</view>
+          <view>5、同一商品，同一用户仅可享受一次优惠价格；</view>
+          <view>6、砍价活动不与其它优惠共享；</view>
+          <view>7、订单提交后，未支付的订单超时将自动取消；</view>
+        </view>
+      </view>
+      <view class="bg-close" id="bg-close" bindtap="bargainClose">
+        <image src='../../../images/bargain-close.png'></image>
+      </view>
+  </view>
+  <view class='active-rule' bindtap='bargainClose'>活动规则</view>
+  <view class='bargain-user'>
+    <view class="head-img">
+      <image src='{{datas.bargain_first_info.users.head_pic}}'></image>
+    </view>
+    <view class='bg-uname'>{{datas.bargain_first_info.users.nickname}}</view>
+    <view class='it-bargain'>我在{{setting.appName || 'TPshop'}}发现一个好货，马上邀请好友来砍价~</view>
+    <view class='c-details'>
+      <navigator class='product-img'><image src='{{url}}/api/goods/goodsThumImages?goods_id={{datas.bargain_info.goods_id}}&width=400&height=400'></image></navigator>
+       <view class="cd-title">{{datas.bargain_info.goods_name}}{{' '}}{{datas.bargain_first_info.spec_goods_price.key_name||''}}</view>
+      <view class="c-details-right">
+       
+        <view class='cd-price cur-price'>现价¥{{datas.bargain_first_info.end_price}}</view>
+        <view class='cd-price org-cost '>原价¥{{datas.bargain_info.start_price}}</view>
+         <view class='cd-price org-cost '>数量{{datas.bargain_first_info.goods_num}}</view>
+      </view>
+    </view>
+
+  </view>
+  <view class="count-down">
+    <view class="c-time">
+      <view>距离结束还剩：</view>
+      <view class="diamonds">{{d}}</view>
+      : <view class="diamonds">{{h}}</view>
+      : <view class="diamonds">{{m}}</view>
+      : <view class="diamonds">{{s}}</view>
+    </view>
+    <view class="bargain-price">-  已砍 ¥{{datas.count_cut_price }} X {{datas.bargain_first_info.goods_num}} -</view>
+    <view class="rail" >
+      <view class="bg-scale" style="width:{{bg_scale_data}};" ></view>
+      <view class="roundel" style="left:{{roundel_data}};"><image src="../../../images/bargain-local.png"></image></view>
+    </view>
+         <block wx:if="{{!end}}">
+    <view class="bargain-btn flex" hidden='{{datas.bsgf}}'>
+
+      <view wx:if="{{!over}}" class="cd-btn direct-btn flex-help-btn" catchtap='buy_now' data-id="{{datas.bargain_first_info.order_id == 0 ?datas.bargain_info.goods_id:''}}" >{{datas.bargain_first_info.order_id == 0 ? '直接要了' : '已购买'}}</view>
+        <view class="cd-btn" wx:else style="background-color:#999999;box-shadow:0 0.064rem 0.32rem 0 #999999;">活动已结束</view>
+       
+      <button class="cd-btn help-btn " hidden='{{over}}'  open-type="share" style="background-color:{{datas.btodo.bg_css}};box-shadow:{{datas.btodo.border_css}};margin:auto;" >{{datas.btodo.text?datas.btodo.text:'喊人帮砍'}}</button>
+
+    </view>
+
+ <view class="bargain-btn " hidden='{{!datas.bsgf}}'>
+      <navigator class="cd-btn direct-btn" url="../../goods/goodsInfo/goodsInfo?goods_id={{datas.bargain_info.goods_id}}&item_id={{datas.bargain_first_info.item_id?datas.bargain_first_info.item_id:''}}"  >我也要{{datas.bargain_info.end_price}}元拿</navigator>
+      <view class="cd-btn help-btn" bindtap='cut' data-id="{{datas.user_cut_price.user_id}}" data-first="{{datas.bargain_first_info.id}}"
+       style="background-color:{{datas.ctodo.bg_css}};box-shadow:{{datas.ctodo.border_css}};">
+      {{datas.ctodo.text || '帮好友砍价'}}
+      </view>
+    </view>
+        </block>
+  </view>
+
+    <view class="bargain-list" wx:if="{{datas.cut_actor_info.length > 0}}">
+    <view style="background: url(../../../images/hengxian1.png) no-repeat center center;background-size: 346rpx 5rpx" class="list-title">我的砍价榜</view>
+    <scroll-view scroll-y="true" class="bg-detail">
+      <view class="member" wx:for="{{datas.cut_actor_info}}">
+        <image class="bg-head" src="{{item.head_pic?item.head_pic:defaultAvatar}}"></image>
+        <view class="bg-friend">{{item.nickname?item.nickname:item.user_id + '用户'}}</view>
+        <view class="bged">
+          <image src="../../../images/kjje.png"></image>
+          <view class="cut-n">砍掉<view class="cn-p">{{item.cut_price}}元</view></view>
+        </view>
+      </view>          
+    </scroll-view>
+  </view>
+</view>

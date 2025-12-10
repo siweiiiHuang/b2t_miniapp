@@ -1,0 +1,25 @@
+<view class='container'>
+    <view class='map'>
+        <map id="map" longitude="{{shop.longitude}}" latitude="{{shop.latitude}}"   markers="{{markers}}"  style="width: 100%; height: 700rpx;" enable-scroll="{{enable_scroll}}" enable-zoom="{{enable_zoom}}"></map>
+    </view>
+    <view class='shop-detail'>
+        <view class='shop-item'>
+            <label>门店名称:</label>
+            <text>{{shop.shop_name}}</text>
+        </view>
+        <view class='shop-item'>
+            <label>门店地址:</label>
+            <view class='shop-addr' wx:for="{{shop.area_list}}" wx:key='i'>{{item.name}}</view>
+            <view class='shop-addr' wx:if="{{shop.full_address}}">{{shop.full_address}}</view>
+            <text wx:else>{{shop.shop_address}}</text>
+        </view>
+        <view class='shop-item'>
+            <label>门店电话:</label>
+            <view class='tel_block' bindtap='contact' data-tel="{{shop.shop_phone}}">
+                 {{shop.shop_phone}}
+                  <image src="../../../../images/icon_booktel.png"></image>
+            </view>
+           
+        </view>
+    </view>
+</view>

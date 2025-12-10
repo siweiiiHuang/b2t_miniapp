@@ -1,0 +1,119 @@
+/* message_logistics.wxss */
+.logistics_mesg{
+    width:100%;
+    height:auto;
+  }
+.logistics_mesg:last-of-type{
+    padding-bottom:60rpx;
+}
+.logistics_items{
+    width:92%;
+    padding:0 4%;
+    }
+.logistics_time{
+   display: block;
+    height:66rpx; 
+    line-height:66rpx;
+    padding-top:18rpx;
+    font-size:24rpx; 
+    color:#666;
+    font-weight:normal;
+    text-align:center;
+       }
+.mesg_cont{ 
+    width:94%;
+    background-color:#fff; 
+    border:1 rpx solid #dadada;
+    border-radius:10rpx; 
+    padding:30rpx 3% 0;
+     text-align:left;
+     }
+.logistics_name{
+    display: block;
+    font-size:30rpx;
+    color:#333;
+    position:relative;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+     padding-right:30rpx;
+     }
+.logistics_icon{
+    width:18rpx;
+    height:18rpx; 
+    background-color:#ff3939;
+    border-radius:50%;
+    position:absolute;
+    right:6rpx; top:6rpx;
+    }
+.logistics_span{ 
+   display:block;
+   margin:24rpx 0; 
+   overflow:hidden;
+   }
+.logistics_em{ 
+    width:80%;
+    font-size:24rpx;
+    float:left;
+    }
+.logistics_b{
+    color:#333;
+    line-height:36rpx;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    }
+.logistics_i{ 
+    display: block;
+    color:#999;
+    margin-top:30rpx;
+   }
+.logistics_img{
+    width:96rpx;
+    height:96rpx;
+    float:right;
+    }
+.logistics_a{ 
+    display:block;
+    width:100%;
+    height:66rpx;
+    line-height:66rpx;
+    color:#999; 
+    font-size:24rpx;
+    border-top:1rpx solid #e8e8e8;
+    
+    }
+.logistics-wrap{
+  position: relative
+}
+.logistics-empty{
+    position: absolute;
+    color: #666666;
+    font-size: 24rpx;
+    right: 30rpx;
+    top: 25rpx;
+    line-height: 26rpx;
+    border: 1rpx solid #999;
+    border-radius:8rpx; 
+    padding: 6rpx;
+
+}
+.mesg_none{ 
+    width:100%; 
+     position: fixed; 
+    text-align:center;
+    height:100vh;
+    background-color:#fff;
+    z-index: 9;
+  }
+.mesg_none_img{
+    height:450rpx;
+    margin-top:180rpx;
+    }
+.mesg_none_span{
+    font-size:30rpx;
+    margin-top: 30rpx;
+    color:#666;
+    display:block;
+    }

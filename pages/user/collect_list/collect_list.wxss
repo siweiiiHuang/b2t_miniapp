@@ -1,0 +1,59 @@
+/* collect_list.wxss */
+.collect-ul{
+    width: 100%;
+    background-color: #f0f2f5;
+}
+.collect-li{
+    width: 730rpx;
+    background-color: white;
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 10rpx 10rpx;
+    margin-bottom: 0;
+}
+.img-href{
+  width: 180rpx;
+  height: 180rpx;
+  float: left;
+}
+.collect-img{
+    width: 180rpx;
+    height: 180rpx;
+}
+.collect-name{
+    font-size: 26rpx;
+    height: 92rpx;
+    width: 546rpx;
+    float:right;
+    padding: 20rpx 25rpx 0 25rpx;
+    box-sizing: border-box;
+    display: -webkit-box;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:2;   
+    overflow: hidden;
+    text-overflow:ellipsis;
+}
+.collect-footer{
+    font-size: 28rpx;
+    padding: 10rpx 20rpx;
+    overflow: hidden;
+    padding-top: 26rpx;
+
+}
+.collect-price{
+    color: red;
+    display: inline-block;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+.collect-btn{
+	border-radius: 20rpx;
+	border: solid 1rpx #dadada;
+  font-size: 22rpx;
+  color: #1c1c1c;
+  padding: 5rpx 15rpx;
+  display: inline-block;
+  float: right;
+  margin-left:10rpx;
+}

@@ -1,0 +1,57 @@
+ <image src="../../../images/bg-panel-sign.jpg" style="width:100%;"/>
+<view class="header padding header-month" >  
+    <view class="justify-content">
+    <view class="header-left">
+    <image src="{{userInfo.head_pic}}" class="head-image"/>
+    <view class="header-left-text text-color">{{userInfo.nickname}}</view>
+    </view>
+      <view class="header-right">
+  <view class="header-left-text text-color">本月已获 : {{data.info.this_month||0}}分</view>
+    <view class="header-left-text text-color">累计总积分 : {{data.info.cumtrapz||0}}分</view>
+    </view>
+</view>
+
+<image class="header-sing-img" wx:if="{{!show_sign}}" catchtap='clickSign' src='../../../images/sign.png' style="background-position-x:{{isSign}};">
+</image>
+<image class="header-sing-img" wx:else catchtap='clickSign' src='../../../images/is_sign.png' style="background-position-x:{{isSign}};">
+    <text class="header-sing-text" >+{{data.display_sign||0}}积分</text>
+</image>
+
+
+<view class="header-broder">本月已连续签到{{data.info.sign_count||0}}天,连续签到{{data.config.sign_signcount||0}}天即得{{data.jifen||0}}积分</view>
+</view>
+
+<view class="no-data" >
+    <view class="no-data-title center-year">{{year}}年{{month}}月签到</view>
+      <view class="space-around">
+            <view class="" wx:for="{{weekDay}}">{{item}}</view>       
+      </view>
+        <view class="space-around space-around-day">
+            <view  wx:for="{{oneWeek}}" style="color:{{item.day == item.selected?'red':''}};" >{{item.day}}</view>       
+      </view>
+        <view class="space-around space-around-day">
+            <view  wx:for="{{twoWeek}}"  style="color:{{item.day == item.selected?'red':''}};" >{{item.day}}</view>       
+      </view>
+        <view class="space-around space-around-day">
+            <view  wx:for="{{threeWeek}}" style="color:{{item.day == item.selected?'red':''}};" >{{item.day}}</view>       
+      </view>
+        <view class="space-around space-around-day">
+            <view  wx:for="{{fourWeek}}" style="color:{{item.day == item.selected?'red':''}};"  >{{item.day}}</view>       
+      </view>
+      <view class="space-around space-around-day">
+            <view  wx:for="{{fiveWeek}}"  style="color:{{item.day == item.selected?'red':''}};" >{{item.day}}</view>       
+      </view>
+       <view class="space-around space-around-day" wx:if="{{sixWeek.length>0}}">
+            <view class="" wx:for="{{sixWeek}}" style="color:{{item.day == item.selected?'red':''}};"  >{{item.day}}</view>       
+      </view>
+</view>
+
+
+<view class="foot">
+<view class="">签到规则:</view>
+<view class="">1.用户每日签到可获取积分奖励，连续签到相应天数可额外获得积分奖励；</view>
+<view class="">2.签到送积分活动长期有效；</view>
+<view class="">3.本活动最终解释权归{{store_name}}商家所有。</view>
+</view>
+
+<view class="core" catchtap='back'>返回个人中心</view>

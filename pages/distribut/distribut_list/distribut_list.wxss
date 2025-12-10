@@ -1,0 +1,119 @@
+/*checkbox重写样式*/
+page{
+    background: white;
+}
+checkbox .wx-checkbox-input{
+   border-radius: 50%;
+   width: 40rpx;
+   height: 40rpx;
+}
+checkbox .wx-checkbox-input.wx-checkbox-input-checked{
+   border: none;
+   background: red;
+   width: 44rpx;
+   height: 44rpx;
+}
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before{
+   border-radius: 50%;
+   width: 40rpx;
+   height: 40rpx;
+   line-height: 40rpx;
+   text-align: center;
+   font-size:30rpx;
+   color:#fff;
+   background: transparent;
+   transform:translate(-50%, -50%) scale(1);
+   -webkit-transform:translate(-50%, -50%) scale(1);
+}
+/*主样式*/
+.container{
+     background-color: #fff;
+}
+.ico-dir{
+    width: 16rpx;
+    height: 22rpx;
+    margin-left: 10rpx;  
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: 0;
+}
+.ico-dir-dn {
+    background-position-x: -16rpx;
+}
+.ico-dir-up {
+    background-position-x: -32rpx;
+}
+.disgoods-list{
+    width: 100%;
+    padding-bottom: 100rpx;
+}
+.choice_item{
+    position: relative;
+    width: 94%;
+    min-height: 200rpx;
+    padding: 10rpx 3%;
+    border-bottom: 1px solid #f8f8f8;
+    font-size: 28rpx;
+}
+.goods-check{
+    float: left;
+    margin-right: 10px;
+    margin-top: 76rpx;
+}
+.img-wrap{
+    float: left;
+    width: 180rpx;
+    height: 180rpx;
+    padding:0 10rpx 10rpx;
+    margin-right: 10px;
+}
+.img-wrap image{
+    width: 100%;
+    height: 100%;
+}
+.item-cont .title{
+    height: 72rpx;
+    margin: 12rpx 0;
+    padding-right: 10rpx;
+    line-height: 36rpx;
+    color: #333;
+    overflow: hidden;   
+}
+.price{
+    display: inline-block;
+    color: #999;
+    padding-bottom: 20rpx;
+}
+.comment{
+    color: #f23030;
+}
+.distri-bot{
+    width: 100%;
+    height: 100rpx; 
+    background-color: #ededed;
+    position: fixed; 
+    left: 0; 
+    bottom: 0;
+}
+.bot-left{ 
+    width: 80%; 
+    float: left;
+    line-height: 100rpx;
+}
+.bot-left .check-all{
+    margin-left: 10px;
+}
+.bot-left label{
+    vertical-align: middle;
+}
+.bot-right{ 
+    width: 20%; 
+    float: right;
+}
+.bot-right button{
+    background-color: #f23030;
+    border: none; 
+    line-height: 100rpx;
+    color: #fff;
+    font-size: 14px;
+}

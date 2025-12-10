@@ -1,0 +1,31 @@
+<!--team_detail.wxml-->
+<view class="goods">
+    <navigator class="goods-pic">
+        <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{data.team.goods_id}}&width=400&height=400"></image>
+    </navigator>
+    <view class="goods-cont">
+        <view class="goods-name" url="url">{{data.team.goods_name}}</view>
+        <view class="goods-num" >{{data.team_lottery.length>0 ? '已开奖':'未开奖'}}</view>
+    </view>
+</view>
+<view class="service">  
+    <view>幸运儿</view>
+    <view>订单编号</view>
+    <view>电话</view>
+</view>
+<view class="service" wx:for="{{data.team_lottery}}">  
+    <view ><image src="{{item.head_pic}}"></image>{{item.nickname?item.nickname:'用户' + item.id}}</view>
+    <view>{{item.order_sn}}</view>
+    <view>{{item.mobile}}</view>
+</view>
+
+
+
+
+
+
+
+
+
+
+

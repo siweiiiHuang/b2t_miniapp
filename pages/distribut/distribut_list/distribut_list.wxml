@@ -1,0 +1,28 @@
+<view class='container'>
+    <view class='disgoods-list'>
+        <view class="choice_item" wx:for="{{goods}}" wx:key="{{index}}">
+            <view class='goods-check'><checkbox checked='{{item.selected}}' bindtap='selectGoods' data-id='{{item.goods_id}}'></checkbox></view>
+            <view class="img-wrap">
+                <image bindtap='goodsDetail' data-id='{{item.goods_id}}' src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+            </view>
+            <view class="item-cont">
+                <view class="title" bindtap='goodsDetail' data-id='{{item.goods_id}}'>{{item.goods_name}}</view>
+                <view class="price">分成金额：￥{{item.commission}}</view>
+                <view class="comment">￥{{item.shop_price}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{!goods || goods.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有相关的数据</view>
+    </view>
+    <view class='distri-bot' hidden="{{!goods || goods.length == 0}}">
+        <view class='bot-left'>
+            <checkbox class='check-all' checked='{{checkAllToggle}}' bindtap='checkAll'></checkbox>
+            <label>全选</label>
+        </view>
+        <view class='bot-right' bindtap='delGoods'>
+            <button>删除</button>
+        </view>
+    </view>
+</view>

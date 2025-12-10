@@ -1,0 +1,56 @@
+<!--withdrawals.wxml-->
+<view class='withdraw_container'>
+	<view class="withdraw-header-wrap">
+		<view class="can_money_tit"><text>￥</text><text>可提现总金额</text></view>
+		<view class="can_money_con"><text>￥</text><text>{{userMoney}}</text></view>			
+	</view>
+    <view class='withdraw_style'>
+        <view class='withdraw_stna'>提现方式</view>
+        <view class='withdraw_stcon'>
+            <image src="/images/withdraw-weix.png"></image>
+            <text class='wh_user_account' bindtap='bindWechat'>{{cashConfig.openid?'已绑定微信':'还未绑定微信'}}</text>
+        </view>
+    </view>
+    <view class="withdraw-cont-wrap">
+		<view class="withdraw-cont-p1">提现金额</view>
+		<view class="withdraw-money">
+			<text>￥</text>
+			<input type='digit' name="money" id="money" value="{{money}}" bindinput="withdrawMoney"></input>
+		</view>
+		<view class="withdraw-allmoney">
+			<text>手续费:{{withdrawFee}}</text>
+            <button class='wh_allmony' bindtap='allWithdraw'>全部提现</button>
+		</view>
+	</view>
+    <view class="withdraw-cont-wrap">
+        <view class='withdraw-cont-p2'>
+            <text>支付密码：</text>
+            <input name="paypwd" id="paypwd" type="password" placeholder="请填写支付密码" bindblur='setPwd'></input>
+        </view>
+		<view class="wh_setpsd">
+            <navigator catchtap="userinfoEdit" data-url='/pages/user/userinfo_edit/userinfo_edit?type=paypwd'>前往设置或修改交易密码</navigator>
+		</view>
+		<view class="withdraw-sub-btn">
+            <button form-type="submit" bindtap='submit'>提交申请</button>
+        </view>
+	</view>
+    <view class="withdraw-foot-wrap">
+        <text>温馨提示：</text>
+        <text>1.提现金额须大于{{cashConfig.min_cash}}元，小于{{cashConfig.max_cash}}元</text>
+        <text>2.提现收取{{cashConfig.service_ratio}}%的手续费，每笔最低元手续费</text>
+        <text>3.手续费在到账金额中扣除</text>
+        <text>4.提现审核一般3 - 5个工作日到账</text>
+	</view>
+</view>
+
+
+
+
+
+
+
+
+
+
+
+

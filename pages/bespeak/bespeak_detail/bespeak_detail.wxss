@@ -1,0 +1,434 @@
+/* order_detail.wxss */
+.user-mes{
+    background-color: #fff;
+    font-size: 32rpx;
+    color: #333;
+}
+.user-contact{
+    padding: 24rpx 80rpx;
+}
+.location{
+    position: relative;
+    padding:0 80rpx 24rpx;
+}
+.pos-icon{
+    position: absolute;
+    left: 30rpx;
+    top: 0;
+    width: 32rpx;
+    height: 32.5rpx;
+}
+.border-img{
+    width: 100%;
+    height: 16rpx;
+}
+.order-meg{
+    margin-top: 20rpx;
+    font-size: 28rpx;
+}
+.order-state{
+    height: 100rpx;
+    line-height: 100rpx;
+    padding-right: 40rpx;
+    text-align: right;
+    background-color: #fff;
+    color: #f23030;
+}
+.order-detail{
+    padding: 30rpx 0 70rpx 0;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+    min-height: 120rpx;
+    position: relative;
+}
+.goods-img{
+    float: left;
+    width: 100rpx;
+    height: 100rpx;
+    margin:0 30rpx; 
+}
+.order-cont{
+    float: left;
+    width: 400rpx;
+}
+.goods-name{
+    max-height: 60rpx;
+    line-height: 30rpx;
+    overflow: hidden;
+    margin-bottom: 16rpx;
+}
+.goods-color{
+    font-size: 24rpx;
+    max-height:30rpx;
+    overflow:hidden;
+}
+.order-num{
+    float: right;
+    font-size: 24rpx;
+    margin-top: 10rpx;
+    margin-right: 20rpx;
+    text-align: right;
+    line-height: 42rpx;
+}
+.order-operate{
+    height: 100rpx; 
+    padding-right:20rpx;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.check-btn{
+    width: 180rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    margin-right: 10rpx;
+    border:1px solid #eee;
+}
+.goods-btn{
+    width: 150rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    border:1px solid #eee;
+}
+.cancel-order{
+    margin-left:20rpx;
+}
+.information{
+    padding: 0 20rpx;
+    background-color: #fff;
+    margin-bottom: 20rpx;
+}
+.information .title{
+    height: 70rpx;
+    line-height: 70rpx;
+    border-bottom: 1px solid #ddd;
+    font-size: 30rpx;
+    color: #333;
+}
+.information .item{
+    display: flex;
+    justify-content: space-between;
+    min-height: 60rpx;
+    line-height: 60rpx;
+    font-size: 26rpx;
+    color: #666;
+}
+.delivery-address,.leave-word{
+    width: 500rpx;
+    text-align: right;
+    line-height:40rpx;
+    margin-top:15rpx
+
+}
+.pay-amount{
+    color:#f23030;
+}
+.btn-wrap{
+    height: 100rpx;
+    background-color: #fff;
+    text-align: right;
+}
+.tips-btn{
+    display: inline-block;
+    width: 200rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #fff;
+    background-color: #f23030;
+    margin-left: 2rpx;
+}
+.tk_btn{
+    position: absolute;
+    bottom: 10rpx;
+    right: 0; 
+    overflow: hidden
+}
+.tk_btn_on{
+    float:left;
+    margin-right: 15rpx;
+    line-height:41rpx;
+    text-align:center;
+    font-size:23rpx;
+    border:1rpx solid #999;
+    width:112rpx;
+    border-radius:10rpx;
+
+}
+
+.order_infolist {
+  width: 90%;
+  display: block;
+  margin: 20rpx auto;
+  background: #ffffff;
+  font-size: 11pt;
+  box-shadow: 0 0 0.512rem 0.021334rem #dddddd;
+  box-sizing: border-box;
+  padding:20rpx
+}
+
+.state_steps_name {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 40rpx;
+  color: #999;
+}
+
+.state_steps_name .state_namecur{
+  color: #333
+}
+
+.state_steps_st {
+  width: 80%;
+  border-top:  6rpx solid #e5e8eb;
+  margin: 40rpx auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.state_steps_st .span{
+  width: 40rpx;
+  height: 40rpx;
+  border: 6rpx solid #e5e8eb;
+  border-radius: 50%;
+  margin-top: -30rpx; 
+  background-color: #fff;
+}
+
+.state_steps_st .state_stepcur image{
+    width: 40rpx;
+    height: 40rpx;
+}
+
+.ordinfolist_tit {
+  font-size: 18pt;
+  font-weight: bold;
+  color: #232326;
+}
+
+
+.ordinfolist_item {
+    font-size: 12pt;
+    margin-top: 30rpx;
+    color: #232326;
+    height: auto
+
+} 
+
+.ordinfolist_item image{
+  width: 60rpx;
+  height: 60rpx;
+  float: right;
+  margin:-20rpx 20rpx 0 0;
+}
+
+.ordlist_storeinfo { 
+  color: #F7BA14;
+}
+
+.ordlist_storeinfo image {
+  height: 35rpx; width: 35rpx;
+  margin-right: 10rpx;
+}
+
+
+.tel_block {
+  float: right;
+  height:60rpx; 
+  border: 1px solid #d0d0d0;
+  font-size: 12pt;
+  color: #333;
+  line-height: 60rpx;
+  text-align: center;
+  padding: 0rpx 20rpx;
+  font-weight: normal
+}
+
+.ordinfolist_item label {
+    font-size: 13pt;
+    color: #999;
+}
+
+.seeMap {
+     margin:20rpx 0 0 160rpx;
+}
+.seeMap image {
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.ordlist_bookinfo {
+    color: #0676e8;
+}
+
+.ordinfolist_img {
+  display: inline-block;
+  position: relative;
+}
+
+.ordinfolist_img image {
+  width: 160rpx;
+  height:160rpx;
+  margin:20rpx 20rpx 0 0;
+}
+
+.Scavenging-pop-wrap {
+    position: fixed;
+    margin: 0 auto;
+    width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 998;
+    overflow: scroll;
+    top: 0;
+    bottom: 0;
+}
+
+.package-pop-bg-opacity {
+    position: absolute;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 12;
+    background: rgba(0,0,0,0.4);
+}
+
+.Scavenging-pop {
+    position: relative;
+    box-sizing: border-box;
+    width: 700rpx;
+    height: auto;
+    margin: 2rem auto 0;
+    text-align: center;
+    color: #333;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 0 0.02133rem 0.2133rem 0 rgba(0,0,0,.3);
+    z-index: 899;
+}
+
+.Scavenging-pop .Scavenging-pop-header {
+    text-align: center;
+    height: 100rpx;
+    line-height: 100rpx;
+    color: #fff;
+    font-size: 14pt;
+    background-color: #ff4747;
+}
+
+.Scavenging-pop-img-title {
+    text-align: center;
+    font-size: 12pt;
+    margin: 40rpx auto;
+    font-weight: bold;
+    color: #333
+}
+
+.Scavenging-pop-img-two {
+    width: 300rpx;
+    height: 300rpx;
+    margin: 0 auto;
+}
+
+.Scavenging-pop-img-two image{
+  height: 100%;
+  width: 100%;
+}
+
+.Scavenging-pop-bookcon {
+  margin-top: 20rpx;
+    width: 100%;
+    height: auto;
+    padding: 20rpx;
+    overflow: hidden;
+    text-align: start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start
+    
+}
+
+.Scavenging-pop-bookcon  .name {
+    font-size: 14pt;
+    width: 100%;
+    display: block;
+    line-height: 14pt;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333
+}
+
+.Scavenging-pop-bookcon  .time {
+    display: block;
+    font-size: 12pt;
+    margin-top: 0.512rem;
+}
+
+.Scavenging-pop-bookcon image{
+    width: 120rpx; height: 120rpx;
+    margin: -10rpx 20rpx 0 0;
+}
+
+.Scavenging-pop-close {
+    width: 60rpx;
+    height: 60rpx;
+    border: 1px solid #fff;
+    position: relative;
+    border-radius: 30rpx;
+    z-index: 990;
+    margin: 1.2rem auto;
+    overflow: hidden;
+}
+
+.Scavenging-pop-close image{
+  width: 100%; height: 100%;
+}
+
+.Scavenging-pop-bookcon .a {
+    display: block;
+    width: 0.426667rem;
+    height: 100%;
+    float: right;
+}
+
+.Scavenging-pop-bookcon .a image{
+    width: 100%;
+    height: 40rpx;
+}
+
+.ttrebu {
+  width: 100%;
+  height: 10rpx;
+}
+
+.ttrebu image {
+  width: 100%;
+  height: 100%;
+}
+
+.ordlist_bookinfo_more {
+    text-align: center;
+    margin-top: 30rpx;
+    color: #999;
+}
+
+.ordinfolist {
+  height: 180rpx;
+  overflow: hidden;
+}
+
+.ordinfolist.more {
+  height: auto;
+}
+

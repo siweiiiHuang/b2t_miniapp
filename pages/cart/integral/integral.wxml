@@ -1,0 +1,93 @@
+<!--integral.wxml-->
+<form bindsubmit="submitForm">
+<view class="container">
+    <view class="user-mes" bindtap="enterAddressPage">       
+        <view class="location">
+             <block wx:if="{{order.userAddress.province_name}}">
+            <view class="user-contact">{{order.userAddress.consignee}}{{'　　'}}{{order.userAddress.mobile}}</view>
+            <view class="address">{{order.userAddress.province_name + order.userAddress.city_name + order.userAddress.district_name + (order.userAddress.twon_name?order.userAddress.twon_name:'') + order.userAddress.address}}</view>            
+            </block>            
+            <block wx:else>
+                <view class="user-contact"></view> 
+                <view class="address">请填写收货地址</view>   
+            </block>
+            <view class="pos-icon"><image class="wh100" src="../../../images/iconfont-address.png" /></view>
+        </view>
+        <view class="border-img"><image class="wh100" src="../../../images/tt.png" /></view>
+        <view class="update-logistics">
+            <image class="arrow-rigth" src="../../../images/icon-arrowdown.png"></image>
+        </view>
+    </view>
+    <view class="order-meg">
+        <view class="order-detail" wx:for-items="{{order.cartList}}" wx:key="{{index}}">
+            <view class="goods-img">
+            <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=100&height=100"></image>
+            </view>
+            <navigator class="order-cont" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                <view class="goods-name">{{item.goods_name}}</view>
+                <view class="goods-color">{{item.key_name}}</view>
+            </navigator>
+            <view class="order-num">
+                <view class="co-red">￥{{(orderPrices.goods_price-orderPrices.integral_money) / orderPrices.total_num || '0.00'}} + {{orderPrices.pay_points / orderPrices.total_num || 0}}积分</view>
+                <view class="goods-num">x{{item.goods_num}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="set-mes">
+        <view wx:if="{{order.store_prom}}">
+            <icon type="info" size="16" color="#f23030"/>{{order.store_prom}}
+        </view>
+       <view class="invoice set-item" bindtap="showInvoice">
+            <view>发票信息</view>
+            <view class="set-btn">
+                <view>{{text}}</view>
+                <image class="arrow-rigth" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+        <view class="invoice-remarks" style="display:{{invoiceToggle?'none':'flex'}}">
+            <view class="">发票抬头 : </view> <input type="text" name="invoice_title" placeholder="单位或个人"/>
+        </view>
+  
+        <view class="use-item">
+            <view>使用积分 : </view>
+            <input type="number" name="pay_points" maxlength="20" disabled='disabled' value="{{orderPrices.pay_points}}" placeholder="可用积分为:{{userInfo.pay_points || 0}}" bindblur="keyUpChangePay2"/>
+            <button class="use-btn" form-type="submit" hidden='true'>使用</button>
+        </view> 
+    </view>
+    <view class="coupon-mes">
+        <view>用户备注（50字）</view>
+        <view class="leave-word">
+            <textarea name="user_note" class="word-box" maxlength="50" bindinput="keyUpChangeNum" disabled="{{openShippingModel}}"/>
+            <view class="max-word">{{50-maxWord}}/50</view>
+        </view>
+    </view>
+    <!-- 价格栏 -->
+    <view class="information">
+        <view class="item">
+            <view>商品金额</view>
+            <view class="co-red">￥ {{orderPrices.goods_price}}元</view>  
+        </view>
+        <view class="item">
+            <view>配送费用</view>
+                     <view class="co-red" wx:if="{{orderPrices.shipping_price > 0}}">￥ {{orderPrices.shipping_price}}元</view>
+            <view class="co-red" wx:else>包邮</view>
+        </view>
+        <view class="item">
+            <view>已使用积分</view>
+            <view class="co-red">{{orderPrices.pay_points}}</view>  
+        </view>
+        <view class="item">
+            <view>积分抵扣</view>
+            <view class="co-red">{{orderPrices.integral_money}}元</view>  
+        </view>
+    
+    </view>
+    <view class="btn-wrap">  
+        <button form-type="submit" class="tips-btn" id='submitOrder'>提交订单</button>
+        <view class="pay-amount">
+            <view class="payable">应付金额 : </view>
+            <view class="co-red">￥ {{orderPrices.order_amount}}元</view>  
+        </view>
+    </view>
+</view>
+</form>

@@ -1,0 +1,66 @@
+<view class='container'>
+    <view class="search-bar">
+        <form bindsubmit="submitSearch">
+            <input class="search-input" value='{{keyword}}' placeholder="输入商品名称" name="word" auto-focus></input>
+            <button class="search-btn" form-type="submit">
+                <image class="wh100 search-img" src="../../../images/sea.png"></image>
+            </button>
+        </form>
+    </view>
+    <view class="nav">
+        <navigator class="nav-item" bindtap="changeTab" data-type="1">综合</navigator>
+        <navigator class="nav-item" bindtap="changeTab" data-type="2">新品</navigator>
+        <navigator class="nav-item" bindtap="changeTab" data-type="3">销量</navigator>
+        <navigator class="nav-item" bindtap="changeTab" data-type="4">佣金
+            <view class="ico-dir {{sort!='distribut'?'':(desc=='asc'?'ico-dir-up':'ico-dir-dn')}}" style="background-image: url({{resourceUrl}}/static/images/sxjt.png);"></view>
+        </navigator>
+        <navigator class="nav-item" bindtap="openFilterModal" data-href="">筛选<view class="ico-filter"><image class="wh100" src="../../../images/xx.png"></image></view></navigator>
+    </view>
+    <view class='disgoods-list'>
+        <view class="choice_item" wx:for="{{goods}}" wx:key="{{index}}">
+            <view class='goods-check'><checkbox checked='{{item.selected}}' bindtap='selectGoods' data-id='{{item.goods_id}}'></checkbox></view>
+            <view class="img-wrap">
+                <image bindtap='goodsDetail' data-id='{{item.goods_id}}' src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+            </view>
+            <view class="item-cont">
+                <view class="title" bindtap='goodsDetail' data-id='{{item.goods_id}}'>{{item.goods_name}}</view>
+                <view class="price">分成金额：{{item.distribut}}</view>
+                <view class="comment">￥{{item.shop_price}}</view>
+                <view class="price">已售出：{{item.sales_sum}}件</view>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{!goods || goods.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有相关的数据</view>
+    </view>
+    <view class='distri-bot'>
+        <view class='bot-left'>
+            <checkbox class='check-all' checked='{{checkAllToggle}}' bindtap='checkAll'></checkbox>
+            <label>全选</label>
+        </view>
+        <view class='bot-right' bindtap='addGoods'>
+            <button>添加</button>
+        </view>
+    </view>
+</view>
+
+<!-- 筛选弹框  -->
+<view>
+    <view class="cover-layer" bindtap="closeFilterModal" hidden='{{!openFilter}}'></view> 
+    <view class="filter-modal" hidden='{{!openFilter}}'>
+        <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeFilterModal"/>
+        <view class='all-classification'>
+            <view class='allcla-btn' bindtap='categoryTap'>全部分类</view>
+            <view hidden='{{!categoryShow}}' class='claitem-box' wx:for="{{categoryList}}" wx:key="{{index}}">
+                <view class='cla-item' bindtap='checkCategory' data-id='{{item.id}}'>{{item.name}}</view>
+            </view>
+        </view>
+        <view class='all-brand'>
+            <view class='allbra-btn' bindtap='brandTap'>全部品牌</view>
+            <view hidden='{{!brandShow}}' class='braitem-box' wx:for="{{brandList}}" wx:key="{{index}}">
+                <view class='bra-item' bindtap='checkBrand' data-id='{{item.id}}'>{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+</view>

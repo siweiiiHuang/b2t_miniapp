@@ -1,0 +1,61 @@
+/* pages/wcs/privil-card/priviledge/priviledge.wxss */
+
+.pri-card{
+  padding: 30rpx 30rpx 0 30rpx; 
+  min-height: 1080rpx;
+  overflow: hidden;
+}
+.card-item{
+  width: 100%;
+  height: 360rpx;
+  margin-bottom: 40rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+.card-text{
+  width: 640rpx;
+  height: 320rpx;
+  border: 1px solid #ccc;
+  margin: 20rpx auto 0;
+  border-radius: 10rpx;
+}
+.cardtit{
+    margin-top: 20rpx;
+    overflow: hidden;
+    padding-left: 30rpx;
+}
+.cardicon{
+    float: left;
+    width: 100rpx;
+    height: 100rpx;
+    background-color: #1d9f85;
+    border-radius: 100%;
+}
+.cardicon image{
+  width: 72rpx;
+  height: 50rpx;
+  margin: 25rpx 0 25rpx 14rpx;
+}
+.cardtit .big-txt{
+  font-size: 36rpx;
+  margin-left: 30rpx;
+  margin-top: 20rpx;
+  font-weight: bold;
+  float: left;
+}
+.card-text .sm-txt{
+  font-size: 30rpx;
+  display: block;
+  margin: 30rpx 0 50rpx 100rpx;
+}
+.card-text .cad-price{
+  float: right;
+  margin-right: 40rpx;
+}
+.card-text text{
+    color: #1d9f85;
+}
+
+
+

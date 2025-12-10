@@ -1,0 +1,11 @@
+<view class="set-mes">          
+        <view class="invoice-remarks justify-content" style="display:{{invoiceToggle?'none':'flex'}}">
+            <view class="">提货人 : </view>         
+            <input type="text" name="name" value="{{name}}" bindinput='inputName' placeholder="请输入提货人"/>               
+        </view>    
+        <view class="invoice-remarks justify-content" style="display:{{invoiceToggles?'none':'flex'}}">          
+            <view class="">联系方式 : </view> 
+                 <input type="text" name="mobile" maxlength='11' value="{{mobile}}" bindinput='inputMobile' placeholder="请输入联系方式"/>        
+        </view>                        
+    </view>
+    <button class="use-btn" bindtap='submit'>确定</button>

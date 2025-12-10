@@ -1,0 +1,59 @@
+<!--account.wxml-->
+<view class="container">
+    <view style="background:url('{{resourceUrl}}/static/images/zjgl.jpg') no-repeat 0 0;background-size:cover" class="cover">
+        <view class="justify-content flex">
+            <view class="detail">
+                <view class="price-text">累计充值</view>
+                <view class="text-size">{{ userInfo.user_total_money  }}</view>
+            </view>          
+           <view class="detail">
+                <view class="price-text">累计提现</view>
+                <view class="text-size">{{ userInfo.withdrawal_total_money }}</view>
+            </view>
+               <view class="detail">
+                <view class="price-text">冻结余额</view>
+                <view class="text-size">{{ userInfo.frozen_money }}</view>
+            </view>           
+        </view>
+        <view class="justify-content flex">        
+           <view class="detail">
+                <view class="price-text">可用余额</view>
+                <view class="text-size">{{ userInfo.user_money }}</view>
+           </view>
+             <view class="detail">
+                <view class="price-text">可提现</view>
+                <view class="text-size">{{ userInfo.user_money }}</view>
+           </view>
+           <view class="detail">
+                <view class="price-text">提现中</view>
+                <view class="text-size">{{ userInfo.cash_in }}</view>
+            </view>
+        </view>
+        <view class="operate center">
+            <navigator url="/pages/user/recharge/recharge?money={{userInfo.user_money}}"><view class="op-item">账户充值</view></navigator>
+            <navigator url="/pages/user/withdrawals/withdrawals?money={{userInfo.user_money}}"><view class="op-item">申请提现</view></navigator>
+        </view>
+    </view>
+    <view class="list">
+        <navigator url="/pages/user/account_list/account_list">
+            <view class="item">余额明细
+                <image class="wh100 arrow" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </navigator>
+        <navigator url="/pages/user/points_list/points_list">
+            <view class="item">积分明细
+                <image class="wh100 arrow" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </navigator>
+        <navigator url="/pages/user/recharge_list/recharge_list">
+            <view class="item">充值记录
+                <image class="wh100 arrow" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </navigator>
+        <navigator url="/pages/user/withdrawals_list/withdrawals_list">
+            <view class="item">提现记录
+                <image class="wh100 arrow" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </navigator>
+    </view>
+</view>

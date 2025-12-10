@@ -1,0 +1,137 @@
+<!--return_goods_info.wxml-->
+<view class="order-mes">
+    <view class="order-name">
+        <view>订单编号：{{return_goods.order_sn}}</view>
+        <view>申请时间：{{return_goods.addTimeFormat}}</view>
+    </view>
+    <!-- <button class="apply-btn" hidden="{{!(return_goods.status==2&&return_goods.type==1)}}" bindtap="receiveOrder">确定收货</button> -->
+    <button class="apply-btn" hidden="{{!(return_goods.status!=-2&&return_goods.status<1)}}" bindtap="cancelReturn">取消服务</button>
+</view>
+<view class="goods-mes">
+    <view class="goods-pic">
+        <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{return_goods.goods_id}}&width=100&height=100"></image>
+    </view>
+    <view class="goods-des">
+        <view class="goods-name ellipsis-1">{{goods.goods_name}}</view>
+        <view class="now-price co-red">最新价格 : ￥{{goods.shop_price}}</view>
+    </view>
+</view>
+<view class="apply-mes pd-bg-fff">
+
+    <view class="apply-item">
+        <view class="apply-til">审核进度</view>   
+         <view class="inputs" catchtap='back' wx:if="{{return_goods.status == 1 && return_goods.type > 0 &&  return_goods.is_receive == 1}}">填写物流信息</view>             
+    </view>
+    <view class="apply-text" wx:if="{{return_goods.status == 0}}">亲爱的客户，您的服务单已经提交成功，请您耐心等待客服审核</view>
+    <view class="apply-text" wx:if="{{return_goods.status == 1 || return_goods.status > 1 }}">亲爱的客户，您的服务单客服已审核</view>
+    <view class="apply-text" wx:if="{{return_goods.status == 1 && return_goods.type > 0}}">尊敬的客户，很抱歉出现这样的情况，如情况属实且非人为因素造成损坏，我们可以为您办理。请将商品全套及发票原件自行返回，
+                        如属商品质量问题，运费会以余额方式返还到您的商城账户；如非质量问题（误购），运费将由您承担(拒收到付），
+                        寄回商品时请附上您的订单号及收货人姓名电话、发货单详情（运单号、快递公司、快递费用），以便我们在收到返回商品时及时为您处理，感谢您的支持，谢谢！</view>
+
+    <!-- <view class="apply-text" wx:if="{{return_goods.status > 1}}">亲爱的客户，您的服务单客服已审核</view> -->
+    <view class="apply-text" wx:if="{{return_goods.status == -1}}">亲爱的客户，您的服务单客服未通过审核</view>
+    <view class="apply-text" wx:if="{{return_goods.status == 2}}">尊敬的客户，您的快递已寄出，等待卖家收货</view>
+    <view class="apply-text" wx:if="{{return_goods.status == 3 && return_goods.type > 0}}">尊敬的客户，已收到您的快递，正在处理您的服务单</view>
+     <view class="apply-text" wx:if="{{return_goods.status == 3 && return_goods.type == 0}}"> 尊敬的客户，您的服务单已审核</view>
+ <view class="apply-text" wx:if="{{return_goods.status == 4 || return_goods.status == 5}}"> 尊敬的客户，您的服务单已完成，感谢您对{{shop_name}}的大力支持</view>
+
+  <view class="apply-text" wx:if="{{return_goods.status == -2}}"> 尊敬的客户，您的服务单已取消，感谢您对{{shop_name}}的大力支持</view>
+    <view class="apply-item">
+        <view class="apply-til">售后信息</view>
+        <view>{{return_goods.status_name}}</view>
+    </view>
+    <view class="apply-item">
+        <view class="apply-til">处理方式</view>
+        <view>期望处理方式“{{return_goods.type==0?'退款':(return_goods.type==1?"退货退款":"换货")}}”</view>
+    </view>
+    <view class="apply-item">
+        <view class="apply-til">问题描述</view>
+        <view>{{return_goods.reason}}</view>
+    </view>
+    <view class="apply-item">
+        <view class="apply-til">售后备注</view>
+        <view class='apply-remark'>{{return_goods.remark}}</view>
+    </view>
+    <view class="img-title" wx:if="{{return_goods.imgs.length>0}}"><view>问题图片</view></view>
+    <view class="img-box">
+        <image src="{{url + item}}" wx:for="{{return_goods.imgs}}" bindtap="previewImgs" data-idx="{{index}}"></image>
+    </view>
+</view>
+<view class="apply-state">
+    <view class="state-item">
+        <view class="item-wrap">
+            <view class="state-title">您的服务单已申请成功，等待售后审核中</view>
+            <view class="state-time">{{return_goods.addTimeFormat}}</view>
+            <view class="state-user">操作人：系统</view>
+        </view>
+        <view class="item-wrap" wx:if="{{return_goods.status>0}}">
+            <view class="state-title">亲爱的客户，您的服务单已通过审核</view>
+            <view class="state-user">操作人：卖家</view>
+        </view>
+        <view class="item-wrap" wx:if="{{return_goods.status==-1}}">
+            <view class="state-title">亲爱的客户，很抱歉！您的服务单未通过审核</view>
+            <view class="state-user">操作人：卖家</view>
+        </view>
+
+         <block wx:if="{{return_goods.status==2 }}">      
+            <view class="item-wrap">
+                <view class="state-title">买家已发货                 
+                </view>
+                <view>{{return_goods.seller_delivery.expressTimeFormat}}</view>
+                <view class="state-user">操作人：买家</view>
+            </view>
+            
+        </block>
+
+        <block wx:if="{{return_goods.status==3&&return_goods.type>0}}">
+            <view class="item-wrap">
+                <view class="state-title">亲爱的客户，卖家已收到您寄回的物品</view>                  
+                <view class="state-user">操作人：卖家</view>
+            </view>           
+        </block>
+        <block wx:if="{{return_goods.type == 2}}">
+         <view class="item-wrap user-send" wx:if="{{return_goods.status >= 2}}">
+                <view class="state-title">用户已发货</view>                   
+                <view class="state-user">操作人：买家</view>
+                    <view>快递公司：{{return_goods.delivery.express_name}}</view>
+                    <view>快递单号：{{return_goods.delivery.express_sn}}</view> 
+            </view>   
+            <view class="item-wrap user-send" wx:if="{{return_goods.status >= 3}}">
+                <view class="state-title">亲爱的客户，卖家已发货</view>                   
+                <view class="state-user">操作人：卖家</view>
+                    <view>快递公司：{{return_goods.seller_delivery.express_name}}</view>
+                    <view>快递单号：{{return_goods.seller_delivery.express_sn}}</view>
+            </view>    
+
+              <view class="item-wrap" wx:if="{{return_goods.status == 4}}">
+                <view class="state-title">换货完成</view>                   
+                <view class="state-user">操作人：卖家</view>
+              </view>   
+        </block>
+
+         <block wx:else>
+             <block wx:if="{{return_goods.status==4 || return_goods.status == 5}}">   
+
+           <view class="item-wrap" wx:if="{{return_goods.type == 1}}">
+                <view class="state-title">亲爱的客户，卖家已收到寄回的物品</view>                   
+                <view class="state-user">操作人：卖家</view>
+            </view>    
+
+            <view class="item-wrap">
+                <view class="state-title">亲爱的客户，卖家已退还货款                   
+                </view>
+                <view>{{return_goods.seller_delivery.expressTimeFormat}}</view>
+                <view class="state-user">操作人：卖家</view>
+            </view>
+             <view class="item-wrap" >
+            <view class="state-title">亲爱的客户，您的服务单完成</view>
+            <view class="state-user">操作人：卖家</view>
+        </view>
+        </block>  
+         </block>
+        <view class="item-wrap" wx:if="{{return_goods.status==-2}}">
+            <view class="state-title">亲爱的客户，您的服务单已经取消</view>
+            <view class="state-user">操作人：{{userInfo.nickname}}</view>
+        </view>
+    </view>
+</view>

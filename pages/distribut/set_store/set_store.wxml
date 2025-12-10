@@ -1,0 +1,27 @@
+<!--set_store.wxml-->
+<form bindsubmit='submitStore'>
+    <view class="store-info">
+        <view class="store-name">
+            <view class="store-title">店铺名称：</view>
+            <input class="store-input" name='store_name' value='{{store.store_name}}'/>
+        </view>
+        <view class="store-name">
+            <view class="store-title">真实姓名：</view>
+            <input class="store-input" name='true_name' value="{{store.true_name}}"/>
+        </view>
+        <view class="store-name">
+            <view class="store-title">手机号：</view>
+            <input class="store-input" type='number' name='mobile' value="{{store.mobile}}"/>
+        </view>
+        <view class="store-name">
+            <view class="store-title">QQ：</view>
+            <input class="store-input" type='number' name="qq" value="{{store.qq}}"/>
+        </view>
+    </view>
+    <view class="store-logo">
+        <view class="store-title">店铺图片</view>
+        <image wx:if="{{store.store_img && store.store_img!='undefined'}}" class="store-img" src="{{url}}{{store.store_img}}" bindtap='changeStoreImg'></image>
+        <image wx:else class="store-img" src="{{url}}/template/mobile/rainbow/static/images/m_03.jpg" bindtap='changeStoreImg'></image>
+        <button class="store-btn" form-type='submit'>确认修改</button>
+    </view>
+</form>

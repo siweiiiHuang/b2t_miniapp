@@ -1,0 +1,182 @@
+<template name='default'>
+  <view class="goods-price pd-bg-fff">
+    <view class="co-red" wx:if="{{data.goods.exchange_integral>0}}">
+      <text>{{select.activity.priceName}}</text> ￥{{exchange_integral_price}} + {{data.goods.exchange_integral}}积分
+    </view>
+    <view class="co-red co-red-price" wx:else>
+      <view class="money-icon">￥</view> 
+      <view class='sbj' style='line-height:52rpx'>{{select.price[0]}}</view>
+      <view class="money-icon">.{{select.price[1]}}</view>
+    </view>
+    <view class="market-price" wx:if="{{select.activity.prom_type && select.activity.prom_type != 6}}">
+      市场价:
+      <view>￥{{select.activity.market_price}}</view>
+    </view>
+    <view class="market-price" wx:else>
+        <view>
+             市场价
+             <text style='text-decoration:line-through'> ￥{{data.goods.market_price}}</text>
+        </view>   
+        <view>
+            销量 :
+            <text> {{data.goods.sales_sum+data.goods.virtual_sales_sum}}</text>
+        </view>
+        <view>
+             库存 :
+             <text> {{data.goods.store_count}}</text>
+        </view>       
+    </view>
+  </view>
+  <view class="prom-info" wx:if="{{select.activity.prom_type && select.activity.prom_type != 6 && isSeparate}}">
+    <text style='font-size:28rpx;font-weight:bold;line-height:48rpx;'>{{select.activity.priceName}}</text>
+    <text class="prom-type">{{select.activity.countName}}</text>
+    <text style='float:right;' class="prom-type">{{select.activity.countTime}}</text>
+  </view>
+  <!-- <navigator class="prom-info" wx:if="{{select.activity.prom_type == 6}}" url="../../team/team_info/team_info?goods_id={{select.activity.goods_id}}&team_id={{select.activity.team_id}}&item_id={{select.activity.item_id}}">
+    <text class="prom-type">{{select.activity.countName}}</text>
+    <view style="padding:5rpx 10rpx;display:inline-block;border: 1px solid #ec5151;border-radius:5rpx;box-sizing:border-box;margin-left:10rpx;height:50rpx;line-height:40rpx">点击前往</view>
+  </navigator> -->
+  <view style='width:300rpx;padding-bottom:18rpx;margin-left:30rpx;' class="flex">
+    <view class="co-red flex" style="margin-right:10px;line-height:100%;" wx:if="{{data.goods.give_integral > 0}}">
+      赠送<view>{{data.goods.give_integral}}</view>积分</view>
+
+    <!-- <view wx:if="{{select.activity.prom_type==2}}">{{select.activity.virtual_num}}人已参团</view> -->
+    <view class="goods-num" wx:if="{{select.activity.prom_type!=2}}">
+      <!-- <view class="sales">销量:{{data.goods.sales_sum+data.goods.virtual_sales_sum}}</view> -->
+      <!-- <view class="stock">当前库存:{{select.stock}}</view> -->
+    </view>
+  </view>
+
+    <view style='width:710rpx;padding:0 20rpx;border-top:16rpx solid #f8f8f8;border-bottom:2rpx solid #e6e6e6;' class="logistics-item" bindtap='getCardList' wx:if="{{cardList.length > 0 && data.goods.prom_type != 4}}">
+      <view class="item-title ellipsis-1">优惠券</view>
+        <view class="promotion-item-mes-card">
+            <view wx:for="{{cardList}}" wx:for-key="index" wx:if="{{index < 2}}">
+            <text class="promotion-item-mes-cardborder">满{{item.condition}}减{{item.money}}</text>           </view>
+      </view>
+      <view class="item-img">
+        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+      </view>
+    </view>
+
+
+  <view class="logistics-list pd-bg-fff">
+    <view class="logistics-item" wx:if="{{select.activity.prom_type == 8 && select.activity.bargain_list.length > 0}}">
+      <view class="" style="width:220px;">邀请你的好友去砍价吧~</view>
+      <view class="item-mes bargin_headpic">
+        <block wx:for="{{select.activity.bargain_list}}">
+          <image class="bargin_head_pic" src="{{item.head_pic}}"></image>
+        </block>
+      </view>
+      <view class="" style="word-break:normal;width:160rpx;">{{activityIn||0}}人参与</view>
+    </view>
+
+    <view class="logistics-item-price-ladder" wx:if="{{data.goods.price_ladder.length > 0}}">
+      <view wx:for="{{data.goods.price_ladder}}" wx:for-key="index">
+        <text class=""> ￥{{item.price}} \n</text>
+        <text class="">满{{item.amount}}件</text> </view>
+    </view>
+
+    
+ 
+    <view wx:if="{{data.prom_order && data.goods.prom_type != 4}}" class="logistics-item" style="height:auto;align-items:stretch;padding:24rpx 0 18rpx 0;">
+      <view class="item-title ellipsis-1">活动</view>
+      <view class="promotion-item-mes">
+        <view wx:for="{{data.prom_order}}" wx:for-key="index">
+          <view style="width:450rpx;padding-bottom:8rpx;">
+            <text class="promotion-item-mes-border">{{item.name}}666</text>
+            <text style="margin:0 30rpx;color:#666666;font-size:22rpx;">{{item.prom_detail}}777</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <view class="logistics-item" bindtap="openSpecModel" style='border-top:16rpx solid #f0f1f2;padding:0 20rpx;'>
+    <view class="item-title">规格</view>
+    <view class="item-mes" style='font-weight: bold;'>{{select.specName}} {{goodsInputNum}}件</view>
+    <view class="item-img">
+      <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+    </view>
+  </view>
+  <view class="logistics-list pd-bg-fff" style='border-top:16rpx solid #f0f1f2;'>
+
+    <view class="logistics-item" bindtap='enterAddress' hidden="{{data.goods.is_virtual}}">
+      <view class="item-title ellipsis-1">地址</view>
+      <view class="item-mes">
+        <image style='width:20rpx;height:24rpx;margin-top:32rpx;margin-right:10rpx;' src='../../../images/loc.png'></image>{{address.address ? address.address:'请选择配送地址'}}</view>
+      <view class="item-img">
+        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+      </view>
+    </view>
+    <view class="logistics-item" hidden="{{data.goods.is_virtual||select.activity.prom_type==4}}">
+      <view class="item-title">运费</view>
+      <view class="item-mes">{{shipping}}</view>
+      <view style='height:0' class="item-img">
+        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+      </view>
+    </view>
+    <view class="logistics-item" wx:if="{{!data.goods.is_virtual && data.goods.exchange_integral <= 0 && select.activity.data}}" bindtap="openPromModal">
+      <view class="item-title">
+        <text class="prom-item">{{select.activity.data[0].title}}</text>
+      </view>
+      <view class="item-mes ellipsis-1">{{select.activity.data[0].content}}</view>
+      <view class="item-img">
+        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+      </view>
+    </view>
+
+    <view class="logistics-item">
+                    <view class="item-title">服务</view>
+                    <view class="item-mes ellipsis-1">由商城自营发货并提供售后服务</view>
+                    <view style='height:0' class="item-img">
+                        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+                    </view>
+                    <!-- <icon type="warn" size="16" color="#bbb"/> -->
+                </view>
+                <!-- <view class="guarantee logistics-item">
+                    <view wx:if="{{!data.goods.is_virtual}}"><image class="ico-item" src="../../../images/hdfk.png"></image>{{auto_service_date}}天保修</view>
+                    <view><image class="ico-item" src="../../../images/qttk.png"></image>正品保障</view>
+                     <view wx:if="{{data.goods.store_free_price}}"><image class="ico-item" src="../../../images/hdfk.png"></image>满{{data.goods.store_free_price}}包邮</view>
+                    
+                </view> -->
+    <!-- <view class="look-detail logistics-item" bindtap="tabGoodsContent">
+                    <view class="co-red">查看商品详情</view>
+                    <view class="item-img"><image class="wh100" src="../../../images/icon-arrowdown.png" ></image></view>
+                </view> -->
+  </view>
+</template>
+
+
+<!-- 预约商品模板 -->
+<template name='ordered'>
+  <view class="book_label">
+    <view class="book_price">
+      <text class='span b'>￥{{data.goods.shop_price}}</text>
+      <text class='span'>到店价格:<text class='i'>￥{{data.goods.market_price}}</text></text>
+    </view>
+    <view class="book_peop">
+      <view class='span'>
+        <view>已有
+          <text class='i'>{{data.goods.order_bespeak_count  + data.goods.virtual_comment_count}}</text>人预约
+          <view class='em'>{{data.goods.invalid_refund==1?"过期不退":"随时退"}}</view>
+        </view>
+
+      </view>
+    </view>
+  </view>
+  <view class='book_storinf'>
+    <view class='book_storinf_item'>
+      <label>可预约时间</label>
+      <text class='span'>{{data.goods.bespeak_template.week_day}}</text>
+    </view>
+    <view class='book_storinf_item'>
+      <label>店内设施</label>
+      <view class='book-sec-item'>
+        <view style='margin-left:15rpx;' wx:for="{{data.goods.bespeak_template.equipment_arr}}" wx:key='s'>
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+</template>

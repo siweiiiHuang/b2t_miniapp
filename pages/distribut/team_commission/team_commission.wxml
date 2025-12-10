@@ -1,0 +1,61 @@
+<!-- 累计佣金模块开始 -->
+<view class='accumulative'>
+  <image src='../../../images/distribut/team_bg@2x.png' class='accumulative_bg'></image>
+  <navigator url="/pages/user/withdrawals_list/withdrawals_list?type=1" class='accumulative_content w-details'>提现明细</navigator>
+  <view class='accumulative_number'>{{user.distribut_money|| '0.00'}}</view>
+  <view class='accumulative_content'>累计佣金（元）</view>
+</view>
+<!-- 累计佣金模块结束 -->
+<!-- 列表模块开始 -->
+<view class='commission'>
+  <view class='withdrawable wrap'>
+    <view class='commission_list'>
+      <image src='../../../images/distribut/charge_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>可提现佣金</view>
+      <view class='commission_list_data red'>{{user.withdraw|| '0.00'}}元</view>
+    </view>
+  </view>
+  <view class='using_commission wrap'>
+    <view class='commission_list'>
+      <image src='../../../images/distribut/apply_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>已申请佣金</view>
+      <view class='commission_list_data'>{{user.apply|| '0.00'}}元</view>
+    </view>
+    <view class='commission_list'>
+      <image src='../../../images/distribut/circle_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>待打款佣金</view>
+      <view class='commission_list_data'>{{user.wait|| '0.00'}}元</view>
+    </view>
+    <view class='commission_list'>
+      <image src='../../../images/distribut/noavail_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>无效佣金</view>
+      <view class='commission_list_data'>{{user.invalid|| '0.00'}}元</view>
+    </view>
+    <view class='commission_list'>
+      <image src='../../../images/distribut/cash_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>成功提现佣金</view>
+      <view class='commission_list_data'>{{user.distribut_withdrawals_money|| '0.00'}}元</view>
+    </view>
+  </view>
+  <view class='other_commission wrap'>
+    <view class='commission_list'>
+      <image src='../../../images/distribut/delivery_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>待收货佣金</view>
+      <view class='commission_list_data'>{{user.pending_receipt|| '0.00'}}元</view>
+    </view>
+     <view class='commission_list'>
+      <image src='../../../images/distribut/wind_icon@2x.png' class='commission_icon'></image>
+      <view class='commission_list_title'>未结算佣金</view>
+      <view class='commission_list_data'>{{user.unsettlement|| '0.00'}}元</view>
+    </view>
+  </view>
+</view>
+<!-- 列表模块结束 -->
+<!-- 申请提现功能模块开始 -->
+<view class='apply_cash wrap'>
+  <view class='apply_description'>1.买家确认收货（<text>{{distribut.date||0}}天</text>）后，佣金才可提现。结算期内，买家如退
+            货，佣金将自动扣除；</view>
+  <view class='apply_description'>2.可用佣金满 <text>{{distribut.distribut_withdrawals_money||0}}</text>元 才可申请提现。</view>
+  <navigator class='apply_btn' url="/pages/distribut/withdrawals/withdrawals">申请提现</navigator>
+</view>
+<!-- 申请提现功能模块结束 -->

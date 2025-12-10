@@ -1,0 +1,72 @@
+page{
+    font-size: 28rpx;
+}
+.order-title{
+    height: 80rpx;
+    background-color: white;
+}
+.order-status{
+    width: 33.33%;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    vertical-align: middle;
+    float: left;
+}
+.active{
+    color:red;
+}
+.order-li{
+    background-color: white;
+    margin: 10rpx 0;
+    padding: 0 20px;
+}
+.order-header{
+    height: 80rpx;
+    border-bottom: 1rpx #e2e3e8 solid;
+}
+.order-seller{
+    float: left;
+    line-height: 80rpx;
+    vertical-align: middle;
+    max-width: 500rpx;
+}
+.order-status-name{
+    float: right;
+    color: red;
+    line-height: 80rpx;
+    vertical-align: middle;
+}
+.order-goodimg{
+    margin: 20rpx 0;
+    height: 170rpx;
+}
+.order-img{
+    width: 150rpx;
+    height: 150rpx;
+    background-repeat: no-repeat;
+    background-size: 150rpx;
+    float: left;
+}
+.order-sn{
+    margin-top: 10rpx;
+}
+.order-time{
+    color:#7f7f7f;
+    font-size: 24rpx;
+}
+.order-content{
+    float: left;
+    margin-left: 20rpx;
+    font-size:26rpx;
+    line-height:38rpx;
+}
+.goods-name{
+    color: #333;
+    width: 500rpx;
+}
+.order-total{
+    padding: 20rpx 0;
+    text-align:right;
+    border-top: 1rpx #e2e3e8 solid; 
+}

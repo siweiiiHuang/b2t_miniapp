@@ -1,0 +1,49 @@
+{
+    "description": "项目配置文件。",
+    "setting": {
+        "urlCheck": true,
+        "es6": true,
+        "postcss": true,
+        "minified": true,
+        "newFeature": true,
+        "autoAudits": false,
+        "checkInvalidKey": true,
+        "babelSetting": {
+            "ignore": [],
+            "disablePlugins": [],
+            "outputPath": ""
+        }
+    },
+    "compileType": "miniprogram",
+    "libVersion": "3.12.1",
+    "appid": "wx760544fdc0a57252",
+    "projectname": "b2t_miniapp",
+    "simulatorType": "wechat",
+    "simulatorPluginLibVersion": {},
+    "condition": {
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "秒杀",
+                    "pathName": "pages/activity/seckill_list/seckill_list",
+                    "query": "1",
+                    "scene": null
+                },
+                {
+                    "name": "筛选",
+                    "pathName": "pages/goods/search/search",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    },
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    }
+}

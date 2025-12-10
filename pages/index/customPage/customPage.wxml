@@ -1,0 +1,19 @@
+   
+<!-- 自定义组件 -->
+    <block wx:if="{{block_model}}">
+        <import  src="../../index/custom/custom.wxml"  />
+        <template is="custom" data="{{block_model:block_model,url:url,countDownList:countDownList,search:search,scrollTop:scrollTop,wap_home_logo:wap_home_logo,iflogin:iflogin,goods_show:goods_show,goods_show_fid:goods_show_fid,video:video,shop_list:shop_list,ad:ad,content:content,custom_skill_status:custom_skill_status,intelligence_date,from_address}}" />
+   </block>
+
+<!-- 底部菜单 -->
+<import src="../../index/publics/publics.wxml"/>
+<block wx:if="{{menu_model.length > 0}}">
+         <template is="model" data="{{page:menu_index,menu_model:menu_model,url:url,defaultMenu:defaultMenu}}" />
+</block>
+<block wx:else>
+        <template is="model"   data="{{page:0,menu_model:[],url:url,defaultMenu:defaultMenu}}" />
+</block>
+
+<!-- 选择地址弹框  -->
+<import src="../../../utils/regions/regions.wxml"/>
+<template is="regions" data="{{regions}}"/>

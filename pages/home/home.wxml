@@ -1,0 +1,66 @@
+<view class="page">
+  <view class="card service-card">
+    <view class="service-grid">
+      <block wx:for="{{services}}" wx:key="title">
+        <view class="service-item">
+          <image class="service-icon" mode="aspectFit" src="{{item.icon}}" />
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="card quick-card">
+    <view class="quick-grid">
+      <block wx:for="{{quickEntries}}" wx:key="title">
+        <view class="quick-item">
+          <image class="quick-icon" mode="aspectFit" src="{{item.icon}}" />
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="nav-card">
+    <block wx:for="{{navActions}}" wx:key="title">
+      <view class="nav-item">
+        <view class="nav-icon">
+          <image mode="aspectFit" src="{{item.icon}}" />
+        </view>
+        <view class="nav-text">{{item.title}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="card store-card">
+    <view class="store-title">门店 ({{storeList.length}})</view>
+    <block wx:for="{{storeList}}" wx:key="name">
+      <view class="store-row">
+        <view class="store-info">
+          <view class="store-name">{{item.name}}</view>
+          <view class="store-address">{{item.address}}</view>
+        </view>
+        <view class="store-go">去下单</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="card promo-card">
+    <view class="promo-grid">
+      <block wx:for="{{promos}}" wx:key="title">
+        <view class="promo-item">
+          <view class="promo-icon">
+            <image mode="aspectFit" src="{{item.icon}}" />
+          </view>
+          <view class="promo-title">{{item.title}}</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="search-wrap">
+    <view class="search-box">
+      <image class="search-icon" mode="aspectFit" src="{{searchIcon}}" />
+      <input class="search-input" disabled placeholder="搜索" placeholder-class="search-placeholder" />
+    </view>
+  </view>
+</view>
+

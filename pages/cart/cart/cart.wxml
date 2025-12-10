@@ -1,0 +1,138 @@
+<view class="container" wx:if="{{requestData.cart_list.length > 0}}">
+  <view class="login-in pd-bg-fff">
+    <block wx:for="{{requestData.cart_list}}" wx:for-index="idx" data-item="{{idx}}" wx:key="{{index}}">
+      <view class='h-pkc' wx:if="{{item.combination_cart.length>0&&item.combination}}">
+        <!-- 搭配购title -->
+        <view class="flex top-title" >
+        <view bindtap="checkItem" data-check="item.selected" data-item="{{idx}}">
+            <icon type="success" size="16" color="{{item.selected?'red':'gray'}}" />
+          </view>
+          <view>
+            <view class="dpg-title">{{item['combination']['title']}}</view>
+          </view>
+        </view>
+        <!-- 搭配购主商品 -->
+        <view class="order-item">
+          <view class='goods-ico' bindtap="checkItem" data-check="item.selected" data-item="{{idx}}">
+          </view>
+          <navigator class="goods-img" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+            <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+          </navigator>
+          <view class="goods-cont">
+            <navigator class="goods-name ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+            <view class="goods-attribute ellipsis-2">{{item.spec_key_name}}</view>
+            <view class="goods-price co-red">￥{{item.member_goods_price}}</view>
+            <view class="goods-price co-red ">
+              <text class="dpg-price">共省：￥{{item.cut_fee}}</text>
+            </view>
+            <view class="btn-del" bindtap="deleteItem" data-item="{{idx}}">
+              <image class="wh100" src="../../../images/dele.png"></image>
+            </view>
+            <view class="count">
+              <view class="sub" catchtap="subNum" data-item="{{idx}}">-</view>
+              <input type="number" value="{{item.goods_num}}" data-item="{{idx}}" bindblur="valueToNum" />
+              <view class="add" catchtap="addNum" data-item="{{idx}}">+</view>
+            </view>
+          </view>
+        </view>
+        <!-- 搭配购子商品 -->
+        <block >
+          <view class="order-item" wx:for="{{item.combination_cart}}" wx:for-index="index">
+            <view class="goods-ico" data-check="item.selected" data-item="{{idx}}">
+            </view>
+            <navigator class="goods-img" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+              <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+            </navigator>
+            <view class="goods-cont">
+              <navigator class="goods-name ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+              <view class="goods-attribute ellipsis-2">{{item.spec_key_name}}</view>
+              <view class="goods-price co-red">￥{{item.member_goods_price}}</view>
+              <view class="goods-price co-red ">
+                <text class="dpg-price">共省：￥{{item.cut_fee}}</text>
+              </view>
+              <view class="btn-del" bindtap="deleteItem" data-index="{{index}}" data-item="{{idx}}">
+                <image class="wh100" src="../../../images/dele.png"></image>
+              </view>
+              <view class='p-sign'>
+                x{{item.goods_num}}
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <!-- 普通 -->
+      <view class="order-item" wx:else>
+        <view class="goods-ico" bindtap="checkItem" data-check="item.selected" data-item="{{idx}}">
+          <icon type="success" size="16" color="{{item.selected?'red':'gray'}}" />
+        </view>
+        <navigator class="goods-img" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+          <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+        </navigator>
+        <view class="goods-cont">
+          <navigator class="goods-name ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+          <view class="goods-attribute ellipsis-2">{{item.spec_key_name}}</view>
+          <view class="goods-price co-red">￥{{item.member_goods_price}}</view>
+          <view class="btn-del" bindtap="deleteItem" data-item="{{idx}}">
+            <image class="wh100" src="../../../images/dele.png"></image>
+          </view>
+          <view class="count">
+            <view class="sub" catchtap="subNum" data-item="{{idx}}">-</view>
+            <input type="number" value="{{item.goods_num}}" data-item="{{idx}}" bindblur="valueToNum" />
+            <view class="add" catchtap="addNum" data-item="{{idx}}">+</view>
+          </view>
+        </view>
+      </view>
+    </block>
+
+  </view>
+  <view class="pay-for">
+    <label class="checkbox" bindtap="checkAll">
+      <icon class="ico-check" type="success" size="20" color="{{checkAllToggle?'red':'gray'}}" />全选
+    </label>
+    <button class="{{setTlement?'pay-btn':'pay-disable'}}" bindtap="checkout">去结算</button>
+    <view class="consumer">
+      <view class="total">总计 :
+        <text class="co-red">{{requestData.cart_price_info.total_fee}}</text>
+      </view>
+      <!-- <text class="tips">不包含运费</text> -->
+    </view>
+  </view>
+</view>
+
+<view class="no-data" wx:if="{{!requestData.cart_list || requestData.cart_list.length == 0}}">
+  <image src="../../../images/cart-null.png" class="cart-image" />
+  <view class="no-data-title">购物车暂无商品</view>
+  <navigator url="/pages/index/index/index" class="lookat"> 去逛逛 </navigator>
+</view>
+
+<!--特色推荐-->
+<view class="container">
+  <view class="section">
+    <view class="section-title">热卖推荐</view>
+    <view class="section-subtitle">
+      <image class="wh100" src="../../../images/pic-interesting.png"></image>
+    </view>
+  </view>
+
+  <view class="choice_box">
+    <view class="choice_list">
+      <block wx:for="{{hot}}" wx:key="index">
+        <view class="choice_item">
+          <navigator url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+            <view class='h-label' wx:if="{{item.label_name}}" style='background: url(/images/h-label.png) no-repeat;background-size:175rpx 40rpx;'>{{item.label_name}}</view>
+            <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+          </navigator>
+          <navigator class="title ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+          <view class="choice_footer">
+            <view class="price">￥{{item.shop_price}}</view>
+            <view class="similer">销量:{{item.virtual_sales_sum + item.sales_sum}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
+
+<!-- 底部菜单 -->
+<import src="../../index/publics/publics.wxml" />
+<template is="model" data="{{page:menu_index,menu_model:menu_model,url:url,defaultMenu:defaultMenu}}" />

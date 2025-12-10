@@ -1,0 +1,27 @@
+<!-- pages/user/active_mesg/active_mesg.wxml -->
+<view class="logistics_mesg">
+    <view  class='logistics-wrap'>
+        <view class='logistics-empty' bindtap="clearMessage">清空</view>
+        <block wx:for="{{messageList}}" wx:key="{{index}}" >
+            <view class="logistics_items">
+                <view class='mesg_time'><text>{{item.send_time_text}}</text></view>
+                <view class="mesg_cont">
+                    <view class='mesg_tit'>{{item.message_title}}<text wx:if="{{item.is_see == 0}}" ></text></view>
+                    <view class='activemesg_img'>
+                        <image src="{{url + item.img_uri}}"></image>
+                        <text class='activemesg_img text' wx:if="{{item.finished}}">活动已结束</text>
+                    </view>
+                    <!-- <text class='mesg_desc' wx:if="{{item.message_content != 0}}">{{item.message_content}}</text> -->
+                    <view class='mesg_link' bindtap='goDetail' data-idx="{{index}}"  data-item="{{item}}">
+                        <text>查看详情</text>
+                        <image src="../../../images/icon-arrowdown.png"></image>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </view>
+    <view class="mesg_none"  wx:if="{{!messageList || messageList.length == 0}}">
+        <image class='mesg_none_img' src="../../../images/error-img.png"></image> 
+        <text class='mesg_none_span'>暂无消息记录~</text>
+    </view> 
+</view>

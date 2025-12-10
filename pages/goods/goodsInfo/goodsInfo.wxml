@@ -1,0 +1,302 @@
+<import src="../../../utils/wxParse/wxParse.wxml" />
+<view class="container">
+  <view class="type-navbar">
+    <view class="type-box" wx:for="{{categories}}" wx:key="index">
+      <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" bindtap="tabClick">
+        {{item.name}}
+      </view>
+    </view>
+    <view class='share-btn' catchtap='catchShare' hidden='{{!showStore}}'>
+      <image src='../../../images/icon-share.png'></image>
+    </view>
+  </view>
+  <view class="goods-detail">
+    <!-- 商品首页 -->
+    <view class="goods-info" hidden="{{activeCategoryId==0?false:true}}">
+      <swiper class="swiper_box" indicator-dots="{{true}}" vertical="{{false}}" autoplay="{{true}}" interval="{{3000}}" duration="{{1000}}">
+        <block wx:for="{{data.goods.goods_images}}" wx:key="index">
+          <swiper-item>
+            <image class="wh100" src="{{url + item.image_url}}" data-src="{{url + item.image_url}}" catchtap='look' />
+          </swiper-item>
+        </block>
+      </swiper>
+        <navigator class="prom-info" wx:if="{{select.activity.prom_type == 6}}" url="../../team/team_info/team_info?goods_id={{select.activity.goods_id}}&team_id={{select.activity.team_id}}&item_id={{select.activity.item_id}}">
+    <text class="prom-type">{{select.activity.countName}}</text>
+    <view>点击前往</view>
+  </navigator>
+      <view class="goods-title pd-bg-fff">
+        <view class="goods-name ellipsis-2">{{data.goods.goods_name}}</view>
+      </view>
+      <view class="goods-collect" bindtap="collectGoods">
+        <view class="collect-img">
+          <image hidden="{{data.collect}}" class="wh100" src="../../../images/heart.png"></image>
+          <image hidden="{{!data.collect}}" class="wh100" src="../../../images/heart-h.png"></image>
+        </view>
+        <view class="collect-des">收藏</view>
+      </view>
+
+      <!-- 加载模板,区分正常商品和预约商品内容 -->
+      <import src="./goodsInfoTpl/goodsInfoTpl.wxml" />
+      <block wx:if="{{data.goods.is_virtual == 2}}">
+        <template is="ordered" data="{{data:data}}" />
+      </block>
+
+      <block wx:else>
+        <template is="default" data="{{select:select,data:data,exchange_integral_price:exchange_integral_price,address:address,shipping:shipping,goodsInputNum:goodsInputNum,auto_service_date:auto_service_date,activityIn:activityIn,isSeparate:isSeparate,cardList:cardList}}"
+        />
+      </block>
+      <view class="user-comment logistics-item pd-bg-fff" bindtap="tabComment">
+        <view>用户评论</view>
+        <view class="good-comment">好评率
+          <view class="co-red" style='line-height:28rpx;margin-left:8rpx'> {{data.goods.comment_statistics.high_rate}}%</view>
+        </view>
+        <view class="comment-num">
+          <view style='line-height:40rpx;'>{{data.goods.comment_statistics.total_sum}}</view>人好评
+          <view class="item-img">
+            <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
+          </view>
+        </view>
+      </view>
+
+
+      <view class="recommend" wx:if="{{combinations.length>0}}">
+        <view class="recommend-title co-red">热门搭配</view>
+        <scroll-view scroll-x="true" class="containers-slider-cont" style=" white-space: nowrap; ">
+          <view class="collocation">
+            <navigator wx:for="{{combinations}}" class="li" url="/pages/activity/collocation/collocation?goods_id={{item['combination_goods'][0]['goods_id']}}&item_id={{optionItemId}}&combination_id={{item.combination_id}}&district_id={{address.district}}" open-type='redirect'>
+              <view class="collocation-li-img">
+                <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item['combination_goods'][0]['goods_id']}}&width=200&height=200"></image>
+              </view>
+              <view>
+                <text decode="nbsp" class=" ellipsis-2 ">{{item['combination_goods'][0]['goods_name']}}</text>
+                <text class="co-red collocation-mar-left">￥{{item['combination_goods'][0]['price'] }}\n</text>
+                <view class="collocation-li-title-price">省￥{{item.count_price}}</view>
+              </view>
+            </navigator>
+          </view>
+        </scroll-view>
+      </view>
+
+
+
+      <view class="recommend" wx:if="{{data.recommend_goods.length>0}}">
+        <view class="recommend-title">为你推荐</view>
+        <view class="recommend-ul">
+          <navigator wx:for="{{data.recommend_goods}}" wx:if="{{index < 4}}" wx:key="{{index}}" class="li" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}" open-type='redirect'>
+            <view class="li-img">
+              <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+            </view>
+            <view class="li-title ellipsis-2">{{item.goods_name}}</view>
+            <view class="co-red"><text>￥</text>{{item.shop_price}}</view>
+          </navigator>
+        </view>
+      </view>
+
+    </view>
+    <!-- 商品详情 -->
+    <!-- <view class="goods-norms" hidden="{{activeCategoryId!=2?false:true}}">
+      <view class="type-navbar2">
+        <view class="type-box2" wx:for="{{categories2}}" wx:key="{{index}}">
+          <view id="{{item.id}}" class="{{activeCategoryId2 == item.id ? 'type-item2-on' : ''}}" bindtap="tabClick2">
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+      <view hidden="{{activeCategoryId2==0?false:true}}" class="wxParse">
+        <template is="wxParse" data="{{wxParseData:content.nodes}}" />
+      </view>
+      <view class="parameter" hidden="{{activeCategoryId2==1?false:true}}">
+        <view class="table">
+          <view class="th-thitle tb">主体</view>
+          <view class="td-cont tb" wx:for="{{goodsAttrs}}" wx:key="index">
+            <view class="td-title">{{item.attr_name}}</view>
+            <view class="td-text">{{item.attr_value}}</view>
+          </view>
+        </view>
+      </view>
+    </view> -->
+    <!-- 商品评论 -->
+    <view class="goods-comment" hidden="{{activeCategoryId==2?false:true}}">
+      <view class="type-navbar3">
+        <view class="type-box3" wx:for="{{categories3}}" wx:key="{{index}}">
+          <view id="{{item.id}}" class="{{activeCategoryId3 == item.id ? 'type-item3-on' : ''}}" bindtap="tabClick3">
+            <view>{{item.name}}</view>
+            <view>{{item.num}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="comment-list">
+        <view class="comment-item" wx:for="{{comments}}" wx:key="{{cIdx}}" wx:for-index="cIdx">
+          <view class="comment-title">
+            <view class="user-name">
+              <view class="user-pic">
+                <image class="wh100" src="{{item.is_anonymous ? defaultAvatar : item.head_pic ? item.head_pic : defaultAvatar}}"></image>
+              </view>
+              {{item.is_anonymous ? '匿名用户' : item.username}}
+            </view>
+            <view>{{item.addTimeFormat}}</view>
+          </view>
+          <view class="comment-cont">
+            <view class="stars">
+              <view class="stars-checked">
+                <image class="star" src="../../../images/star-red.png" wx:for="{{item.goods_rank}}" wx:key="{{index}}"></image>
+              </view>
+              <view class="stars-unchecked">
+                <image class="star" src="../../../images/star-gray.png" wx:for="{{5-item.goods_rank}}" wx:key="{{index}}"></image>
+              </view>
+            </view>
+            <view class="comment-mes">{{item.content}}</view>
+            <view class="img-ul">
+              <view class="img-li" wx:for="{{item.img}}" wx:key="{{index}}">
+                <image class="wh100" src="{{item}}" bindtap="previewCommentImgs" data-cidx="{{cIdx}}" data-id="{{index}}"></image>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 返回顶部按钮  -->
+<!-- <view class="toTop" bindtap="doScrollTop" wx:if="{{supportPageScroll}}">
+  <image class="wh100" src="../../../images/topup.png"></image>
+</view> -->
+<!-- 加入购物车栏  -->
+<view class="join-cart">
+  <view class="custom-service cart-ico">
+    <button wx:if="{{imChoose==1}}" open-type="contact" class='cs-button' session-from="wechat|{{userInfo.user_id}}|{{userInfo.nickname}}|{{userInfo.head_pic}}">
+      <image class="cs-img cs-img-kf" src="../../../images/custom-service.png"></image>
+      <view class='cs-ing-name'>客服</view>
+    </button>
+    <view wx:elif="{{imChoose==0}}" class='cs-button' bindtap='contactService'>
+      <image class="cs-img cs-img-kf" src="../../../images/custom-service.png"></image>
+      <view class='cs-ing-name'>客服</view>
+    </view>
+    <view wx:else class='cs-button'>
+      <image class="cs-img cs-img-kf" src="../../../images/custom-service.png"></image>
+      <view class='cs-ing-name'>客服</view>
+    </view>
+  </view>
+
+  <view class="shopping-cart cart-ico">
+    <navigator catchtap='tocart'>
+      <image class="sc-img" src="../../../images/cart1.png"></image>
+      <view wx:if='{{cartGoodsNum>0}}' class="cart-num ellipsis-1"> {{cartGoodsNum <=99?cartGoodsNum:'99+'}} </view>
+      <!-- <view wx:else class="cart-num ellipsis-1"> 99+ </view> -->
+      <view class='cart'>购物车</view>
+    </navigator>
+  </view>
+  <view wx:if="{{data.goods.is_virtual >0 && data.goods.is_virtual != 2}}" class="buy-btn cart-btn cart-btn-lg" bindtap="openSpecModel">立即购买3</view>
+  <view wx:elif="{{data.goods.is_virtual == 2}}" class="buy-btn cart-btn cart-btn-lg" bindtap="openSpecModel">立即预约</view>
+  <view wx:elif="{{select.activity.prom_type == 4}}" class="buy-btn cart-btn cart-btn-lg" bindtap="openSpecModel">立即预订</view>
+
+  <block wx:elif="{{select.activity.prom_type == 8}}">
+    <view>
+      <view class="join-btn cart-btn " bindtap="openSpecModelBargain" data-a="1" data-listidx="{{specSelect}}">单独购</view>
+      <view class='classname'>￥{{data.goods.spec_goods_price.length > 0 ?data['goods']['spec_goods_price'][specSelect]['price']:data.goods.shop_price}}</view>
+    </view>
+    <view>
+      <view class="buy-btn cart-btn " bindtap="openSpecModelBargain" data-a="2" data-listidx="{{specSelect}}">砍价拿</view>
+      <view class="classname">￥{{select.activity.prom_type == 8?select.bargain_price:select.price}}</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{data.goods.exchange_integral <= 0}}">
+    <view class="join-btn cart-btn" data-type='add' bindtap="openSpecModel">加入购物车</view>
+    <view class="buy-btn cart-btn" data-type='buy' bindtap="openSpecModel">立即购买</view>
+  </block>
+  <view wx:elif="{{data.goods.exchange_integral > 0}}" class="buy-btn cart-btn cart-btn-lg" bindtap="openSpecModel">立即兑换</view>
+</view>
+<!-- 规格弹框  -->
+<view hidden="{{!openSpecModal}}">
+  <view class="cover-layer" bindtap="closeSpecModal"></view>
+  <view class="spec-model" style="{{data.goods.spec.length >3 ? 'height:500px;':''}}">
+    <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeSpecModal" />
+    <view class="spec-goods">
+      <image class="wh100 spec-img" src="{{select.spec_img }}"></image>
+      <view class="spec-goods-info">
+        <view class="spec-goods-name">{{data.goods.goods_name}}</view>
+        <view class="co-red" wx:if="{{data.goods.exchange_integral>0}}">
+          <text>{{select.activity.priceName}}</text> ￥{{exchange_integral_price}} + {{data.goods.exchange_integral}}积分
+        </view>
+        <view class="spec-goods-price" wx:else>
+          <view class="money-icon">￥</view> 
+          <view class='sbj'>{{select.price[0]}}.</view>
+          <view class="money-icon">{{select.price[1]}}</view>
+        </view>
+        <view class="spec-goods-stock">剩余库存：{{select.stock}}</view>
+      </view>
+    </view>
+    <block wx:for="{{data.goods_spec_list}}" wx:key="{{index}}" wx:for-index="listIdx">
+      <view class="spec-name">规格</view>
+      <view class='spec_types'>
+        <view wx:for="{{item.spec_item}}" wx:for-item='spec' wx:key="{{index}}" class="spec-btn {{item.selectItemId==spec.id?'spec-btn-click':''}}" bindtap="selectSpec" data-listidx="{{listIdx}}" data-itemid="{{spec.id}}">{{spec.item}}</view>
+      </view>
+    </block>
+    <view class="spec-box">
+      <view class="spec-name">数量</view>
+      <view class="count">
+        <view class="sub" bindtap="subCartNum">-</view>
+        <input type="number" value="{{goodsInputNum}}" bindblur="inputCartNum" />
+        <view class="add" bindtap="addCartNum">+</view>
+      </view>
+
+    </view>
+    <view class="spec-cart-btns">
+      <view wx:if="{{data.goods.is_virtual >0 && data.goods.is_virtual != 2}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='buy' bindtap="addCart">立即购买</view>
+      <block wx:elif="{{select.activity.prom_type == 8}}">
+        <!--     <view wx:if="{{!isSeparate}}" class="spec-cart-btn  spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='add' bindtap="addCart" style="background-color:#ffb03f;margin-left:34rpx;">加入购物车</view>                                              
+                <view wx:if="{{!isSeparate}}" class="spec-cart-btn  spec-add-cart {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='add' bindtap="addCart" style="background-color:#ffb03f;">加入购物车</view>   
+                 -->
+        <view class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" bindtap="bargainBuy" data-action='add' data-status="{{isSeparate}}">{{isSeparate?'砍价拿':'加入购物车'}}</view>
+      </block>
+      <view wx:elif="{{data.goods.is_virtual == 2}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='buy' bindtap="addCart">立即预约</view>
+      <view wx:elif="{{select.activity.prom_type == 4}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='reserve' bindtap="addCart">立即预订</view>
+      <block wx:elif="{{data.goods.exchange_integral <= 0}}">
+        <!-- <view class="spec-cart-btn spec-add-cart {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='add' bindtap="addCart" wx:if="showCar">加入购物车</view> -->
+        <view class="spec-cart-btn spec-buy {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='{{addCartType}}' bindtap="addCart">确定</view>
+      </block>
+      <view wx:else class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='exchange' bindtap="addCart">立即兑换</view>
+    </view>
+  </view>
+</view>
+<!-- 优惠信息弹框  -->
+<view hidden="{{!openPromModal}}">
+  <view class="cover-layer" bindtap="closePromModal"></view>
+  <view class="prom-model">
+    <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closePromModal" />
+    <view class="prom-title">优惠信息</view>
+    <view class="logistics-item" wx:for="{{select.activity.data}}" wx:key="{{index}}">
+      <view class="item-title">
+        <text class="prom-item">{{item.title}}</text>
+      </view>
+      <view class="item-mes ellipsis-1">{{item.content}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- 分享海报生成 -->
+
+<view wx:if='{{share_btn}}'>
+  <view class="cover-layer" bindtap="closePromModal"></view>
+  <view class="prom-model">
+    <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeShareModal" />
+    <view class="prom-title">分享到朋友圈</view>
+    <view class='share-pic'>
+      <image catchtap='previewSharePic' style='width:100%;height:100%' src='{{share_pic}}'></image>
+    </view>
+    <view class="share-save-btns">
+      <view class="share-save-btn" catchtap="saveSharePic">保存海报</view>
+      <view class='share-tips'>保存海报至相册，可在朋友圈分享海报</view>
+    </view>
+
+  </view>
+</view>
+
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet">
+  <action-sheet-item>
+    <button class='action-sheet-btn' open-type="share">发送给好友</button>
+  </action-sheet-item>
+  <action-sheet-item catchtap="getSharePic">分享到朋友圈</action-sheet-item>
+  <action-sheet-cancel>取消</action-sheet-cancel>
+</action-sheet>

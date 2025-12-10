@@ -1,0 +1,440 @@
+page{
+  background-color: #eef0f3;
+}
+.container{
+  padding-bottom: 120rpx;
+}
+.search-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 88rpx;
+    z-index: 10;
+}
+.search-fixed{
+     background:rgba(242,48,48,0.8);
+}
+.logo{
+    width:48rpx;
+    height:48rpx;
+    margin:0 18rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.search-inner{
+    display: flex;
+    align-items: center;
+    margin:15rpx 30rpx;
+    width:690rpx;
+    height: 60rpx;
+    border-radius:29rpx;
+    background-color: #fff;
+}
+.search-img{
+    margin-right:12rpx;
+    width: 28rpx;
+    height: 28rpx;
+    margin-top: -14rpx;
+    margin-left:40rpx;
+}
+.search-cont{
+    height: 58rpx;
+    width:536rpx;
+    padding-left: 12rpx;
+    line-height: 60rpx;
+    font-size: 24rpx;
+    color: #666;
+}
+.placeholder{
+     font-size: 22rpx !important;
+}
+.search-fixed{
+    background:rgba(242,48,48,0.8);
+}
+.bg-logo{
+    background: #ffffff;
+}
+.bg-input{
+    background: #ffffff;
+}
+.bg-fonts{
+    color: #ffffff;
+}
+.swiper_box {
+    width: 100%;
+    height: 340rpx;
+}
+swiper-item image {
+    width: 100%;
+    height: 340rpx;
+    display: inline-block;
+    overflow: hidden;
+}
+/* 轮播圆点的样式 */
+/* .swiper-box .wx-swiper-dot{
+    width:12rpx;
+    display: inline-flex;
+    height: 12rpx;
+    margin-left: 6rpx;
+    justify-content:space-between;
+}
+.swiper-box .wx-swiper-dot::before{
+    content: '';
+    flex-grow: 1;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10rpx;
+}
+.swiper-box .wx-swiper-dot-active::before{
+    background:#ff6682;  
+} */
+/* 轮播圆点的样式结束 */
+.venues_box {
+    background-color: #fff;
+    padding:0 30rpx 30rpx;
+}
+.venues_item {
+    display: block;
+    float: left;
+    width: 25%;
+    text-align: center;
+    margin: 30rpx 0 -2rpx;
+}
+.venues_item image{
+    vertical-align: middle;
+    width: 80rpx;
+    height: 80rpx;
+    border: 0;
+}
+.venues_item view{
+    font-size: 22rpx;
+    margin-top: 20rpx;
+}
+.choice_box {
+    font-size:0;
+}
+.choice_box .choice_list .choice_item{
+    width: 730rpx;
+    float: left;
+    margin: 10rpx 0 0 10rpx;
+}
+.choice_box .choice_item navigator {
+    display: inline-block;
+}
+.choice_box .choice_item .right{
+    float:right;
+    width:438rpx;
+    height: 222rpx;
+    padding:14rpx 20rpx;
+    background-color: #fff;
+    position:relative;
+}
+.choice_box .choice_list .choice_item .navigator-hover{
+    display: inline-block;
+}
+.choice_box .choice_list image {
+    width:250rpx;
+    height:250rpx;
+}
+.choice_box .choice_list .title {
+    height: 36rpx;
+    width: 330rpx;
+    line-height: 36rpx;
+    text-align: left;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    font-size: 26rpx;
+}
+.choice_box .choice_list .choice_footer {
+    position:absolute;
+    bottom:12rpx;
+}
+.choice_box .choice_list .choice_footer .price {
+  color: #f23030;
+  font-size: 22rpx;
+  font-weight:600;
+}
+.choice_box .choice_list .choice_footer .similer {
+    text-align: center;
+    color: #666;
+    width: fit-content;
+    line-height: 30rpx;
+    border-radius: 5rpx;
+    font-size:22rpx;
+    margin-top:16rpx;
+}
+.choice_box .choice_list .similer text{
+    margin-left:32rpx;
+}
+.section{
+    margin-top: 20rpx;
+    background-color: #fff;
+}
+.section-title{
+    padding-top:30rpx;
+    height:54rpx;
+    line-height:54rpx;
+    font-size:28rpx;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    letter-spacing: 3rpx;
+}
+.section-subtitle{
+    line-height:0;
+    width:340rpx;
+    height:16rpx;
+    padding-bottom: 20rpx;
+    margin:0 auto;
+}
+/*秒杀*/
+.seckill{
+    /* margin-top: 20rpx; */
+    background-color: #fff;
+    padding-bottom: 0rpx;
+}
+.seckill-time{
+    display: flex;
+    justify-content: space-between;
+    padding:5rpx 20rpx;
+    align-items:center;
+    height: 72rpx;
+    color: #333;
+}
+.sk-tips{
+  width: 120rpx;
+	height: 30rpx;
+  margin-right: 20rpx;
+  margin-top: -3rpx;
+}
+
+.sk-time{
+    position: relative;
+    display: inline-block;
+    font-size: 24rpx;
+    text-align: center;
+}
+.time-n{
+  border: 1rpx solid #ff0000;
+  color: #ff3131;
+  padding:0 10rpx;
+}
+.time-n view{
+  min-width: 28rpx;
+}
+.sk-tit{
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 0 10rpx;
+}
+.time-n .skt-pub::before{
+    content:':';
+    position: absolute;
+    right: -8rpx;
+    color: #333;
+    font-weight: bold;
+}
+.skt-pub{
+  margin-right: 10rpx;
+}
+.seckill-time>navigator{
+    font-size: 24rpx;
+    margin-right:-160rpx;
+}
+.seckill-time:after{
+    content: '';
+    display:inline-block;
+    width: 12rpx;
+    height: 12rpx;
+    border-top: 2rpx solid #BFBFBF;
+    border-right: 2rpx solid #BFBFBF;
+    transform: rotate(45deg);
+}
+.without{
+    padding:0 20rpx;
+    height:70rpx;
+    line-height:80rpx;
+    background:#fff;
+}
+.without text{
+    font-size:30rpx;
+    font-weight:600;
+}
+.without navigator{
+    float:right;
+    font-size:22rpx;
+    color:#343434;
+    position: relative;
+}
+.without image{
+    width:30rpx;
+    height:31rpx;
+    margin-right:20rpx;
+    position:absolute;
+    top:24rpx;
+    left:-52rpx;
+}
+.without navigator:after{
+    content: '';
+    display:inline-block;
+    width: 12rpx !important;
+    height: 12rpx !important;
+    border-top: 2rpx solid #A7A6AB;
+    border-right: 2rpx solid #A7A6AB;
+    transform: rotate(45deg);
+    margin-left: 20rpx;
+}
+.sk-pic{
+    width: 28rpx;
+    height: 28rpx;
+    vertical-align: top;
+}
+.seckill-list{
+    display: flex;
+    height: 330rpx;
+    overflow: hidden;
+    background-color: #eef0f3;
+}
+.seckill-list navigator{
+    width: 240rpx;
+    background-color: #ffffff;
+    overflow: hidden;
+    margin-left:10rpx;
+}
+.seckill-list image{
+    width: 240rpx;
+    height: 240rpx;
+}
+.seckill-list view{
+    height: 40rpx;
+    padding: 0 10rpx;
+    line-height: 40rpx;
+    overflow: hidden;
+    font-size: 22rpx;
+}
+.co-red{
+  min-width: 5rpx;
+  font-size: 26rpx!important;
+  font-weight: bold;
+  float: left;
+  padding: 0!important;
+}
+.s-vol{
+  float: right;
+  color: #999999;
+  text-align: right;
+  font-size: 22rpx;
+}
+.h-label{
+  width: 175rpx;
+  height: 40rpx;
+  position: absolute;
+  line-height: 45rpx;
+  color: #ffffff;
+  padding-left: 25rpx;
+}
+.pro-label{
+    height: 28rpx;
+    border-radius: 6rpx;
+    border: solid 1rpx #ff3939;
+    color: #ff3939;
+    display: inline-block;
+    line-height: 28rpx;
+    margin-left: 20rpx;
+    font-size:20rpx;
+    position:absolute;
+    bottom:100rpx;
+    left:0;
+}
+.b-price{
+  font-size: 30rpx;
+	letter-spacing: 0px;
+	color: #ff2e2e;
+  display: inline-block
+}
+.f-classify-s{
+  width: 370rpx;
+  height: 150rpx;
+  float: left;
+  margin-left: 10rpx;
+  margin-bottom: 10rpx;
+}
+.h-adv{
+    margin-top: 10rpx;
+  width: 100%;
+  overflow: hidden;
+}
+.h-adv .f-classify-s:nth-child(odd){
+  margin-left: 0;
+}
+.f-classify-b{
+  width: 100%;
+  height: 188rpx;
+  margin-bottom: 10rpx;
+}
+.classname{
+  height: 70rpx;
+  margin-right:22rpx;
+  padding-top: 40rpx;
+}
+.classname view{
+  float: left;
+}
+.cop-footer{
+  width: 100%;
+  text-align: center;
+  padding-bottom:28rpx;
+}
+.cf-sup{
+  font-size: 22rpx;
+  display:inline-block;
+  vertical-align:bottom;
+  padding-bottom:3px;
+  margin-left: 10rpx;
+  color:#999;
+}
+.smj{
+  display: inline-block;
+  min-width: 5rpx;
+  float: left;
+  padding: 0!important;
+  color: #f23030;
+}
+.cop-footer .show{
+    height: 30rpx;
+    width: 100%;
+    font-size: 24rpx;
+    color: #999999;
+    margin-top:55rpx;
+    margin-bottom:12rpx;
+    position: relative;
+}
+.cop-footer .show text{
+    height:30rpx;
+    line-height:30rpx;
+    position:absolute;
+    width:750rpx;
+    text-align:center;
+    left:0;
+}
+.cop-footer .show image{
+    width: 750rpx;
+    height: 6rpx;
+    position:absolute;
+    left:0;
+    top:12rpx;
+}
+.cop-footer>image{
+  width:90rpx !important;
+  height:20rpx !important;
+  border-radius:0% !important;
+}
+@import "../../index/custom/custom.wxss";
+@import "../../../utils/wxParse/wxParse.wxss";
+/* 区域选择弹框 */
+@import "../../../utils/regions/regions.wxss"; 

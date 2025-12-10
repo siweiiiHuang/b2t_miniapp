@@ -1,0 +1,40 @@
+<!--cart4.wxml-->
+<view class="order-list pd-bg-fff">
+    <view class="order-id">
+        <view class='order-weight'>订单号</view>
+        <view class="co-red">{{order.order_sn}}</view>
+    </view>
+    <view class="order-price">
+        <view class='order-weight'>订单金额</view>
+        <view class="co-red">¥{{order.order_amount}}</view>
+    </view>
+</view>
+<view class="pay-way pd-bg-fff">
+    <view class="title">支付方式</view>
+ <radio-group class="radio-group" bindchange="radioChange">
+        <view class="pay-item" wx:for="{{pay_type}}">
+                 <label >
+                        <view>                          
+                            <radio class='check' value="{{index}}" data-code="{{item.pay_code}}" checked="{{item.checked}}"/>
+                        </view>
+                    </label>
+            <view class="pay-img"><image class="wh100" src="{{item.logo}}"></image></view>
+            <view style="display: flex;">
+                    <view>{{item.name}}</view>
+                    <view class="balace" wx:if="{{index == 0}}">( 余额：¥ {{userInfo.user_money}} )</view>
+            </view>
+            
+        </view>
+    </radio-group>
+    <view class="pay-now" bindtap="payment">立即支付</view>
+</view>
+
+
+<view wx:if="{{balace}}" class="balace-bgc">
+    <view class="password">
+        <view catchtap='cancel' class="cancel">X</view>
+        <view class="text">请输入支付密码</view>
+        <view style='padding-top:1rem;'><input type="password" class="password-input" bindinput='inputPassword' placeholder='输入支付密码'></input></view>
+        <view class="submit"><button class="paiton" catchtap="balacePay">确定</button></view>
+    </view>
+</view>

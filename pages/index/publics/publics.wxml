@@ -1,0 +1,34 @@
+<!--pages/index/public/public.wxml-->
+<template name="model">
+<!-- 底部菜单 -->
+<view  class="pos_fixed" >
+    <view class="tpd-footer tpd-footer2" wx:if="{{menu_model.length>0}}" >
+       <block wx:for="{{menu_model}}" wx:for-index="index" >
+        <view hover-class="none" catchtap='topage' data-obj="custom" data-idx='{{index}}' class="{{page == index?'tpd-footer-select':''}}"><image src="{{page == index?url + item.pic2:url + item.pic1}}"></image><text>{{item.title_name}}</text></view>  
+        </block> 
+    </view>
+
+    <view class="tpd-footer tpd-footer1" wx:if="{{defaultMenu}}">
+        <view hover-class="none" catchtap='topages' data-idx="0" class="{{page == 0?'tpd-footer-select':''}}"><image src="{{page == 0?'/images/home2.png':'/images/home1.png'}}"></image><text>首页</text></view>
+        <view hover-class="none" catchtap='topages'  data-idx="1"  class="{{page == 1?'tpd-footer-select':''}}"><image src="{{page == 1?'/images/category2.png':'/images/category1.png'}}"></image><text>分类</text></view>
+        <view  hover-class="none" catchtap='topages'  data-idx="2"  class="{{page == 2?'tpd-footer-select':''}}"><image src="{{page == 2?'/images/cart2.png':'/images/cart1.png'}}"></image><text>购物车</text></view>
+        <view hover-class="none" catchtap='topages'  data-idx="3" class="{{page == 3?'tpd-footer-select':''}}"><image src="{{page == 3?'/images/user2.png':'/images/user1.png'}}"></image><text>我的</text></view>
+    </view>
+  </view>
+</template>
+
+
+
+<template name="distributMenu">
+<!-- 底部菜单 -->
+<view  class="pos_fixed" >
+    <!-- 我的分销底部导航 -->
+    <view class="tpd-footer tpd-footer1" >
+        <view hover-class="none" catchtap='distributTopages' data-idx="0" class="{{page == 0?'tpd-footer-select':''}}"><image src="{{page == 0?'/images/distribut/seller_red@2x.png':'/images/distribut/seller_black@2x.png'}}"></image><text>分销中心</text></view>
+        <view hover-class="none" catchtap='distributTopages'  data-idx="1"  class="{{page == 1?'tpd-footer-select':''}}"><image src="{{page == 1?'/images/distribut/team_red@2x.png':'/images/distribut/team_black@2x.png'}}"></image><text>我的团队</text></view>
+        <view  hover-class="none" catchtap='distributTopages'  data-idx="2"  class="{{page == 2?'tpd-footer-select':''}}"><image src="{{page == 2?'/images/distribut/money_red@2x.png':'/images/distribut/money_black@2x.png'}}"></image><text>我的账户</text></view>
+        <view hover-class="none" catchtap='distributTopages'  data-idx="3" class="{{page == 3?'tpd-footer-select':''}}"><image src="{{page == 3?'/images/distribut/order_red@2x.png':'/images/distribut/order_black@2x.png'}}"></image><text>分销订单</text></view>
+        <view hover-class="none" catchtap='distributTopages'  data-idx="4" class="{{page == 4?'tpd-footer-select':''}}"><image src="{{page == 4?'/images/distribut/shop_red@2x.png':'/images/distribut/shop_black@2x.png'}}"></image><text>我的网店</text></view>
+    </view>
+  </view>
+</template>

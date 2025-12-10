@@ -1,0 +1,240 @@
+<!--order_detail.wxml-->
+<view class="container">
+<!-- 扫货吗 弹窗 -->
+    <view class='Scavenging-pop-wrap' hidden='{{scan_pop}}'>
+        <view class='package-pop-bg-opacity'></view>
+        <view class='Scavenging-pop booking-pop'>
+            <view class="Scavenging-pop-header">消费券码</view>
+            <view class="Scavenging-pop-img-title">券码:<text style='color: #ff4747;'>{{shop_code}}</text></view>
+            <view class="Scavenging-pop-img-two">
+              <image src="../../../images/z-tihuoma.png"></image>
+            </view>
+            <view class="Scavenging-pop-bookcon" bindtap='bindGoGoodsInfo'>
+                <image src="{{url}}/api/goods/goodsThumImages?goods_id={{order.order_goods[0]['goods_id']}}&width=100&height=100"></image>
+                <view>
+                    <text class="name">{{order.order_goods[0]['goods_name']}}</text>
+                    <text class="time"><text style='color:#999;font-weight: bold;'>有效期至：</text>{{order.shop_order[0]['take_time']}}</text>
+                </view>
+            </view>
+        </view>
+        <view class='Scavenging-pop-close' bindtap='scanPop' data-code=''><image src='../../../images/z-chacha.png'></image></view>
+    </view> 
+
+    <view class='order_infolist'>
+          <view class="ord_state_steps">
+              <view class="state_steps_name">
+                  <view  class="state_namecur">买家下单</view>
+                  <view wx:if="{{order.pay_status == 1 || order.pay_status == 3 || order.pay_status == 4}}"  class="state_namecur">支付成功</view>
+                  <view wx:else >支付成功</view>
+                  <view wx:if="{{order.shop_consumption > 0}}" class="state_namecur">到店消费</view>
+                  <view wx:else >到店消费</view>
+                  <view wx:if="{{order.order_status == 4}}" class="state_namecur">交易完成</view>
+                  <view wx:else>交易完成</view>
+              </view>
+              <view class="state_steps_st">
+                  <view class="state_stepcur span"><image src='../../../images/icondui.png'></image></view>
+                  <view class="state_stepcur span"><image wx:if="{{order.pay_status == 1 || order.pay_status == 3 || order.pay_status == 4}}" src='../../../images/icondui.png'></image></view>
+                  <view class="state_stepcur span "><image wx:if="{{order.shop_consumption > 0}}" src='../../../images/icondui.png'></image></view>
+                  <view class="state_stepcur span "><image wx:if="{{order.order_status >= 4 && order.shop_consumption > 0}}" src='../../../images/icondui.png'></image></view>
+              </view>
+          </view>
+    </view>
+
+    <view class="order_infolist " >
+         <view class="ordinfolist_tit ordlist_bookinfo">
+            <text>预约信息</text>
+          </view>
+          <view class="ordinfolist {{more_info}}">
+              <view class="ordinfolist_item " wx:for="{{order.order_bespeak}}" wx:key='i'>
+                <label>{{item.title}}：</label>
+                <view wx:if="{{item.type == 6 || item.type == 7}}" class='ordinfolist_img'>
+                    <image  wx:for="{{item.img_arr}}" wx:for-item='i' wx:key='s'  src="{{url}}{{i}}"></image>
+                </view>
+                <text wx:else>{{item.value}}</text>
+              </view>
+          </view>
+          <view class='ordlist_bookinfo_more' bindtap='moreInfo'>{{more_info_text}}</view>
+    </view>
+    
+    <view class='order_infolist'>
+          <view class="ordinfolist_tit">消费券</view>
+          <view class="ordinfolist_item">
+              <label>有效期至：</label>
+              <text>{{order.shop_order[0]['take_time']}}</text>
+          </view>
+          <view class="ordinfolist_item" wx:for="{{order.shop_order}}" wx:key='this'>
+            <label>消费券码：</label>
+            <text>{{item.shop_code}}</text>
+            <text style="margin-left:30rpx ;color: red" wx:if="{{item.is_write_off == 0}}">{{item.shop_dec}}</text>
+            <text style="margin-left:30rpx ;color: green" wx:elif="{{item.is_write_off == 1}}">{{item.shop_dec}}</text>
+            <text style="margin-left:30rpx ;color: #999"wx:elif="{{item.is_write_off == 2}}" >{{item.shop_dec}}</text>
+            <image class="details-list-img" bindtap='scanPop' data-shop_code='{{item.shop_code}}' src="../../../images/bookcoupon_code.png"></image>
+          </view>
+         
+    </view>
+
+    <view class='order_infolist'>
+         <view class="ordinfolist_tit ordlist_storeinfo">
+            <text>商家信息</text>
+            <view class='tel_block' bindtap='contact' data-tel="{{order.shop_order[0]['shop']['shop_phone']}}"><image src="../../../images/icon_booktel.png"></image>联系商家</view>
+          </view>
+                <view class="ordinfolist_item">
+                  <label>商家名称：</label>
+                  <text>{{order.shop_order[0]['shop']['shop_name']}}</text>
+                </view>
+                  <view class="ordinfolist_item ordinfo_storads">
+                  <label>商家地址：</label>
+                  <text>{{order.shop_order[0]['shop']['full_address']}}</text>
+                </view>
+                <view class='seeMap'>
+                    {{order.shop_order[0]['shop']['distance_text']}}
+                    <image src="../../../images/z-dingw1.png"></image>
+                    <text style='color:#999;margin-left:15rpx' bindtap='showMap'>查看地图</text>
+                </view>
+                <view class="ordinfolist_item">
+                  <label>联系号码：</label>
+                  <text>{{order.shop_order[0]['shop']['shop_phone_code']}}{{order.shop_order[0]['shop']['shop_phone']}}</text>
+                </view>  
+    </view>
+
+    <view class='ttrebu'><image src='../../../images/tt.png'></image></view>
+    <view class="order-meg">
+        <view class="order-detail" wx:for="{{order.order_goods}}" wx:key="{{index}}">
+            <view class="goods-img">
+                <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=100&height=100"></image>
+            </view>
+            <navigator class="order-cont" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}" open-type="navigate">
+                <view class="goods-name">{{item.goods_name}}</view>
+                <view class="goods-color">{{item.spec_key_name?item.spec_key_name:''}}</view>
+            </navigator>
+            <view class="order-num">
+                <view class="goods-price">￥{{item.member_goods_price}}</view>
+                <view class="goods-num">x{{item.goods_num}}</view>
+            </view>
+        </view>
+        <view class="order-operate">
+            <view class="contact-us goods-btn" bindtap='contactService'>联系客服</view>
+                      <navigator url='/pages/order/cancel_order/cancel_order?order_id={{order.order_id}}' class="cancel-order goods-btn" wx:if="{{order.cancel_info == 1}}" >取消进度</navigator>
+            <view wx:if="{{order.pay_status == 1 &&  order.cancel_btn == 1 && order.shop_consumption== 0 && order.order_goods[0].goods.invalid_refund ==2 }}" class="cancel-order goods-btn"  bindtap="refoundOrder" data-id='{{order.order_id}}'>申请退款</view>
+            <view wx:if="{{order.cancel_btn == 1 && order['shop_consumption'] == 0 && order.order_goods[0]['goods']['invalid_refund']==2 && order.pay_status != 1}}" class="cancel-order goods-btn"  bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
+        </view>
+            
+    </view>
+    <view class="basic-information information">
+        <view class="title">基本信息</view>
+        <view class="item">
+            <view>订单编号</view>
+            <view>{{order.order_sn}}</view>  
+        </view>
+        <view class="item">
+            <view>下单时间</view>
+            <view>{{order.addTimeFormat}}</view>  
+        </view>
+       
+        <view class="item">
+            <view>支付方式</view>
+            <view>{{order.user_money > 0 ?'余额支付':(order.pay_name && order.pay_name != '' ? order.pay_name:'无')}}</view>  
+        </view>
+       
+        <view class="item">
+            <view>买家留言</view>
+            <view class="leave-word">{{user_note != '' ? user_note:'无'}}</view>  
+        </view>
+        
+
+   <block wx:for="{{order.vrorders_code}}" wx:key='i'>   
+        <view class="item">
+            <view>电子兑换码</view>
+            <view class="leave-word" style="color:red;">{{item.vr_code}}</view>  
+        </view>
+        <view class="item"  wx:if="{{order.prom_type == 5 && order.vrorders_code.length > 0}}">
+            <view>兑换码状态</view>
+            <view class="leave-word" style="color:red;" wx:if="{{item.vr_state == 1}}">已使用，使用时间{{item.vr_usetime}}</view>  
+             <view class="leave-word" style="color:red;" wx:if="{{item.vr_state == 2}}"> 已过期，有效期至{{item.vr_indate}}</view>  
+              <view class="leave-word" style="color:red;" wx:if="{{item.vr_state == 0 && item.refund_lock < 1}}">未使用，有效期至{{item.vr_indate}}</view>  
+               <view class="leave-word" style="color:red;" wx:if="{{item.refund_lock > 0 }}"> 已取消</view>  
+        </view>
+    </block>
+    </view>
+    <view class="price-information information" wx:if="{{order.prom_type == 5}}">
+        <view class="title">价格信息</view>        
+        <view class="item">
+            <view>订单金额</view>
+            <view>￥ {{order.order_amount}}元</view>  
+        </view>
+        <view class="item">
+            <view>实付金额</view>
+            <view class="pay-amount">￥ {{order.order_amount}}元</view>  
+        </view>
+    </view>
+  
+    <view class="price-information information" wx:if="{{order.prom_type == 4}}">
+        <view class="title">价格信息</view>    
+        <block wx:if="{{order.paid_money > 0}}">
+           <view class="item" wx:if="{{order.pay_status == 1}}">
+            <view>已付尾款</view>
+            <view>￥ {{order.order_amount}}元</view>  
+          </view>
+           <view class="item">
+            <view>已付订金</view>
+            <view>￥ {{order.paid_money}}元</view>  
+          </view>
+           
+        </block>    
+     <block wx:if="{{order.pay_status==0 && order.pre_sell.deposit_price > 0}}"> 
+        <view class="item">
+            <view>应付订金</view>
+            <view>￥ {{order.order_amount}}元</view>  
+          </view>
+         <view class="item">
+            <view>尾款</view>
+            <view>￥ {{order.total_amount - order.order_amount}}元</view>  
+          </view>
+     </block>
+       <view class="item">
+            <view>订单总额</view>
+            <view>￥ {{order.total_amount}}元</view>  
+        </view>
+        <view class="item">
+            <view>发货时间描述： {{order.pre_sell.delivery_time_desc}}</view>
+          </view>
+  </view>
+
+ <view class="price-information information" wx:else>
+        <view class="title">价格信息</view>
+        <view class="item">
+            <view>商品总价</view>
+            <view>￥ {{order.total_amount}}元</view>  
+        </view>
+        <view class="item">
+            <view>运费</view>
+            <view>￥ {{order.shipping_price}}元</view>  
+        </view>
+        <view class="item">
+            <view>优惠券</view>
+            <view>- ￥ {{order.coupon_price}}元</view>  
+        </view>
+        <view class="item">
+            <view>积分</view>
+            <view>- ￥ {{order.integral_money}}元</view>  
+        </view>
+        <view class="item">
+            <view>余额</view>
+            <view>- ￥ {{order.user_money}}元</view>  
+        </view>
+        <view class="item">
+            <view>活动优惠</view>
+            <view>- ￥ {{order.order_prom_amount}}元</view>  
+        </view>
+        <view class="item">
+            <view>实付金额</view>
+            <view class="pay-amount">￥ {{order.order_amount}}元</view>  
+        </view>
+    </view>
+
+    <view class="btn-wrap">
+        <view hidden="{{!order.pay_btn}}" class="tips-btn" bindtap="jumpToCart4">立即付款</view>
+        <navigator bindtap="confirmOrder" class="tips-btn" hidden="{{!order.receive_btn}}">收货确认</navigator>
+    </view>
+</view>
+

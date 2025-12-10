@@ -1,0 +1,155 @@
+/* withdrawals.wxss */
+
+page{
+  background-color: #fff;
+}
+.withdraw_container{
+  width: 100%;
+}
+.withdraw-header-wrap{
+	height: 180rpx;
+  background-color: #ff594a;
+  color: #fff;
+  padding: 60rpx 30rpx;
+}
+.can_money_tit{
+  font-size: 30rpx;
+  line-height: 36rpx;
+}
+.can_money_tit text:first-child{
+  display: inline-block;
+  width: 36rpx;
+  height: 36rpx;
+  text-align: center;
+  font-size: 24rpx;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.can_money_con{
+  margin-top: 66rpx;
+  font-size: 24rpx;
+}
+.can_money_con text{
+  font-size: 54rpx;
+  margin-left: 20rpx;
+}
+.withdraw_style{
+  padding: 30rpx 30rpx;
+}
+.withdraw_stna{
+  font-size: 30rpx;
+}
+.withdraw_stcon{
+  margin-top: 20rpx;
+  line-height: 51rpx;
+  overflow: hidden;
+}
+.withdraw_stcon image{
+  width: 51rpx;
+  height: 51rpx;
+  float: left;
+}
+.withdraw_stcon .wh_user_account{
+  font-size: 28rpx;
+  float: left;
+  margin-left: 20rpx;
+}
+.withdraw-cont-wrap{
+	padding: 0 30rpx;
+  border-top: 18rpx solid #f3f3f3;
+  font-size: 30rpx;
+}
+.withdraw-cont-wrap .withdraw-cont-p1{
+	padding: 40rpx 0 20rpx;
+	height: 30rpx;
+	color: #4c4c4c;
+	font-size: 26rpx;
+}
+.withdraw-cont-wrap .withdraw-cont-p1 text{
+  margin-left: 10rpx;
+}
+.withdraw-money{
+  overflow: hidden;
+  padding-top: 20rpx;
+}
+.withdraw-money text{
+  float: left;
+}
+.withdraw-money input{
+  width: 94%;
+  border-bottom: 1px solid #dcdcdc;
+  float: right;
+  font-size: 36rpx;
+}
+.withdraw-allmoney{
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 30rpx;
+}
+.withdraw-allmoney text{
+  float: left;
+}
+.withdraw-allmoney .wh_allmony{
+  float: right;
+  width: 140rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #ff594a;
+  background-color: transparent;
+}
+button::after {
+  border: none;
+}
+.withdraw-cont-wrap .withdraw-cont-p2{
+	padding-top:20rpx;
+  height: 90rpx;
+  line-height: 90rpx; 
+}
+.withdraw-cont-p2{
+  border-bottom: 1px solid #dcdcdc;
+}
+.withdraw-cont-p2 text{
+  float: left;
+}
+.withdraw-cont-p2 input{
+  float: left;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin-left: 10rpx;
+}
+.wh_setpsd{
+  width: 100%;
+  overflow: hidden;
+}
+.wh_setpsd navigator{
+  float: right;
+  height: 72rpx;
+  line-height: 72rpx;
+  color:#ff594a;
+  background-color: transparent; 
+}
+.withdraw-sub-btn{
+  margin: 75rpx 0;
+}
+.withdraw-sub-btn button{
+	width: 100%;
+	height: 88rpx;
+  line-height: 88rpx;
+	color: #ffffff;
+	background-color: #e73223;
+	font-size: 36rpx;
+	border-radius:8rpx;
+}
+.withdraw-foot-wrap{
+  padding: 0 30rpx;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 60rpx;
+}
+.withdraw-foot-wrap text{
+  display: block;
+  line-height: 36rpx;
+}
+
+

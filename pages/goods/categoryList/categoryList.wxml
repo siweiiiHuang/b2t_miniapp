@@ -1,0 +1,119 @@
+<view class="container" wx:if="{{firstCategoris && firstCategoris.length > 0}}">
+    <view class="nav">
+        <view class="nav-item {{item.id==currentCategoryId?'nav-item-on':''}}" wx:for="{{firstCategoris}}" wx:key="{{index}}" bindtap="switchFirstCategory" data-id="{{item.id}}" data-index="{{index}}">{{item.mobile_name}}</view>
+    </view>
+    <view class="content">
+       <view class="content-box" wx:if="{{adv.ad_code}}" catchtap='adver' data-url="{{adv.ad_link}}" data-type="{{adv.media_type}}">
+          <image src="{{url + adv.ad_code}}" class="adver-image"></image>
+       </view>
+        <view class="content-box"  wx:key="{{index}}">
+            <block  wx:for="{{categories}}">
+                <view class="content-name" bindtap='goodsList' data-id='{{item.id}}'>{{item.mobile_name}}</view>
+                <view class="content-items" wx:if="{{item.sub_category.length>0}}">
+                    <navigator class="content-item" wx:for="{{item.sub_category}}" wx:key="{{index}}" url="/pages/goods/goodsList/goodsList?cat_id={{item.id}}">
+                        <image class="item-image" src="{{item.image?url+item.image:'../../../images/unknow.png'}}"></image>
+                        <view class="item-name">{{item.mobile_name}}</view>
+                    </navigator>
+                </view>
+            </block>
+
+            <block wx:if="{{types ==2&&categorys2.length>0}}">            
+             <view class="two-content">
+                <view class='separate'>                  
+                        <view class='t-list' wx:for="{{categorys2}}">
+                            <navigator url="/pages/goods/goodsList/goodsList?cat_id={{item.id}}">
+                                <image src="{{item.image?url+item.image:'../../../images/unknow.png'}}"></image>
+                                    <text>{{item.mobile_name}}</text>
+                            </navigator>
+                        </view>        
+                  </view>
+                </view>
+            </block>
+
+
+            <block wx:if="{{types==3&&goods.length>0}}">
+                    <view class="one-content">
+                    <view class='cmd-list' wx:for="{{goods}}">
+                        <navigator url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}" class='cmd-img'><image src="{{item.original_img?url+item.original_img:'../../../images/red-icon-cart.png'}}"></image></navigator>
+                        <view class='cmd-comm cmd-title'>
+                            <view>
+                            <navigator url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}" class="str-product">{{item.goods_name|| '暂无名称'}}</navigator>
+                            <text class="str-prices">￥{{item.shop_price || 0}}元</text>
+                            <view class='str-evaluate'>
+                                <text class='fg'>{{item.comment_count || 0}}条评价</text>
+                                <text class='fg'></text>
+                                <view class='add-cart'><image catchtap='openSpecModel' data-goods_id="{{item.goods_id}}" src="../../../images/red-icon-cart.png"></image></view>
+                            </view>
+                            </view>
+                        </view>
+                      </view>            
+                    </view>
+            </block>
+
+        </view>
+    </view>
+</view>
+
+<view class="no-data" wx:if="{{!firstCategoris || firstCategoris.length == 0}}">
+    <image src="../../../images/cart-null.png" class="cart-image"/>
+    <view class="no-data-title">暂无分类</view>
+    <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+</view>
+
+
+
+
+
+<!-- 规格弹窗 -->
+<view hidden="{{!openSpecModal}}">
+    <view class="cover-layer" bindtap="closeSpecModal"></view>
+    <view class="spec-model">
+        <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeSpecModal"/>
+        <view class="spec-goods">
+            <image class="wh100 spec-img" src="{{url}}/api/goods/goodsThumImages?goods_id={{data.goods.goods_id}}&width=200&height=200"></image>
+            <view class="spec-goods-info">
+                <view class="spec-goods-name">{{data.goods.goods_name}}</view>
+                  <view class="prom-info" wx:if="{{select.activity.prom_type && select.activity.prom_type != 6}}">
+                    <text class="prom-type">{{select.activity.countName}}</text>
+                    <text>{{select.activity.countTime}}</text>
+                </view>
+                 <navigator class="prom-info" wx:if="{{select.activity.prom_type == 6}}" url="../../team/team_info/team_info?goods_id={{select.activity.goods_id}}&team_id={{select.activity.team_id}}&item_id={{select.activity.item_id}}">
+                    <text class="prom-type">{{select.activity.countName}}</text>
+                    <view style="display:inline-block;" >点击前往</view >
+                </navigator>
+                <view class="spec-goods-price">￥ {{select.price}}
+                </view>
+                <view class="spec-goods-stock">剩余库存：{{select.stock}}</view>
+            </view>
+        </view>
+        <view class="spec-name">数量</view>
+        <view class="count">
+            <view class="sub" bindtap="subCartNum">-</view>
+            <input type="number" value="{{goodsInputNum}}" bindblur="inputCartNum"/>
+            <view class="add" bindtap="addCartNum">+</view>
+        </view>
+        <block wx:for="{{data.goods_spec_list}}" wx:key="{{index}}" wx:for-index="listIdx">
+            <view class="spec-name">{{item.name}}</view>
+            <view wx:for="{{item.spec_item}}" wx:for-item='spec' wx:key="{{index}}" class="spec-btn {{item.selectItemId==spec.id?'spec-btn-click':''}}" bindtap="selectSpec" data-listidx="{{listIdx}}" data-itemid="{{spec.id}}">{{spec.item}}</view>
+        </block>
+        <view class="spec-cart-btns">
+                <view wx:if="{{data.goods.is_virtual}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='buy' bindtap="addCart">立即购买</view>
+                 <block wx:elif="{{select.activity.prom_type == 8}}">                
+                        <view  class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" bindtap="bargainBuy" data-action='add' data-status="{{isSeparate}}">{{isSeparate?'砍价拿':'加入购物车'}}</view>                   
+            </block>
+                 <view wx:elif="{{select.activity.prom_type == 4}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='reserve' bindtap="addCart">立即预订</view>
+            <block wx:elif="{{data.goods.exchange_integral <= 0}}">
+                <view class="spec-cart-btn spec-add-cart {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='add' bindtap="addCart">加入购物车</view>
+                <view class="spec-cart-btn spec-buy {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='buy' bindtap="addCart">立即购买</view>
+            </block>
+            <view wx:else class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}"data-action='exchange' bindtap="addCart">立即兑换</view>
+        </view>
+    </view>
+</view>
+
+
+
+
+<!-- 底部菜单 -->
+<import src="../../index/publics/publics.wxml"/>
+<template is="model" data="{{page:menu_index,menu_model:menu_model,url:url,defaultMenu:defaultMenu}}" />

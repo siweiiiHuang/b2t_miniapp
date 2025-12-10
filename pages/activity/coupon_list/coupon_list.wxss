@@ -1,0 +1,117 @@
+
+.container {
+    padding-bottom:10rpx;
+}
+.red{
+    color: red;
+}
+.coupon-box{
+    font-size: 26rpx;
+    padding: 0 30rpx;
+    margin: 15rpx 0;
+    background-color:#fff;
+    margin:14rpx;
+}
+.conpon-left{
+    float:left;
+    padding: 30rpx 0 30rpx 10rpx;
+}
+.conpon-img{
+    box-sizing: border-box;
+    float:left;
+    height: 150rpx;
+    width: 150rpx;
+    border: 1rpx solid #e3e5e9;
+}
+.coupon-detail{
+    float:left;
+    padding: 10rpx 10rpx;
+}
+.coupon-title{
+    width: 300rpx;
+    height: 62rpx;
+    overflow: hidden;
+}
+.coupon-info{
+    color: #4cb6b8;
+    margin-top: 25rpx;
+    width:300rpx;
+}
+.discounts{
+    font-size: 40rpx;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.conpon-right{
+    position: relative;
+    float:right;
+    width: 160rpx;
+    height: 160rpx;
+    padding-top:50rpx;
+    background-color: #74d2d4;
+    text-align: center;
+    color: #f6f6f6;
+    border-top-right-radius: 10rpx;
+    border-bottom-right-radius: 10rpx;
+}
+.circle{
+    position:absolute;
+    top:15rpx;
+    left:12rpx;
+    width:140rpx;
+    height:120rpx;
+    text-align:left;
+}
+.get-btn{
+    background: white;
+    color: #74d2d4;
+    border-radius: 26rpx;
+    width: fit-content;
+    padding: 0 8rpx;
+    border: 4rpx solid #48b3b5;
+    margin: 40rpx auto 0;
+}
+
+.red{
+    color: red;
+}
+
+.nav-item{
+    float: left;
+    width: 33.3%;
+    height: 90rpx;
+    line-height: 90rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28rpx;
+    border-bottom: 1px solid #f8f8f8;
+    background-color: #fff;
+}
+.nav-item .ico-dg{
+    width: 18rpx;
+    height: 12rpx;
+    margin-left: 10rpx;
+    line-height: 0;
+}
+.nav-item .ico-filter{
+    width: 20rpx;
+    height: 20rpx;
+    margin-left: 10rpx;
+    line-height: 0;
+}
+.ico-dir{
+    width: 16rpx;
+    height: 22rpx;
+    margin-left: 10rpx;  
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: 0;
+}
+.ico-dir-dn {
+    background-position-x: -16rpx;
+}
+.ico-dir-up {
+    background-position-x: -32rpx;
+}

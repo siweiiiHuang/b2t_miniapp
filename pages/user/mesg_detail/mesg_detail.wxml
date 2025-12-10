@@ -1,0 +1,9 @@
+<!-- pages/messages/mesg_detail/mesg_detail.wxml -->
+<view class="mesg_detail">
+	<view class='mesgdeta_tit'><text>{{mesgdetails.message_title}}</text></view>
+    <view class="mesg_info">
+        <text class='mesg_type'>类型：通知消息</text>
+        <text class='mesgdeta_time'>{{mesgdetails.send_time_texts}}</text>
+    </view>
+    <view class="mesg_con">{{mesgdetails.message_content}}</view>
+</view>

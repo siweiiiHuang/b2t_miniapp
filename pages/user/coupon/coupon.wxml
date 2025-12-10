@@ -1,0 +1,50 @@
+<view class="container">
+    <view class="type-navbar">
+        <view class="type-box" wx:for="{{categories}}"  wx:key="index">
+            <view id="{{item.id}}" class="type-navbar-item {{typeId == item.id ? 'type-item-on' : ''}}" bindtap="changeTab">
+                {{item.name}}
+            </view>
+        </view>
+    </view>
+    <view class="coupon-list">
+        <view class="coupon-box" wx:for="{{coupons}}" wx:key="index">
+            <view class="coupon-head {{typeId!=0?'head-disable':''}}" style="border-image-source:url({{resourceUrl}}/static/images/coupon_a.png)">
+            <image src='{{resourceUrl}}/static/images/cpn.png' style='width:250rpx;height:174rpx;'></image>
+            <view class='h-pak'>
+            <view class="coupon-money">
+              <view class="money">
+                <text class="cm-sm">￥</text>
+                <text class="cm-big">{{item.money}}</text>
+              </view>
+              <view class="line">{{item.use_scope}}</view>
+            </view>
+                
+            </view>
+            </view>
+            <view class="coupon-body">
+                <view class="line line-adt">{{item.name}}</view>
+                <view class="line line-left">满 {{item.condition}} 元使用</view>
+                <view class="use-end">{{item.startTimeFommat}} - {{item.deadTimeFommat}}</view>
+                <view class="use-btn {{typeId!=0?'btn-disable':''}}" data-item='{{item}}' bindtap='useCoupon'>{{typeId==1?'已使用':(typeId==2?'已过期':'立即使用')}}</view>
+            </view>
+        </view>
+    </view>
+    <view class='cou_li_wrap'>
+        <navigator class='cou_li' url='/pages/activity/coupon_list/coupon_list'>领券中心</navigator>
+        <navigator class='cou_li' bindtap='show'>兑换优惠券</navigator>
+    </view>
+    <view class="modal-box" hidden="{{flag}}" >
+        <view class="modal-body">
+            <view class="modal-content">
+                <view class='modal-content-name'>兑换优惠券</view>
+                <input type='text' class='modal-content-input' placeholder='请输入优惠券码' value='{{couponCode}}' bindinput="inputCouponCode"></input>
+                <view class="knowBtn redBtn" bindtap='exchange'>确定</view><view class="knowBtn" bindtap="hide">取消</view>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{!coupons || coupons.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有找到相关的数据</view>
+        <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+    </view>
+</view>

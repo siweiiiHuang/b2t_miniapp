@@ -1,0 +1,193 @@
+<!--cart2.wxml-->
+<form bindsubmit="submitForm">
+<view class="container">
+    <view class="user-mes" bindtap="enterAddressPage">    
+        <view class="location">
+            <block wx:if="{{order.userAddress.province_name}}">
+                <view class="user-contact" >{{order.userAddress.consignee}}{{'　　'}}{{order.userAddress.mobile}}</view>
+            <view class="address">{{order.userAddress.province_name + order.userAddress.city_name + order.userAddress.district_name + (order.userAddress.twon_name?order.userAddress.twon_name:'') + order.userAddress.address}}</view>            
+            </block>            
+            <block wx:else>
+                <view class="user-contact"></view> 
+                <view class="address">请填写收货地址</view>                   
+            </block>        
+            <view class="pos-icon"><image class="wh100" src="../../../images/iconfont-address.png" /></view>
+        </view>
+        <view class="border-img"><image class="wh100" style='display:block' src="../../../images/tt.png" /></view>
+        <view class="update-logistics">
+            <image class="arrow-rigth" src="../../../images/icon-arrowdown.png"></image>
+        </view>
+    </view>
+    <view class="order-meg">
+        <view class="order-detail" wx:for-items="{{order.cartList}}" wx:key="{{index}}">
+            <view class="goods-img">
+            <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=100&height=100"></image>
+            </view>
+            <navigator class="order-cont" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                <view class="goods-name">{{item.goods_name}}</view>
+                <view class="goods-color">{{item.spec_key_name}}</view>
+            </navigator>
+            <view class="order-num">
+                <view class='smj'>￥</view>
+                <view class="co-red">{{item.member_goods_price[0]}}.</view>
+                <view class='smj'>{{item.member_goods_price[1]}}</view>
+                <view class="goods-num">x{{item.goods_num}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="set-mes">
+        <view wx:if="{{order.store_prom}}">
+            <icon type="info" size="16" color="#f23030"/>{{order.store_prom}}
+        </view>
+        
+	
+         <view class="use-item selfsubmit" style='height:310rpx;' wx:if="{{order.cartList[0]['goods']['is_virtual'] !=2}}">
+            <radio-group class="radio-group" bindchange="radioChange">
+                <block wx:for="{{items}}">
+                    <label class="radio" >
+                        <view>
+                        <text>{{item.name}} : </text>        
+                            <radio value="{{index}}" checked="{{item.checked}}"/>
+                        </view>
+                    </label>
+                  <view class="selfsubmit-view"><text>{{item.value}}</text></view>
+                </block>
+            </radio-group>
+        </view>
+
+         <view class="use-item set-item "  wx:if="{{order.cartList[0]['goods']['is_virtual'] !=2 && submit}}">
+            <view>自提时间 : </view>
+            <view catchtap='showdate' style='width:376rpx;'>
+                <text>{{checkTime}}{{submit_datas.submit_text}}</text>                  
+                <image class="arrow-rigth"src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+
+         <view class="use-item set-item " catchtap='getSubmitAddress'   wx:if="{{order.cartList[0]['goods']['is_virtual'] !=2 && submit}}">
+            <view>自提地点 : </view>
+             <text style='padding-right:48rpx'>{{submit_datas.submit_address}}</text>
+        <image class="arrow-rigth"src="../../../images/icon-arrowdown.png"></image>
+
+        </view>
+	
+	
+	<view class="invoice set-item" wx:if="{{order.cartList[0]['goods']['is_virtual'] ==2}}">
+            <view>预约信息</view>
+            <view class="set-btn" bindtap='showBespeakTpl'>
+                <view>填写预约信息</view>
+                <image class="arrow-rigth" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+        <view class="invoice set-item" wx:if="{{order.cartList[0]['goods']['is_virtual'] ==2}}">
+            <view>选择门店</view>
+            <view class="set-btn" bindtap='showShopList'>
+                <view>{{shop_name}}</view>
+                <image class="arrow-rigth" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+	
+	
+	<view class="invoice set-item" bindtap="showInvoice">
+            <view>发票信息：</view>
+            <view class="set-btn">
+                <view>{{text}}</view>
+                <image class="arrow-rigth" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+      
+        <view class="use-item" wx:if="{{order.cartList[0].goods.is_virtual != 2 && userInfo.pay_points != 0 && order.cartList[0].goods.prom_type != 8 }}">
+            <view>使用积分 : </view>
+            <view>{{userInfo.pay_points}}</view>
+            <!-- <input type="number" hidden="true" name="pay_points"  maxlength="20" value="{{available_integral}}" placeholder="可用积分为:{{userInfo.pay_points || 0}}" /> -->
+            <view class="fr user_pay_points">
+                <switch  bindchange="user_pay_points" />
+            </view>
+            <!-- <button class="use-btn" form-type="submit">使用</button> -->
+        </view>
+
+    </view>
+    <view class="coupon-mes">
+        <view class="coupon-title" bindtap="useCoupon" wx:if='{{order.cartList[0].goods.prom_type != 8}}'>
+            <view class="classname">
+                <view class="">优惠券</view>
+                <view class="coupon-num">{{order.userCouponNum.usable_num}}张可用</view>
+            </view>
+            <view class="set-btn">
+                <view style='margin-right:36rpx'>{{coupon ? coupon.coupon.name : '未使用'}}</view>
+                <image class="arrow-rigth" style='top:0' src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+        <view style='font-size:26rpx'>买家留言（50字）</view>
+        <view class="leave-word">
+            <textarea   name="user_note"  class="word-box" maxlength="50" bindinput="keyUpChangeNum" placeholder='选填：对本次交易的说明...'/>
+            <view class="max-word">{{maxWord}}/50</view>
+        </view>
+    </view>
+    <!-- 价格栏 -->
+    <view class="information">
+        <view class="item" >
+            <view>商品金额</view>
+            <view class="co-red">￥ {{orderPrices.goods_price}}元</view>  
+        </view>
+        <view class="item" wx:if="{{orderPrices.shipping_price > 0}}">
+            <view>配送费用</view>
+            <view class="co-red">￥ {{orderPrices.shipping_price}}元</view>
+        </view>
+        <view class="item" wx:if="{{orderPrices.coupon_price > 0}}">
+            <view>使用优惠券</view>
+            <view class="co-red">- ￥ {{orderPrices.coupon_price}}元</view>  
+        </view>
+        <view class="item" wx:if="{{orderPrices.integral_money > 0}}">
+            <view>使用积分</view>
+            <view class="co-red">- ￥ {{orderPrices.integral_money}}元</view>  
+        </view>
+     
+        <view class="item" wx:if="{{orderPrices.order_prom_amount > 0}}">
+            <view>订单优惠</view>
+            <view class="co-red">- ￥ {{orderPrices.order_prom_amount}}元</view>  
+        </view>
+    </view>
+    <view class="btn-wrap">  
+        <button form-type="submit" class="tips-btn" id='submitOrder'>提交订单</button>
+        <view class="pay-amount">
+            <view class="payable">应付金额 : </view>
+            <view class="co-red">￥ {{orderPrices.order_amount}}元</view>  
+        </view>
+    </view>
+</view>
+</form>
+
+
+
+<!-- 日期 -->
+<modal catchtouchmove='catchtouchmove'  class="modal" hidden="{{flag}}"  no-cancel bindconfirm="getTime" confirmText="确定">
+    <view class="modal-content">
+        <view class="time_screens" >
+        <view style="text-align:center;color:#45BCE8">{{year}}-{{month}}-{{day}} {{hour}}:{{minute}}</view>
+        <view style="border-top:1px solid #45BCE8;height:25px;font-size:14px;">
+        <view class="time-title">年</view>
+        <view class="time-title">月</view>
+        <view class="time-title">日</view>
+        <view class="time-title">时</view>
+        <view class="time-title">分</view>
+        </view>
+            <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+                <picker-view-column class="picker-text">
+                <view wx:for="{{years}}" style="line-height: 50px">{{item}}</view>
+                </picker-view-column>
+                <picker-view-column class="picker-text">
+                <view wx:for="{{months}}" style="line-height: 50px">{{item}}</view>
+                </picker-view-column>
+                <picker-view-column class="picker-text">
+                <view wx:for="{{days}}" style="line-height: 50px">{{item}}</view>
+                </picker-view-column>
+                <picker-view-column class="picker-text">
+                <view wx:for="{{hours}}" style="line-height: 50px">{{item}}</view>
+                </picker-view-column>
+                <picker-view-column class="picker-text">
+                <view wx:for="{{minutes}}" style="line-height: 50px">{{item}}</view>
+                </picker-view-column>
+            </picker-view>
+        </view>
+        </view>
+    </modal >

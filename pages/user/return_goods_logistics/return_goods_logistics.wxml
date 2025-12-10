@@ -1,0 +1,26 @@
+<form bindsubmit="formSubmit">
+<view class="set-mes">          
+        <view class="invoice-remarks" style="display:{{invoiceToggle?'none':'flex'}}">
+            <view class="">快递公司 : </view>                 
+             <input type="text" name="express_name" placeholder=""/>                   
+        </view>
+        <view class="invoice-remarks" >
+            <view class="">快递用费 : </view> <input type="text" name='express_fee'  placeholder=""/>
+        </view>
+        <view class="invoice-remarks" >
+            <view class="">快递单号: </view> <input type="text" name='express_sn'  placeholder=""/>
+        </view>
+         <view class="invoice-remarks" >          
+            <view class="">发货时间 : </view>  
+            <picker mode="date" value="{{date}}" start="2018-01-01" end="2030-01-01" bindchange="bindDateChange">
+            <view class="picker">
+            <input type="text" name='express_time' disabled  value="{{date}}"  />   
+  </view>
+  </picker>             
+        </view>    
+           <view class="invoice-remarks" >
+            <view class="invoice-text">温馨提示：购买15日内商品因质量问题、包装损坏、缺少附件等原因办理退换货产生的运费，以余额的方式补偿                </view> 
+        </view>                           
+    </view>
+    <button class="use-btn" formType="submit">确定</button>
+</form>

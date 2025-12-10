@@ -1,0 +1,387 @@
+.container{
+    flex-direction: row;
+}
+.nav{
+    width: 20%;
+    height:100%;
+    font-size: 28rpx;
+    text-align: center;
+    box-sizing: border-box;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-bottom:134rpx;
+    background-color:white;
+}
+.adver-image{
+    width:100%;
+    height:180rpx;
+    display:inline-block;
+    overflow:hidden;
+}
+.nav-item{
+    word-break: keep-all;
+    overflow: hidden;
+    padding: 25rpx 10rpx;
+    border-bottom: 1rpx #e5e5e5 solid;
+    background-color: white;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    color: #666666;
+}
+.nav-item-on{
+    color: #000000;
+    position: relative;
+    font-weight: bold;
+    background-color: #f2f2f2;
+}
+.nav-item-on::before{
+  content: '';
+  width: 6rpx;
+  height: 40rpx;
+  background-color: #ff3333;
+  position: absolute;
+  top: 23rpx;
+  left: 0rpx;
+}
+.content{
+    width: 80%;
+    height:100%;
+    font-size: 28rpx;
+    padding: 0 15rpx;
+    box-sizing: border-box;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow-x: hidden;
+}
+.content-box:last-of-type{
+    margin-bottom:134rpx;
+}
+nav-item:last-of-type{
+    margin-bottom:134rpx;
+}
+.content-name{
+    margin: 30rpx 0 20rpx;
+    padding-left: 10rpx;
+}
+.content-items{
+    background-color: white;
+    padding: 10rpx 20rpx;
+    box-sizing: border-box;
+    width: 100%;
+}
+.content-item{
+    width: 33.333333%;
+    box-sizing: border-box;
+    padding: 10rpx;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-align: center;
+}
+.item-image{
+    width: 100rpx;
+    height: 100rpx;
+}
+.item-name{
+    padding: 10rpx 0;
+    font-size: 24rpx;
+    color: #666666;
+    background-color:white;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width: 160rpx;
+    overflow: hidden;
+}
+
+
+/** 二级分类 **/
+
+.two-content{
+  width:80%;
+  height:100%;
+  font-size:28rpx;
+  box-sizing:border-box;
+  display:inline-block;
+  position:fixed;
+  top:0;
+  bottom:0;
+  right:0;
+  overflow-x:hidden;
+  padding-bottom:133px;
+}
+
+.t-list{
+  width: 187rpx;
+  height: 234rpx;
+  margin-top: 12rpx;
+  float: left;
+  margin-left: 8rpx;
+  text-align: center;
+}
+.t-list image{
+  width: 187rpx;
+  height: 187rpx;
+}
+.t-list text{
+  height: 47rpx;
+  font-size: 28rpx;
+  line-height: 47rpx;
+  font-weight: 600;
+}
+
+/** 一级分类 **/
+
+.one-content{
+  width:80%;
+  height:100%;
+  font-size:28rpx;
+  box-sizing:border-box;
+  display:inline-block;
+  position:fixed;
+  top:0;
+  bottom:0;
+  right:0;
+  overflow-x:hidden;
+  padding-bottom: 120rpx;
+}
+.cmd-list{
+  background-color:white;
+  padding:8px;
+  height: 160rpx;
+  width: 570rpx;
+  overflow: hidden;
+  margin-left:5px;
+  margin-bottom:5px;
+}
+.cmd-img{
+  width: 143rpx;
+  height: 143rpx;
+  margin: 9rpx;
+  float: left;
+  background-color: skyblue;
+}
+.cmd-img image{
+  width: 100%;
+  height: 100%;
+}
+.cmd-title {
+    width: 358rpx;
+}
+.cmd-comm {
+    float: left;
+}
+.str-product{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 24rpx;
+    overflow: hidden;
+    line-height: 30rpx;
+    padding: 12rpx 0 0 14rpx;
+    width: 375rpx;
+    height: 60rpx;
+}
+.str-prices {
+    color: #f23030;
+    font-size: 28rpx;
+    font-weight: bold;
+    margin: 7rpx 0 0 10rpx;
+}
+.str-evaluate {
+    font-size: 26rpx;
+    color: #999;
+    padding-left: 9rpx;
+    float: left;
+    width: 100%;
+}
+.fg{
+    height: 42rpx;
+    line-height: 42rpx;
+    display: inline-block;
+    padding-top: 5rpx;
+    width: 156rpx;
+    float: left;
+    font-size: 24rpx;
+}
+.add-cart{
+    display: inline-block;
+    width: 43rpx;
+    height: 43rpx;
+    border: 1rpx solid #f23030;
+    text-align: center;
+    border-radius: 50%;
+}
+.add-cart image{
+  margin-top: 4rpx;
+  width: 34rpx;
+  height: 34rpx;
+}
+
+
+
+
+/* 规格弹框 */
+.spec-model{
+    position: fixed;
+    bottom: 0;
+    background: white;
+    width: 100%;
+    padding: 0 30rpx;
+    font-size: 32rpx;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    z-index:9999;
+}
+
+.spec-goods{
+    padding: 15rpx 0 30rpx;
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.spec-goods-info{
+    float: left;
+    padding: 0 25rpx; 
+    width: 490rpx;
+}
+.spec-goods-name{
+    font-size: 30rpx;
+    line-height: 35rpx;
+    height: 70rpx;
+    margin: 15rpx 20rpx 25rpx 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.spec-goods-price{
+    color: #ec5151;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+.spec-goods-stock{
+    margin-top: 10rpx;
+    font-size: 26rpx;
+    color: #999999;
+}
+.spec-img{
+    float: left;
+    height: 150rpx;
+    width: 150rpx;
+    margin-top:16rpx;
+}
+.spec-goods-info{
+    float: left;
+    padding: 0 25rpx; 
+    width: 490rpx;
+}
+.spec-goods-name{
+    font-size: 30rpx;
+    line-height: 35rpx;
+    height: 70rpx;
+    margin: 15rpx 20rpx 25rpx 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.spec-goods-price{
+    color: #ec5151;
+    font-size: 30rpx;
+    font-weight: bold;
+}
+.spec-goods-stock{
+    margin-top: 10rpx;
+    font-size: 26rpx;
+    color: #999999;
+}
+.spec-name{
+    clear: both;
+    padding: 20rpx 0;
+    font-size: 30rpx;
+}
+.count{
+    float: left;
+    width: 184rpx;
+    height: 50rpx;
+    border: 1rpx solid #f8f8f8;
+    font-size: 28rpx;
+}
+.count>view,.count>input{
+    float: left;
+    width: 60rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    text-align: center;
+}
+.sub{
+    border-right: 1px solid #ddd;
+}
+.add{
+    border-left: 1px solid #ddd;
+}
+.spec-btn{
+    color: black;
+    background-color: white;
+    padding: 10rpx 10rpx;
+    font-size: 26rpx;
+    line-height: 28rpx;
+    float: left;
+    border: 1rpx solid #dedede;
+    margin: 4rpx 10rpx 4rpx 0;
+    border-radius: 4rpx;
+}
+.spec-btn-click{
+    color: white;
+    background-color: #f23030;
+    border: 1rpx solid #f23030;
+}
+.spec-cart-btns{
+    background-color: #f8f8f8;
+    margin:40rpx -30rpx 0;
+    padding: 20rpx 34rpx;
+    float: left;
+    width: 100%;
+    line-height: 80rpx;
+}
+.spec-cart-btn{
+    float: left;
+    width: 324rpx;
+    font-size: 30rpx;
+    text-align: center;
+    color: white;
+    border-radius: 4rpx;
+}
+.spec-buy{
+    background-color: #f23030;
+    margin-left: 34rpx;
+}
+.spec-cart-btn-lg{
+    width: 614rpx;
+}
+.spec-cart-disable{
+    background: #bbbbbb;
+}
+.spec-add-cart{
+    background-color: #ffb03f;
+}
+.cover-layer{
+    z-index:999;
+}
+
+.prom-info{
+    margin: 10rpx 0;
+    color: #f23030;
+}
+.prom-info>.prom-type{
+    color: white;
+    background-color: #f23030;
+    margin-right: 14rpx;
+    padding: 2rpx 8rpx;
+    border-radius: 4rpx;
+}

@@ -1,0 +1,120 @@
+<!-- 账户信息开始 -->
+<view class='account_info'>
+  <image src='../../images/account_bg@2x.png' class='account_info_bg'></image>
+  <view class='account_info_data clearfix wrap'>
+    <view class='account_info_list'>
+      <view class='account_info_number'>18500.00</view>
+      <view class='account_info_content'>可用余额</view>
+    </view>
+    <view class='account_info_list'>
+      <view class='account_info_number'>4275.00</view>
+      <view class='account_info_content'>可提现</view>
+    </view>
+    <view class='account_info_list'>
+      <view class='account_info_number'>2000.00</view>
+      <view class='account_info_content'>提现中</view>
+    </view>
+    <view class='account_info_list'>
+      <view class='account_info_number'>276300.00</view>
+      <view class='account_info_content'>累计充值</view>
+    </view>
+    <view class='account_info_list'>
+      <view class='account_info_number'>19800.00</view>
+      <view class='account_info_content'>累计提现</view>
+    </view>
+    <view class='account_info_list'>
+      <view class='account_info_number'>50.00</view>
+      <view class='account_info_content'>冻结余额</view>
+    </view>
+  </view>
+  <view class='module clearfix wrap'>
+    <view class='module_content'><image src='../../images/cashout@2x.png' class='module_icon'></image>申请提现</view>
+    <view class='module_content'><image src='../../images/invest@2x.png' class='module_icon'></image>账户充值</view>
+    <view class='module_content'><image src='../../images/diamond@2x.png' class='module_icon' style='width:31rpx;height:28rpx'></image>VIP充值</view>
+  </view>
+</view>
+<!-- 账户信息结束 -->
+<!-- tab详细信息开始 -->
+<view class='account_detail'>
+  <view class='detail_tab clearfix'>
+    <view class="detail_tab_list {{currentTab1==0?'active':''}}" data-current="0" bindtap="clickTab1">余额明细</view>
+    <view class="detail_tab_list {{currentTab1==1?'active':''}}" data-current="1" bindtap="clickTab1">充值记录</view>
+    <view class="detail_tab_list {{currentTab1==2?'active':''}}" data-current="2" bindtap="clickTab1">提现记录</view>
+  </view>
+  <view class="detail_content wrap {{currentTab1 == 0 ? 'show':'hidden'}}">
+    <view class='detail_content_tab clearfix'>
+      <view class="detail_content_tab_list {{currentTab2==0?'active':''}}" data-current="0" bindtap="clickTab2">全部</view>
+      <view class="detail_content_tab_list {{currentTab2==1?'active':''}}" data-current="1" bindtap="clickTab2">赚取</view>
+      <view class="detail_content_tab_list {{currentTab2==2?'active':''}}" data-current="2" bindtap="clickTab2">消费</view>
+    </view>
+    <view class="income_content {{currentTab2 == 0 ? 'show':'hidden'}}">
+      <view class='income_content_list'>
+        <view class='left'>
+          <view class='order_number'>单号：201812251234567</view>
+          <view class='order_time'>2018-12-25 12:07:36</view>
+        </view>
+        <view class='right'>
+          <view class='price'>-¥30.00</view>
+          <view class='description'>描述：下单消费</view>
+        </view>
+      </view>
+      <view class='income_content_list'>
+        <view class='left'>
+          <view class='order_number'>单号：201812251234567</view>
+          <view class='order_time'>2018-12-25 12:07:36</view>
+        </view>
+        <view class='right'>
+          <view class='price'>+¥84.28</view>
+          <view class='description'>描述：用户退款订单</view>
+        </view>
+      </view>
+      <view class='income_content_list'>
+        <view class='left'>
+          <view class='order_number'>单号：201812251234567</view>
+          <view class='order_time'>2018-12-25 12:07:36</view>
+        </view>
+        <view class='right'>
+          <view class='price'>-¥30.00</view>
+          <view class='description'>描述：下单消费</view>
+        </view>
+      </view>
+    </view>
+     <view class="income_content {{currentTab2 == 1 ? 'show':'hidden'}}">
+      <view class='income_content_list'>
+        <view class='left'>
+          <view class='order_number'>单号：201812251234567</view>
+          <view class='order_time'>2018-12-25 12:07:36</view>
+        </view>
+        <view class='right'>
+          <view class='price'>+¥84.28</view>
+          <view class='description'>描述：用户退款订单</view>
+        </view>
+      </view>
+    </view>
+     <view class="income_content {{currentTab2 == 2 ? 'show':'hidden'}}">
+      <view class='income_content_list'>
+        <view class='left'>
+          <view class='order_number'>单号：201812251234567</view>
+          <view class='order_time'>2018-12-25 12:07:36</view>
+        </view>
+        <view class='right'>
+          <view class='price'>-¥30.00</view>
+          <view class='description'>描述：下单消费</view>
+        </view>
+      </view>
+      <view class='income_content_list'>
+        <view class='left'>
+          <view class='order_number'>单号：201812251234567</view>
+          <view class='order_time'>2018-12-25 12:07:36</view>
+        </view>
+        <view class='right'>
+          <view class='price'>-¥30.00</view>
+          <view class='description'>描述：下单消费</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="detail_content wrap {{currentTab1 == 0 ? 'show':'hidden'}}"></view>
+  <view class="detail_content wrap {{currentTab1 == 0 ? 'show':'hidden'}}"></view>
+</view>
+<!-- tab详细信息结束 -->

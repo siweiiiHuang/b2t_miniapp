@@ -1,0 +1,226 @@
+/* coupon.wxss */
+page{
+  background-color: #ffffff;
+}
+.type-navbar{
+    white-space: nowrap;
+    display: flex;
+    width: 100%;
+    height:80rpx;
+    background-color: #fff;
+    margin-bottom:30rpx;
+    border-top: 1rpx solid #e3e3e3;
+    border-bottom: 1rpx solid #e3e3e3;
+}
+.ellipsis-2{
+  text-align: center;
+}
+.type-box{
+    width:33.3333333333%;
+    box-sizing: border-box;
+    font-size: 28rpx;
+    line-height: 76rpx;
+    padding: 0 70rpx;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+.type-navbar-item{
+    border-bottom: 4rpx solid #fff;
+}
+.type-item-on{
+    border-bottom: 4rpx solid #ff4139;
+    color: #ff4139;
+}
+.coupon-box{
+    box-sizing: border-box;
+    width: 690rpx;
+    float: left;
+    font-size: 25rpx;
+    height: 172rpx;
+    margin: 0 30rpx;
+    margin-top:27rpx;
+    border:1rpx solid #ececec;
+    overflow: hidden;
+    height: 182rpx;
+}
+.coupon-head{
+    color: white;
+    border-image:none 100% 0 5 repeat;
+    width: 250rpx;
+    height: 174rpx;
+    float: left;
+    position: relative;
+}
+.h-pak{
+  position: absolute;
+  top: 0;
+  width:100%;
+}
+.coupon-money{
+    font-weight: bold;
+    overflow:hidden;
+    text-align:center;
+    width: 250rpx;
+    height: 174rpx;
+    position: relative;
+}
+.money{
+    font-size: 56rpx;
+    padding-top: 42rpx;
+    width: 250rpx;
+    height: 80rpx;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cm-sm{
+  font-size: 30rpx;
+}
+
+.coupon-body{
+    background-color:white;
+    padding:28rpx 0rpx 10rpx 25rpx;
+    color:#999999;
+    width:424rpx;
+    float:right;
+    box-sizing:border-box;
+    border-left: none;
+}
+.use-btn{
+    color: #ff3030;
+    border: 2rpx solid #ff3030;
+    padding: 6rpx 12rpx;
+    border-radius: 35rpx;
+    width: fit-content;
+    float:right;
+    margin-top:20rpx;
+    margin-right: 15rpx;
+}
+.use-end{
+    color:#333;
+    background-color:#f8f8f8;
+    font-size: 22rpx;
+    display:inline-block;
+    float:left;
+    margin-top:30rpx;
+}
+.line{
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 32rpx;
+    text-align: center;
+    font-size:22rpx;
+}
+.line-adt{
+  text-align: left;
+  font-size: 26rpx;
+  color: #1e1e1e;
+}
+.btn-disable{
+    color: #999999;
+    border-color: #999999;
+}
+.cou_li_wrap{
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 999
+}
+.cou_li{
+    width: 374rpx;
+    float: left;
+    text-align: center;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #ff3030;
+    font-size: 28rpx;
+    border: 1rpx solid #BFBFBF;
+    border-bottom: 0;
+}
+.cou_li:first-child{
+    border-left: 0;
+}
+.cou_li:last-child{
+    border-right: 0;
+}
+.cou_li:first-of-type{
+    border-right: 0rpx;
+}
+.coupon-list{
+    margin-bottom: 80rpx;
+}
+.modal-box{
+  position:fixed;
+  width:100%;
+  height:100%;
+  z-index: 997;
+  top:0;
+  background:rgba(0,0,0,0.4);
+  overflow: hidden;
+  }
+
+.modal-body{
+  position:relative;
+  }
+
+.modal-content{
+  /* width: 60%; */
+  margin:400rpx auto;
+  overflow: hidden;
+  border-radius: 10rpx;
+  }
+
+.modal-content{
+  width: 60%;
+  height:250rpx; 
+  background-color:#fff; 
+}
+.modal-content-name{
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    font-size: 26rpx;
+    border-bottom: 1rpx solid #ccc;
+}
+.modal-content-input{
+    text-align: center;
+   height:85rpx;
+    line-height:85rpx;
+    font-size:26rpx;
+}
+.modal-content .fenxiang{
+  width: 100%;
+  height: 40%;
+}
+.modal-content .knowBtn{
+    width:224rpx;
+    border:transparent;
+    float:left;
+    text-align: center;
+    font-size: 30rpx;
+    height: 85rpx;
+    line-height: 85rpx;
+    border-top: 1rpx solid #ccc;
+    border-right:1rpx solid #ccc;
+    cursor: pointer;  
+}
+.modal-content .redBtn{
+    background-color: #e64340;
+    color: #fff;
+}
+.modal-content .knowBtn:last-of-type{
+    border-right: 0rpx;
+}
+.line-left{
+  text-align: left;
+  color: #1e1e1e;
+  font-size: 22rpx;
+}

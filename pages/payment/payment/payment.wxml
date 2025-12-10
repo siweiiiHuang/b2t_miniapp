@@ -1,0 +1,35 @@
+<!--payment.wxml-->
+<view  wx:if="{{order.take_time}}">
+    <view class="booksucce_tips">
+        预约成功
+    </view>
+    <view class="booksucce_info">
+       {{order.goods_name}}
+    </view>
+    <view class="booksucce_info" style='font-size:12pt'>
+        请按时到店，凭券码确认订单消费
+    </view>
+    <view class="booksucce_time">
+      <view>预约时间</view>
+      <view>{{order.take_time}}</view>
+    </view>
+    <view class="view_bookinfo" bindtap='beSpeakOrder'>查看预约订单</view>
+    
+</view>
+
+<view class="panel" wx:else>
+    <view class="order-ico">
+        <image class="wh100" src="../../../images/sbzf.png"></image>
+    </view>
+    <view class="pay-way">
+        <view class="co-red">¥{{order.order_amount}}</view>
+    </view>
+    <view class='pay-way pay-hway'>订单支付成功</view>
+    <view class="pay-way">
+       订单编号 : <view class="co-red cr-h">{{order.order_sn}}</view>
+    </view>
+    <view class="detail-btn" wx:if="{{order.order_type != 6}}" bindtap='lookOrder'>查看订单</view>
+    <view class="detail-btn" wx:if="{{order.order_type == 6}}"  bindtap='lookOrder'>查看拼单</view>
+    <view class="tips">注意事项：商城平台及销售商不会以订单异常、系统升级为由
+  <view class='line-feed'>要求您点击任何网址链接进行退款操作</view></view>
+</view>

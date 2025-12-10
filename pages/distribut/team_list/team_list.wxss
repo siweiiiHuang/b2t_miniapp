@@ -1,0 +1,109 @@
+.clearfix:after{
+  content: '.';
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  clear: both;
+}
+.wrap {
+  width: 100%;
+  padding: 0 20rpx;
+  box-sizing: border-box
+}
+page {
+  background-color: #fff;
+}
+.show {
+  display: block;
+}
+.hidden {
+  display: none;
+}
+.team_info .team_tab .team_tab_list {
+  float: left;
+  height: 88rpx;
+  font-size: 30rpx;
+  color: #666;
+  line-height: 88rpx;
+  text-align: center;
+  width: 33.3333%;
+  box-sizing: border-box;
+  background-color: #eee;
+}
+.team_info .team_tab .team_tab_list.active {
+  color: #f6c70c;
+  background-color: #404040;
+  font-weight: bold;
+}
+.team_info .prompt {
+  height: 70rpx;
+  padding-left: 96rpx;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 70rpx;
+  background-color: #f9f2d8;
+  overflow: hidden;
+  position: relative;
+}
+.team_info .prompt image {
+  position: absolute;
+  left: 54rpx;
+  top: 0;
+  width: 26rpx;
+  height: 24rpx;
+  margin-top: 20rpx
+}
+.team_info .team_details .team_details_list{
+  height: 140rpx;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding-top: 30rpx;
+  padding-bottom: 25rpx;
+}
+.team_info .team_details .team_details_list .header_image {
+  float: left;
+  height: 80rpx;
+  width: 80rpx;
+  border-radius: 50%;
+}
+.team_info .team_details .team_details_list .user_info {
+  float: left;
+  margin-left: 30rpx;
+}
+.team_info .team_details .team_details_list .user_info .user_name {
+  display: block;
+  color: #1a1a1a;
+  font-size: 28rpx;
+  height: 38rpx;
+  position: relative;
+}
+.team_info .team_details .team_details_list .user_info .user_name image {
+  position: absolute;
+  height: 26rpx;
+  width: 24rpx;
+  margin-left: 8rpx;
+  margin-top: 7rpx
+}
+.team_info .team_details .team_details_list .user_info .join_time {
+  margin-top: 5rpx;
+  color: #666;
+  font-size: 22rpx;
+}
+.team_info .team_details .team_details_list .user_data {
+  float: right;
+}
+.team_info .team_details .team_details_list .user_data .consume {
+  color: #1a1a1a;
+  font-size: 24rpx;
+}
+.team_info .team_details .team_details_list .user_data .consume text {
+  font-weight: bold;
+  color: #FF3535;
+}
+.team_info .team_details .team_details_list .user_data .number {
+  display: block;
+  color: #666;
+  font-size: 22rpx;
+  margin-top: 5rpx;
+  text-align: right;
+}

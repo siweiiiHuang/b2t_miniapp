@@ -1,0 +1,315 @@
+<!--order_detail.wxml-->
+<view class="container">
+  <block wx:if="{{order.shop_id > 1}}">
+    <view class="user-mes">
+      <view class="user-contact submit_header">
+        <view class="submit_waitsubmit_text">
+          <image src='../../../images/z-dengziti.png'></image>{{order.order_status_detail!=null?order.order_status_detail:'待自提'}}</view>
+        <view catchtap='submit_phone' class='submit_phone' data-phone="{{order.shop.shop_phone}}">
+          <image src='../../../images/z-iphone.png'></image>联系自提点</view>
+        <view class='widthcode' catchtap='showModel'>
+          <image src='../../../images/z-tihuoma.png'></image>
+          <text>点击查看</text>
+        </view>
+      </view>
+
+      <view class="single_process">
+        <view class='step-tit'>
+          <text>买家下单</text>
+          <text>支付成功</text>
+          <text class="{{((order.shop_id == 0 && order.shipping_time == 0) || order.shop_order.is_write_off == 1)?'':'submit_text'}}">上门自提</text>
+          <text class="{{order.confirm_time > 0?'':'submit_text'}}">交易完成</text>
+        </view>
+        <view class='step-icon'>
+          <view class='cur-step' style='left:0;'>
+            <image src='../../../images/z-chengs.png'></image>
+          </view>
+          <view style='left:160rpx;' class="{{order.pay_status == 1?'cur-step':''}}">
+            <image wx:if="{{order.pay_status == 1}}" src='../../../images/z-chengs.png'></image>
+          </view>
+          <view style='left:340rpx;' class="{{ order.shop_order.is_write_off == 1?'cur-step':''}}">
+            <image wx:if="{{  order.shop_order.is_write_off == 1}}" src='../../../images/z-chengs.png'></image>
+          </view>
+          <view style='left:520rpx;' class="{{order.confirm_time > 0 && submit_comment_status == 1?'cur-step':''}}">
+            <image wx:if="{{order.confirm_time > 0}}" src='../../../images/z-chengs.png'></image>
+          </view>
+        </view>
+      </view>
+
+
+      <view class="user-contact submit_header" style="margin-top:20rpx;">
+        <view>自提时间</view>
+        <view class="submit_text">{{order.shop_order.take_time}}{{}}</view>
+      </view>
+      <view class="user-contact submit_header">
+        <view>自提地点</view>
+        <view class="submit_text">{{order.shop.shop_name}}</view>
+      </view>
+      <view class="user-contact submit_header">
+        <view>提货人</view>
+        <view class="submit_text">{{order.consignee}}{{' '}}{{order.mobile}}</view>
+      </view>
+      <view class="border-img">
+        <image class="wh100" src="../../../images/tt.png" />
+      </view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <!-- <view wx:if="{{optionIsGoup || order.pay_status!=0}}" class="user-mes">
+                <view class="user-contact">
+                {{order.consignee}}{{'　　'}}{{order.mobile}}
+                </view>
+                <view class="location">
+                    <view class="address" wx:if="{{order.prom_type!=5}}">{{order.address_region}}</view>
+                    <view class="pos-icon" wx:if="{{order.prom_type!=5}}"><image class="wh100" src="../../../images/iconfont-shouhuodizhi.png" /></view>
+                </view>
+                <view class="border-img"><image class="wh100" src="../../../images/tt.png" /></view>
+            </view> -->
+  </block>
+
+
+
+
+  <view class="order-meg">
+    <!-- <view class="order-state">{{order.order_status_detail!=null?order.order_status_detail:''}}</view> -->
+    <view class="order-detail" wx:for="{{order.order_goods}}" wx:key="{{index}}">
+      <view class="goods-img">
+        <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=100&height=100"></image>
+      </view>
+      <navigator class="order-cont" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}" open-type="navigate">
+        <view class="goods-name">{{item.goods_name}}</view>
+        <view class="goods-color">{{item.spec_key_name?item.spec_key_name:''}}</view>
+      </navigator>
+      <view class="order-num">
+        <view class="goods-price">￥{{item.member_goods_price}}</view>
+        <view class="goods-num">x{{item.goods_num}}</view>
+      </view>
+      <view class='tk_btn'>
+        <view wx:if="{{order.return_btn == 1 && item.return_goods==null && order.prom_type!=5}}" class='tk_btn_on' bindtap='applySale' data-recid='{{item.rec_id}}'>申请售后</view>
+        <view wx:if="{{item.return_goods!=null}}" class='tk_btn_on' bindtap='checkReturn' data-returnid='{{item.return_goods.id}}'>查看退款</view>
+        <view wx:if="{{order.comment_btn == 1 && item.is_comment == 0}}" class='tk_btn_on' bindtap='commentGoods'>去评论</view>
+      </view>
+    </view>
+    <view class="order-operate">
+      <!-- <view wx:if="{{optionIsGoup}}" class="contact-us check-btn" bindtap='checkTeam'>查看拼团详情</view>
+            //<view class="contact-us goods-btn" bindtap='contactService'>联系客服</view>
+                      <navigator class="cancel-order goods-btn" wx:if="{{order.prom_type == 5&&order.cancel_btn==2&&order.pay_status==1}}" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}&prom_type=5" >取消订单</navigator>
+            <view class="cancel-order goods-btn" wx:else hidden="{{!(order.cancel_btn==1&&order.pay_status==0)}}" bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
+            <navigator hidden="{{!(order.cancel_btn==1&&order.pay_status==1)}}" class="cancel-order goods-btn" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}">取消订单</navigator>
+             <navigator class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.prom_type !==6}}" url="/pages/order/cancel_order_info/cancel_order_info?order_id={{order.order_id}}" >取消进度</navigator> -->
+      <view wx:if="{{optionIsGoup && order.order_status !==3 && order.order_status !==4}}" class="contact-us check-btn" bindtap='checkTeam'>查看拼团详情</view>
+      <navigator class="cancel-order goods-btn" wx:if="{{order.prom_type == 5&&order.cancel_btn==2&&order.pay_status==1}}" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}&prom_type=5">取消订单</navigator>
+
+      
+      <navigator wx:if="{{order.cancel_btn==1 && order.pay_status==1 }}" class="cancel-order goods-btn" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}">取消订单</navigator>
+       <view class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.order_status==0 && order.pay_status==0}}" bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
+      <navigator class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.order_status ==3 && order.pay_status!==0}}" url="/pages/order/cancel_order_info/cancel_order_info?order_id={{order.order_id}}">取消进度</navigator>
+
+
+
+    </view>
+  </view>
+  <view class="basic-information information">
+    <view class="title">基本信息</view>
+    <view class="item">
+      <view>订单编号</view>
+      <view>{{order.order_sn}}</view>
+    </view>
+    <view class="item">
+      <view>下单时间</view>
+      <view>{{order.addTimeFormat}}</view>
+    </view>
+    <view class="item" wx:if="{{!optionIsGoup && order.prom_type!=5}}">
+      <view>收货地址</view>
+      <view class="delivery-address" wx:if="{{order.shop_id > 0}}">{{order.address_region}}{{order.shop.shop_address}}</view>
+      <view class="delivery-address" wx:else>{{order.address_region}}{{order.address}}</view>
+    </view>
+    <view class="item" wx:if="{{!optionIsGoup && order.prom_type!=5}}">
+      <view>收货人</view>
+      <view>{{order.consignee}}{{'　　'}}{{order.mobile}}</view>
+    </view>
+    <view class="item">
+      <view>支付方式</view>
+      <view>{{order.user_money > 0 ?'余额支付':(order.pay_name && order.pay_name != '' ? order.pay_name:'无')}}</view>
+    </view>
+    <view class="item" wx:if="{{order.prom_type!=5}}">
+      <view>配送方式</view>
+      <view>{{ order.shop_id > 0 ? '上门自提' : (order.shipping_name != '' ? order.shipping_name:'无')}}</view>
+    </view>
+    <!-- <view class="item">
+            <view>发票抬头</view>
+            <view class="leave-word">{{order.invoice_title?order.invoice_title:'无'}}</view>  
+        </view>
+         <view class="item">
+            <view>纳税人识别号</view>
+            <view class="leave-word">{{order.taxpayer?order.taxpayer:'无'}}</view>  
+        </view> -->
+    <view class="item it-lc">
+      <view class='lw-title'>买家留言</view>
+      <!-- <view class="leave-word">{{user_note != '' ? user_note:'无'}}</view>  -->
+    </view>
+    <textarea class='leave-word' placeholder="请输入内容" />
+    <view class="item" wx:if="{{order.prom_type == 5}}">
+      <view class='item-l'>接收手机</view>
+      <view class="item-r">{{order.mobile}}</view>
+    </view>
+
+    <block wx:if="{{order.prom_type == 4}}">
+      <view class='item' wx:if="{{order.pre_sell.pay_end_time !=0&&order.pre_sell.is_finished==2&&order.pay_status!=1&&(currentTime>order.pre_sell.pay_end_time)}}">
+        <view>订单关闭</view>
+        <view class="leave-word">已过尾款支付时间</view>
+      </view>
+      <view class='item' wx:if="{{order.pre_sell.is_finished==3}}">
+        <view>订单关闭</view>
+        <view class="leave-word">商家取消活动,返还订金</view>
+      </view>
+    </block>
+
+    <block wx:for="{{order.vrorders_code}}">
+      <view class="item">
+        <view class='item-l'>电子兑换码</view>
+        <view class='item-r' style="color:red;">{{item.vr_code}}</view>
+      </view>
+      <view class="item" wx:if="{{order.prom_type == 5 && order.vrorders_code.length > 0}}">
+        <view class='item-l'>兑换码状态</view>
+        <view class="item-r" style="color:red;" wx:if="{{item.vr_state == 1}}">已使用，使用时间{{item.vr_usetime}}</view>
+        <view class="item-r" style="color:red;" wx:if="{{item.vr_state == 2}}"> 已过期，有效期至{{item.vr_indate}}</view>
+        <view class="item-r" style="color:red;" wx:if="{{item.vr_state == 0 && item.refund_lock < 1}}">未使用，有效期至{{item.vr_indate}}</view>
+        <view class="item-r" style="color:red;" wx:if="{{item.refund_lock > 0 }}"> 已取消</view>
+      </view>
+    </block>
+  </view>
+  <view class="price-information information" wx:if="{{order.prom_type == 5}}">
+    <view class="title">价格信息</view>
+    <view class="item">
+      <view>订单金额</view>
+      <view>￥ {{order.order_amount}}元</view>
+    </view>
+    <view class="item">
+      <view>实付金额</view>
+      <view class="pay-amount">￥ {{order.order_amount}}元</view>
+    </view>
+  </view>
+
+  <view class="price-information information" wx:if="{{order.prom_type == 4}}">
+    <view class="title">价格信息</view>
+    <block wx:if="{{order.paid_money > 0}}">
+      <view class="item" wx:if="{{order.pay_status == 1}}">
+        <view>已付尾款</view>
+        <view>￥ {{order.order_amount}}元</view>
+      </view>
+      <view class="item">
+        <view>已付订金</view>
+        <view>￥ {{order.paid_money}}元</view>
+      </view>
+
+    </block>
+    <block wx:if="{{order.pay_status==0 && order.pre_sell.deposit_price > 0}}">
+      <view class="item">
+        <view>应付订金</view>
+        <view>￥ {{order.order_amount}}元</view>
+      </view>
+      <view class="item">
+        <view>尾款</view>
+        <view>￥ {{order.total_amount - order.order_amount}}元</view>
+      </view>
+    </block>
+    <view class="item">
+      <view>订单总额</view>
+      <view>￥ {{order.total_amount}}元</view>
+    </view>
+    <view class="item">
+      <view>发货时间描述： {{order.pre_sell.delivery_time_desc}}</view>
+    </view>
+  </view>
+
+  <view class="price-information information" wx:else>
+    <view class="title">价格信息</view>
+    <view class="item">
+      <view>商品总价</view>
+      <view>￥ {{order.total_amount}}元</view>
+    </view>
+    <view class="item">
+      <view>运费</view>
+      <view>￥ {{order.shipping_price}}元</view>
+    </view>
+    <view class="item">
+      <view>优惠券</view>
+      <view>- ￥ {{order.coupon_price}}元</view>
+    </view>
+    <view class="item">
+      <view>积分</view>
+      <view>- ￥ {{order.integral_money}}元</view>
+    </view>
+    <view class="item">
+      <view>余额</view>
+      <view>- ￥ {{order.user_money}}元</view>
+    </view>
+    <view class="item">
+      <view>活动优惠</view>
+      <view>- ￥ {{order.order_prom_amount}}元</view>
+    </view>
+    <view class="item">
+      <view>实付金额</view>
+      <view class="pay-amount">￥ {{order.order_amount}}元</view>
+    </view>
+  </view>
+
+  <view class="btn-wrap">
+    <view hidden="{{!order.pay_btn}}" class="tips-btn" bindtap="jumpToCart4">立即付款</view>
+    <view hidden="{{!order.pay_tail_btn}}" class="tips-btn" bindtap="jumpToCart4">支付尾款</view>
+    <!-- <view class="tips-btn" hidden="{{order.pay_btn}}">{{order.order_status_detail!=null?order.order_status_detail:''}}</view> -->
+    <navigator bindtap="confirmOrder" class="tips-btn" hidden="{{!order.receive_btn}}">收货确认</navigator>
+    <block wx:if="{{order.shipping_name}}">
+      <navigator url="/pages/user/express/express?order_id={{order.order_id}}" hidden="{{!order.shipping_btn}}" class="tips-btn">查看物流</navigator>
+    </block>
+  </view>
+</view>
+
+
+
+
+
+<!-- 自提点弹框 -->
+<modal class="modal" hidden="{{flag}}" no-cancel bindconfirm="closeModel" confirmText="确定">
+  <view class="modal-content">
+    <view class="time_screens">
+      <view style="text-align:center;">自提订单提货凭证</view>
+      <view class="bar-code">
+        <image src="{{url}}/api/order/getOrderBarCode?code={{order.shop_order.bar_code}}"></image>
+      </view>
+      <!-- <view style="text-align:center;">提货码:{{order.shop_order.shop_order_id}}</view>-->
+
+      <view class="view-wxqr" wx:if="{{order.wx_qr != 1}}">
+        <image class="wxqr" src="{{url + order.wx_qr}}"></image>
+      </view>
+      <view class="">
+        <view class="user-contact model-view-padding">
+          <view class="modal-show-text">
+            <text>提货人：</text>
+            <text>{{order.consignee}}</text>
+            <text>{{order.mobile}}</text>
+          </view>
+          <view class="modal-show-text">
+            <text>提货地址：</text>
+            <text>{{order.address_region}}{{order.shop.shop_address}}</text>
+          </view>
+          <view class="modal-show-text">
+            <text>提货时间：</text>
+            <text>{{order.shop_order.take_time}}</text>
+          </view>
+          <view class="modal-show-text">
+            <text>订单编号：</text>
+            <text>{{order.order_sn}}</text>
+          </view>
+          <view class="modal-show-text">
+            <text>实付金额：</text>
+            <text>{{order.order_amount}}元</text>
+          </view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</modal>

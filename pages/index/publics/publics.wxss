@@ -1,0 +1,45 @@
+/* pages/index/publics/publics.wxss */
+
+.tpd-footer{
+    border-top: 1px solid #ddd;
+    height:105rpx;
+    background-color: #fff;
+    overflow: hidden;
+    justify-content:space-around;
+    display:flex;
+}
+.tpd-footer view{
+    float: left;
+    padding-top:10rpx;
+    text-align: center;
+}
+.tpd-footer image{
+    display: block;
+    margin: 0 auto;
+    width: 46rpx;
+    height: 46rpx;
+}
+.tpd-footer text{
+    display: block;
+    height: 48rpx;
+    margin-bottom: 12rpx;
+    font-size: 22rpx;
+    line-height: 48rpx;
+    color: #999;
+}
+.tpd-footer-select text{
+    color: #ff354d;
+}
+.tpd-footer1 view{
+    width: 25%;
+}
+.tpd-footer2 view{
+    width: 20%;
+}
+.pos_fixed{
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999;  
+}

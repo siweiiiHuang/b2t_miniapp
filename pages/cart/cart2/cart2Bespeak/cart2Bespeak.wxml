@@ -1,0 +1,146 @@
+<!--填写预约信息弹窗 s-->
+<view class="pop-prkage-wraps" id="bespeak" style="position: fixed;width: 100%;height: 100%; z-index: 6;top: 0;left: 0; overflow:scroll" >
+    <!-- <view class="z-Package-hrader">
+        <view class="z-Package-icon Package-icon-close" id="bespeak_close"><image src='../../../images/withdraw-left.png'></image></view>
+        填写预约信息
+    </view> -->
+
+    <form  id="bespeak_form" >
+        <view class="bookinfo_con">
+            <view wx:for="{{bespeak_template_unit}}" wx:for-item="template_unit" wx:key="k">
+            <!-- 单文本输入框 -->
+                    <view wx:if="{{template_unit['type'] == 1}}">
+                        <view class="bookinfo_list bookinfo_list_a">
+                          <label>{{template_unit['title']}}<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>
+                            <input type="{{template_unit['format'] == 'mobile' ? 'number' : 'text'}}" bindinput='verInput' data-name="bespeak_form[{{template_unit['template_unit_id']}}]"   placeholder="{{template_unit['placeholder']}}" value="{{input_val[template_unit['template_unit_id']]}}"  data-input_id="{{template_unit['template_unit_id']}}" />
+                        </view>
+                    </view>
+            <!-- 多文本输入框 -->
+                    <view wx:if="{{template_unit['type'] == 2}}">
+                        <view class="bookinfo_list bookinfo_mesg">
+                            <label>{{template_unit['title']}}:<text style="color: #ff3333">{{template_unit['required']==1?"*":""}}</text></label>
+                            <textarea maxlength='255' value="{{input_val[template_unit['template_unit_id']]}}" type="textarea" bindinput='verInput' data-name="bespeak_form[{{template_unit['template_unit_id']}}]" data-title="{{template_unit['title']}}" placeholder="{{template_unit['placeholder']}}" data-input_id="{{template_unit['template_unit_id']}}" auto-height></textarea>
+                            
+                        </view>
+                    </view>
+
+                    <!-- 单选 -->
+                    <view wx:if="{{template_unit['type'] == 3}}">
+                        <view class="bookinfo_list bookinfo_radios">
+                            <label >{{template_unit['title']}}：<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>
+                            
+                            <radio-group class="radio-group" bindchange="verInput" data-name="bespeak_form[{{template_unit['template_unit_id']}}]" data-verify="{{template_unit['required']?'required':''}}{{template_unit['format']?'|':''}}{{template_unit['format']?template_unit[format]:''}}"  >
+                            <label class="radio" wx:for="{{template_unit['value_arr']}}" wx:key="i">
+                                <radio value="{{item}}" checked="{{item.checked}}"  />{{item}}
+                            </label>
+                            </radio-group>
+                        </view>
+                    </view>
+
+                    <!-- 多选 -->
+                    <view wx:if="{{template_unit['type'] == 4}}">
+                        <view class="bookinfo_list bookinfo_checkbox">
+                            <label >{{template_unit['title']}}：<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>
+                            <!-- 渲染已填写的值的checkbox -->
+                            <checkbox-group wx:if="{{checkbox_val[template_unit['template_unit_id']]}}" bindchange="checkBoxChange" data-name="bespeak_form[{{template_unit['template_unit_id']}}]" data-check_id="{{template_unit['template_unit_id']}}" data-index="{{index}}">
+                                <checkbox value="{{item.value}}" wx:for="{{checkbox_val[template_unit['template_unit_id']]}}" wx:key="i" checked='{{item.checked}}'>{{item.name}}</checkbox>
+                            </checkbox-group>
+                            <!-- 渲染未填写的值checkbox -->
+                            <checkbox-group wx:else bindchange="checkBoxChange" data-name="bespeak_form[{{template_unit['template_unit_id']}}]"  data-check_id="{{template_unit['template_unit_id']}}" data-index="{{index}}"> 
+                                <checkbox  value="{{item}}"    wx:for="{{template_unit['value_arr']}}" wx:key="i" >{{item}}</checkbox>
+                            </checkbox-group>
+
+                        </view>
+                    </view>
+
+                    <!-- 下拉框 -->
+                    <view wx:if="{{template_unit['type'] == 5}}">
+                        <view class="bookinfo_list bookinfo_list_select">
+                            <label >{{template_unit['title']}}：<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>
+
+                            <picker bindchange="bindPickerChange" data-value_arr="{{template_unit['value_arr']}}"  data-name="bespeak_form[{{template_unit['template_unit_id']}}]" range="{{template_unit['value_arr']}}" data-picker_id="{{template_unit['template_unit_id']}}" >
+                              <view class="picker" wx:if="{{picker_val[template_unit['template_unit_id']]}}">
+                                {{picker_val[template_unit['template_unit_id']]}}
+                                </view>
+                              <view class="picker" wx:else >
+                                请选择
+                              </view>
+                            </picker>
+
+                            
+                            <i class="bookinfo_list_left"></i>
+                        </view>
+                    </view>
+                    <!-- 上传单图 -->
+                    <view wx:if="{{template_unit['type'] == 6}}">   
+                        <view class="bookinfo_list bookinfo_mesg">
+                            <label class="bookinfo_tp_name" >{{template_unit['title']}}：<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>
+                            <view class="bookinfo_tp " bindtap="uploadImg" data-limit='1' data-name="bespeak_form[{{template_unit['template_unit_id']}}]" data-img_id="{{template_unit['template_unit_id']}}">上传图片 </view>
+                            <view class="bookinfo_list_Ulimg " style="width: auto;min-width: 1.6rem;margin:.3rem 0;">
+                                  <view class='li'  wx:for="{{img_url[template_unit['template_unit_id']]}}" wx:key='i'>
+                                      <image   src="{{url}}{{item}}"></image>
+                                      <view class='span' bindtap='delImg' data-name="bespeak_form[{{template_unit['template_unit_id']}}]" data-img_id="{{template_unit['template_unit_id']}}" data-index="{{index}}">×</view>
+                                  </view>
+                                    
+                            </view>
+                        </view>
+                    </view>
+                   <view wx:if="{{template_unit['type'] == 7}}">
+                        <!--多张图片-->
+                       <view class="bookinfo_list bookinfo_mesg">
+                            <label class="bookinfo_tp_name" >{{template_unit['title']}}：<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>
+                            <view class="bookinfo_tp " bindtap="uploadImg" data-limit='4' data-name="bespeak_form[{{template_unit['template_unit_id']}}]" data-img_id="{{template_unit['template_unit_id']}}" >上传图片 </view>
+                            <view class="bookinfo_list_Ulimg ul_li" style="width: auto;min-width: 1.6rem;margin:.3rem 0;" >
+                                  <view class='img-item' style='width:150rpx; height:150rpx; position: relative' wx:for="{{img_url[template_unit['template_unit_id']]}}" wx:key='i'>
+                                      <image   src="{{url}}{{item}}"></image>
+                                      <view class='span' bindtap='delImg' data-name="bespeak_form[{{template_unit['template_unit_id']}}]"  data-img_id="{{template_unit['template_unit_id']}}" data-index="{{index}}">×</view>
+                                  </view>
+                            </view>
+                        </view>
+                    </view>
+                    <view wx:if="{{template_unit['type'] == 8}}">
+                        <view class="bookinfo_list bookinfo_mesg">
+                            <label class="bookinfo_tp_name" >{{template_unit['title']}}：<text class='i'>{{template_unit['required']==1?"*":""}}</text></label>     
+                            <view ></view>
+                            <view class='time-picker-str' bindtap='openTimePicker' data-name="bespeak_form[{{template_unit['template_unit_id']}}]">选择时间  {{time_str}}</view>
+                        </view>
+                    </view>
+            </view>
+
+
+            <view class='time-picker-mask' bindtap='closeTimePicker' hidden="{{!time_picker}}"></view>
+            <view class='time-picker' hidden="{{!time_picker}}">
+                <view class='time-picker-header'>
+                  <view class='btn-cancel' bindtap='closeTimePicker'>取消</view>
+                  <view>选择日期</view>
+                  <view class='btn-success' bindtap='bindTimePickerData'>确认</view>
+                </view>
+                <view class='time-picker-body'>
+                    <picker-view indicator-style="height: 50px;" value="{{picker_view_value}}" bindchange="TimePickerChange" style="width: 100%; height: 300rpx;"  >
+                      <picker-view-column>
+                        <view wx:for="{{years}}" wx:key="i" style="line-height: 50px">{{item}}年</view>
+                      </picker-view-column>
+                      <picker-view-column>
+                        <view wx:for="{{months}}" wx:key="i" style="line-height: 50px">{{item}}月</view>
+                      </picker-view-column>
+                      <picker-view-column>
+                        <view wx:for="{{days}}" wx:key="i" style="line-height: 50px">{{item}}日</view>
+                      </picker-view-column>
+                      <picker-view-column>
+                        <view wx:for="{{hours}}" wx:key="i" style="line-height: 50px">{{item}}时</view>
+                      </picker-view-column>
+                    </picker-view>
+                </view>
+            </view>
+
+            <view class="Package-footer-btn" style="margin-top: 1.344rem;">
+                <button bindtap='verifyFormData'>确定</button>
+            </view>
+        </view>
+    </form>
+</view>
+<!--填写预约信息弹窗 e-->
+
+
+
+

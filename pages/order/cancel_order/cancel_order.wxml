@@ -1,0 +1,63 @@
+<view  class='container'>
+      <view class='list-block'>
+          <view class='list-ul'>
+              <view class='li'>
+                  <view class='li-title'>订单单号</view>
+                  <view class='li-content'>{{order.order_sn}}</view>
+              </view>
+              <view class='li'>
+                  <view class='li-title'>取消进度</view>
+                  <view class='li-content' wx:if="{{order.pay_status < 3}}">正在处理</view>
+                  <view class='li-content'  wx:elif="{{order.pay_status == 3}}">处理完成</view>
+                  <view class='li-content' wx:else>审核失败</view>
+              </view>
+              <view class='li'>
+                  <view class='li-title'>订单总额</view>
+                  <view class='li-content'>￥{{order.total_amount}}</view>
+              </view>
+              <view class='li'>
+                  <view class='li-title'>进度详细</view>
+                  <view class='li-content' wx:if="{{order.pay_status < 3}}">亲爱的客户，我们正在为您处理中，请耐心等待。 </view>
+                  <view class='li-content' wx:elif="{{order.pay_status == 3}}">亲爱的客户,您的退款订单已完成。{{order.admin_note}} </view>
+                  <view class='li-content' wx:else>亲爱的客户,您的退款订单审核失败。原因：{{$order.admin_note}}</view>
+              </view>
+          </view>
+          <view class='progress-img'>
+              <image wx:if="{{order.pay_status == 1}}" src='../../../images/progress-bar-1.png'></image>
+              <image wx:elif="{{order.pay_status == 2}}" src='../../../images/progress-bar-1.png'></image>
+              <image wx:elif="{{order.pay_status == 3 || order.pay_status == 4}}" src='../../../images/progress-bar-3.png'></image>
+          </view>
+           
+      </view>
+      <view class='list-block'>
+          <view class='content-title'>申请单详细信息</view>
+          <view class='list-ul'>
+              <view class='li'>
+                  <view class='li-title'>取消原因</view>
+                  <view class='li-content'>{{order.cancel_reason}}</view>
+              </view>
+              <view class='li'>
+                  <view class='li-title'>联系方式</view>
+                  <view class='li-content'>{{order.mobile}}</view>
+              </view>
+              <view class='li'>
+                  <view class='li-title'>支付明细</view>
+                  <view class='li-content'>
+                      <view>支付总金额 : <text style='color:#e23435'>￥{{order.total_amount}}</text></view>
+                      <view>余额支付 : <text style='color:#e23435'>￥{{order.user_money}}</text></view>
+                      <view>积分抵扣 : <text style='color:#e23435'>￥{{order.integral_money}}</text></view>
+                      <view>优惠券 : ￥{{order.coupon_price}}</view>
+                      <view>其他支付 : ￥{{order.order_amount}}</view>
+                  </view>
+              </view>
+          </view>
+      </view>
+      <view class='list-block'>
+          <view class='content-title' style='border-bottom: 1px solid #ccc;padding-bottom:20rpx;'>退款明细状态详解</view>
+          <view class='foot-text'>
+            <view>1、已退：商城已完成退款处理，实际退款时间以到账时间为准。</view>
+            <view >2、待退：订单含有未退款项，待系统处理，请您耐心等待。</view>
+            <view >3、未退：商城劵发生拆分是不予返还、商城劵、手机红包请您联系客服处理。</view>
+          </view>
+      </view>
+</view>

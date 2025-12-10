@@ -1,0 +1,101 @@
+/* guide.wxss */
+page{height: 100%;}
+.guide-page{
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(#27d9f3,#22b1ec);
+}
+.go-index{
+    position: absolute;
+    width:42.666667%;
+    height: 10.4948%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 6.74663%;
+}
+.product{
+    position: absolute;
+    z-index: 2;
+    width:29.33333%;
+    height:52.47376%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom:19.04048%;
+}
+@keyframes run1{
+    0% {
+        top:32%;
+    }
+    50% {
+        top:36.28186%;
+    }
+    100% {
+        top:32%;
+    }
+}
+.certificate{
+    position: absolute;
+    width:40%;
+    height:19.49026%;
+    left:0;
+    /* top:36.28186%; */
+    /* top:-58%; */
+    top: 32%;
+    animation: run1 2s ease-in-out infinite;
+}
+@keyframes run2{
+    0% {
+        top:7%;
+    }
+    50% {
+        top:10.71964%;
+    }
+    100% {
+        top:7%;
+    }
+}
+.introduce{
+    position: absolute;
+    width:50.66667%;
+    height:24.73763%;
+    left:27.2%;
+    /* top:10.71964%; */
+    /* top:-36%; */
+    top:7%;
+    animation: run2 1.8s ease-in-out infinite;
+}
+@keyframes run3{
+    0% {
+        top:30%;
+    }
+    50% {
+        top:33.80801%;
+    }
+    100% {
+        top:30%;
+    }
+}
+.join{
+    position: absolute;
+    width:37.33333%;
+    height:18.74063%;
+    right:0;
+    /* top:33.80801%; */
+    /* top:-53%; */
+    top:30%;
+    animation: run3 2.2s ease-in-out infinite;
+}
+
+image{
+    position:relative;
+    z-index: 1;
+}
+.line{
+    position: absolute;
+    height:300%;
+    width:4rpx;
+    background: linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,1));
+    left:50%;
+    top:-250%;
+}

@@ -1,0 +1,41 @@
+<view class="order-title">
+    <view wx:for="{{statuses}}" wx:key="{{index}}" class="order-status {{item.status==activeStatus?'active':''}}" 
+        data-status="{{item.status}}" bindtap='changeTab'>{{item.name}}</view>
+</view>
+
+<view class="order-li" wx:for="{{orders}}" wx:key="{{index}}" wx:for-item="order">
+    <view class="order-header">
+        <view class="order-seller ellipsis-1">买家：{{order.nickname}}</view>
+        <view class="order-status-name">
+            {{order.status==0?'未付款':''}}{{order.status==1?'已付款':''}}{{order.status==2?'等待分成(已收货)':''}}
+            {{order.status==3?'已分成':''}}{{order.status==4?'已取消':''}}
+        </view>
+    </view>
+    <view class="order-sn">订单号：{{order.order_sn}}</view>
+    <view class="order-time">{{order.createTimeFormat}}</view>
+
+    <view class="order-goodimg" wx:for="{{order.goods_list}}" wx:key="{{index}}">
+        <image class="order-img" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+        <view class="order-content">
+            <view class="goods-name ellipsis-1">{{item.goods_name}}</view>
+            <view style="color:red;">￥{{item.member_goods_price}}</view>
+            <view>
+                <text style="color:#7f7f7f;">佣金比例：</text>
+                <text style="color:red;">{{item.distributRatio}}%</text>
+                <text style="margin-left: 20rpx;color:#7f7f7f;">佣金:</text>
+                <text style="color:red;">￥{{item.commission}}</text>
+            </view>
+            <view class="ellipsis-1" style="color:#7f7f7f;">{{item.spec_key_name}}</view>
+        </view>
+    </view>
+    
+    <view class="order-total">
+        <text style="color:#7f7f7f;">获得佣金：</text><text style="color:red;">￥{{order.money}}</text>
+    </view>
+</view>
+
+<view class="no-data" wx:if="{{!orders || orders.length == 0}}">
+    <image src="../../../images/cart-null.png" class="cart-image"/>
+    <view class="no-data-title">没有找到相关的记录</view>
+    <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+</view>

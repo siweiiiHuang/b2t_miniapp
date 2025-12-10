@@ -1,0 +1,47 @@
+<!--group_list.wxml-->
+<view class="container">
+    <view class="nav">
+        <navigator class="nav-item {{tabType==0?'choose':' '}}" bindtap="changeTab" data-type='0'>限时折扣<text></text></navigator>
+        <navigator class="nav-item {{tabType==1?'choose':' '}}" bindtap="changeTab" data-type='1'>限时优惠<text></text></navigator>
+        <navigator class="nav-item {{tabType==2?'choose':' '}}" bindtap="changeTab" data-type='2'>限时促销<text></text></navigator>
+        <navigator class="nav-item {{tabType==3?'choose':' '}}" bindtap="changeTab" data-type='3'>买就送<text></text></navigator>
+    </view>
+    <!-- <navigator class="group-purchase" hidden='{{!requestData.ad}}'>
+        <image class="wh100" src="{{url}}{{requestData.ad.ad_code}}"/>
+    </navigator> -->
+    
+         <view class='content' wx:for="{{requestData}}">
+              <navigator url="/pages/activity/sales_goods/sales_goods?id={{item.id}}">   
+                    <image mode='aspectFill' src="{{url}}{{item.prom_img}}"></image>
+                    <view class='bottom'>
+                        <view class='title'><text></text>{{item.title}}</view>
+                        <view class='time'>时间：{{item.starttime}} 至 {{item.endtime}}</view>
+                    </view>
+              </navigator>
+         </view>
+ 
+   
+    
+    <!-- <view class="choice_box">
+        <view wx:for="{{requestData.groups}}" wx:for-item="g">
+            <navigator wx:for="{{g.prom_goods_item}}"  class="choice_item" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}&item_id={{item.item_id}}" wx:key="{{index}}">
+              <view class="img-wrap">
+                  <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+                  <view class="discount">{{g.prom_detail}}</view>
+              </view>
+              <view class="title">{{item.goods_name}}</view>
+              <view class="price">￥{{item.price}}</view>
+              <view class="count-down">
+                  <view class="tip-count">剩余</view>
+                  <view class="tip-count">{{ g.remainTime }}</view>
+              </view>
+          </navigator>
+        </view>
+        
+    </view> -->
+    <view class="no-data" wx:if="{{!requestData || requestData.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有找到相关的记录</view>
+        <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+    </view>
+</view>

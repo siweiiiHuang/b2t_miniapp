@@ -1,0 +1,27 @@
+<import src="../../../utils/regions/regions.wxml"/>
+
+<view class="container">
+    <form bindsubmit="submitSupplier">
+        <view class="item">
+            <view class="item-name">姓名:</view>
+            <input class="item-input" name="suppliers_contacts" value=""/>
+        </view>
+        <view class="item">
+            <view class="item-name">电话:</view>
+            <input class="item-input" name="suppliers_phone" type='number' value=""/>
+        </view>
+        <view class="item" data-id='0' bindtap="openRegionsModal">
+            <view class="item-name">所在地区:</view>
+            <view class="item-input">{{address.province_name}} {{address.city_name}} {{address.district_name}} {{address.twon_name}}</view>
+            <view class="item-img">
+                <image class="arrow" src="../../../images/icon-arrowdown.png"></image>
+            </view>
+        </view>
+        <view class="address-btns">
+            <button class="submit-btn" form-type="submit">提 交</button>
+        </view>
+    </form>
+</view>
+
+<!-- 选择地址弹框  -->
+<template is="regions" data="{{regions}}"/>

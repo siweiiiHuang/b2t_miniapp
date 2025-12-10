@@ -1,0 +1,125 @@
+/* address_list.wxss */
+page{
+    background-color: white;
+}
+.container{
+    overflow:scroll;
+    height:500px;
+}
+.address-box{
+    overflow:hidden;
+    border:1px solid #ededed;
+    width:92%;
+    margin:0 auto;
+    padding:20rpx 0;
+    box-shadow:0 2px 18rpx #ededed;
+    font-size: 28rpx;
+    margin-top: 20rpx;
+}
+.address-user{
+    margin-top:20px;
+    box-sizing: border-box;
+    float: left;
+    width:80rpx;
+    padding-left: 20rpx;
+}
+.user-name{
+    font-size: 30rpx;
+    padding-bottom: 20rpx;
+    word-break:keep-all;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow: hidden;
+}
+.default{
+    color: white;
+    background-color: red;
+    padding: 4rpx;
+    width:fit-content;
+    border-radius:6rpx;
+}
+.address-info{
+    box-sizing: border-box;
+    float: left;
+    width: 550rpx;
+    padding-left: 10rpx;
+}
+.mobile{
+    padding-bottom: 25rpx;
+    justify-content: space-between;
+}
+.flex view{
+    width: 190rpx;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.address{
+    height: 70rpx;
+    overflow: hidden;
+}
+.address-edit{
+    box-sizing: border-box;
+    width:112rpx;
+    float: left;
+    text-align: center;
+    padding-top: 32rpx;
+}
+image{
+    width: 36rpx;
+    height: 42rpx;
+}
+.address-create{
+    width: 80%;
+    text-align: center;
+    bottom: 80rpx;
+    margin:auto;
+}
+.create-btn{
+    font-size: 28rpx;
+    color: white;
+    background-color: #f23030;
+    border-radius: 10rpx;
+    text-align: center;
+    line-height: 80rpx;
+    display: block;
+}
+.text{
+    color:darkgray;
+}
+.float{
+    float: right;
+}
+.text-center{
+    background-color:red;
+    color:white;
+    border-radius:9px;
+    width:120rpx;
+    padding:3px;
+}
+
+.set-mes{
+    background-color: #fff;
+    font-size: 30rpx;
+    color: #444;
+}
+.set-mes>view{
+    display: flex;
+    align-items: center;
+    height: 92rpx;
+    border-bottom: 1px solid #f5f5f5;
+}
+.set-item{
+    justify-content: space-between;
+    overflow:hidden;
+    border:1px solid #ededed;
+    width:92%;
+    margin:0 auto 20rpx;
+    box-shadow:0 2px 18rpx #ededed;
+}
+.text-overflow{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    margin-left: 20rpx;
+}

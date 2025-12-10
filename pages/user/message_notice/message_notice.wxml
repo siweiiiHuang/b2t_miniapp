@@ -1,0 +1,45 @@
+<!--message_notice.wxml-->
+<view class="container">
+    <view class='notice-pg'>
+        <view class="notice-list" wx:for="{{messageList}}" wx:key="{{index}}">
+            <navigator class="notice-item" url='{{item.url}}'>
+                <view class="notice-title">
+                    <image wx:if="{{item.type==2}}" class="notice-icon" src='../../../images/mesg-logistics.png'/>
+                    <image wx:if="{{item.type==0}}" class="notice-icon" src='../../../images/mesg-notes.png'/>
+                    <image wx:if="{{item.type==1}}" class="notice-icon" src='../../../images/mesg-activi.png'/>
+                    <text hidden="{{item.no_read <= 0}}" class='notice-icon-num'>{{item.no_read > 9 ? '9+' : item.no_read}}</text>
+                </view>
+                <view class='notice-cont-wrap'>
+                    <view class='notice-cont-top'>
+                        <text wx:if="{{item.type==0}}" class='notice-cont-dev'>通知</text>
+                        <text wx:if="{{item.type==1}}" class='notice-cont-dev'>活动</text>
+                        <text wx:if="{{item.type==2}}" class='notice-cont-dev'>物流</text>
+                        <text class='notice-cont-time'>{{item.send_time_text ? item.send_time_text : ''}}</text>
+                    </view>
+                    <view class="notice-cont-bottom">
+                        <text class='notice-cont-name'>{{item.message_content}}</text>
+                    </view>
+                </view>
+            </navigator>
+        </view>
+        <view class='height-20'></view>
+        <!-- <view class="notice-list">
+            <navigator  class="notice-item" url='' wx:key="{{index}}">
+                <view class="notice-title">
+                    <image class="notice-icon" src='../../../images/mesg-logo.png'>
+                    </image>
+                    <text class='notice-icon-num' hidden='{{noticeconts.no_read.message_private_no_read}}==0' >{{noticeconts.no_read.message_private_no_read}}</text>
+                </view> 
+                <view class='notice-cont-wrap'>
+                    <view class='notice-cont-top'>
+                        <text class='notice-cont-dev'>店铺昵称</text>
+                        <text class='notice-cont-time'>15：25</text>
+                    </view>
+                    <view class="notice-cont-bottom">
+                        <text class='notice-cont-name'>此处显示最新物流信息。您在{{store_name}}购买的宝贝已...</text>
+                    </view>
+                </view>
+            </navigator>  
+        </view> -->
+    </view>   
+</view>

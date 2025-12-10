@@ -1,0 +1,38 @@
+/* pages/cart/invoice/invoice.wxss */
+.set-mes{
+    background-color: #fff;
+    padding: 0 20rpx;
+    font-size: 30rpx;
+    color: #444;
+}
+.set-mes>view{
+    display: flex;
+    align-items: center;
+    height: 92rpx;
+    border-bottom: 1px solid #f5f5f5;
+}
+.set-mes input{
+    width: 380rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    border:1px solid #ddd;
+}
+.set-btn{
+    display: flex;
+    font-size: 24rpx;
+}
+.arrow-rigth{
+    width: 32rpx;
+    height: 32rpx; 
+}
+.invoice-text{
+    color:red;font-size:12px;
+}
+.use-btn{
+    height: 80rpx;
+    margin-left: 20rpx;
+    text-align: center;
+    background-color: #f23030;
+    color: #fff;
+    font-size:16px;
+}

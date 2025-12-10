@@ -1,0 +1,160 @@
+<view class="container">
+    <view class="nav">
+        <navigator class="nav-item" bindtap="changeTab" data-href="{{requestData.orderby_default}}">综合<view class="ico-dg"><image class="wh100" src="../../../images/dg.png"></image></view></navigator>
+        <navigator class="nav-item" bindtap="changeTab" data-href='{{requestData.orderby_sales_sum}}'>销量</navigator>
+        <navigator class="nav-item" bindtap="changeTab" data-href='{{requestData.orderby_price}}'>
+            价格
+            <view class="ico-dir {{requestData.sort!='shop_price'?'':(requestData.sort_asc=='asc'?'ico-dir-up':'ico-dir-dn')}}" style="background-image: url({{resourceUrl+'/static/images/sxjt.png'}});"></view>
+        </navigator>
+        <navigator class="nav-item" bindtap="changeTab" bindtap="openFilterModal">筛选<view class="ico-filter"><image class="wh100" src="../../../images/xx.png"></image></view></navigator>
+        <navigator class="nav-item search" catchtap='listShow' hidden='{{listType}}'><image class="wh100 search-img" src="../../../images/goodslistshow2.png"></image></navigator>
+         <navigator class="nav-item search" catchtap='listShow' hidden='{{!listType}}'><image class="wh100 search-img" src="../../../images/goodslistshow1.png"></image></navigator>
+    </view>
+
+    <view class="choice_list" hidden='{{listType}}'>
+        <block wx:for="{{requestData.goods_list}}" wx:key="{{index}}">
+            <navigator class="choice_item" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                <view class="img-wrap">
+                <view class='h-label' wx:if="{{item.label_name}}" style='background: url(/images/h-label.png) no-repeat;background-size:90rpx 25rpx;'>{{item.label_name}}</view>
+                    <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+                </view>
+                <view class="item-cont">
+                    <view class="title">{{item.goods_name}}</view>
+                    <view class="containers">
+                    <view class="price">￥{{item.shop_price}}</view>
+                    <view class="carts" wx:if="{{is_on}}" catchtap='openSpecModel' data-goods_id="{{item.goods_id}}">
+                      <image src='../../../images/shopc.png' style='width:45rpx;height:45rpx;'></image>
+                    </view>                  
+                   </view>
+                   
+                    <view class="comment">评论{{item.comment_count  + item.virtual_comment_count}} 销量{{item.sales_sum  + item.virtual_sales_sum}}</view>
+                </view>
+            </navigator>
+        </block>
+    </view>
+
+
+ <view class="choice_box" hidden='{{!listType}}'>
+        <view class="choice_list">
+            <block wx:for="{{requestData.goods_list}}" wx:key="index">
+                <view class="choice_item">
+                    <navigator url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                        <view class='h-label'  wx:if="{{item.label_name}}" style='background: url(/images/h-label.png) no-repeat;background-size:175rpx 40rpx;'>{{item.label_name}}</view>
+                        <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image></navigator>
+                    <navigator class="title ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+                    <view class="choice_footer">
+                        <view class="price">￥{{item.shop_price}}</view>
+                         <view class="similer">评论{{item.comment_count  + item.virtual_comment_count}} 销量{{item.sales_sum  + item.virtual_sales_sum}}</view>
+                    </view>
+                </view>
+            </block>
+        </view>
+    </view>
+
+
+    
+    <view class="no-data" wx:if="{{!requestData.goods_list || requestData.goods_list.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有相关的数据</view>
+        <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+    </view>
+</view>
+
+<!-- 筛选弹框  -->
+<view hidden="{{!openFilterModal}}">
+    <view class="cover-layer" bindtap="closeFilterModal"></view>
+    <view class="filter-modal">
+        <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeFilterModal"/>
+        <button class="viewall-btn" bindtap="restoreData">显示全部分类</button>
+         <view class="filter-box" wx:if="{{requestData.filter_menu.length >0}}">当前选中</view>
+         <view class="filter-items" wx:for="{{requestData.filter_menu}}" catchtap="filterGoods" data-href="{{item.href}}"  ><view class="filter-item"  style="background-color:#F23030;color:#fff;margin:10rpx">{{item.name}}</view></view>
+        <view class="filter-box" wx:for="{{requestData.filter_spec}}" wx:key="{{index}}">
+            <view class="filter-name">{{item.name}}</view>
+            <view class="filter-items">
+                <view class="filter-item" wx:for="{{item.item}}" wx:for-item="items" wx:key="{{index}}"  data-href="{{items.href}}" bindtap="filterGoods">
+                {{items.name}}</view>
+            </view>
+        </view>
+        <view class="filter-box" wx:for="{{requestData.filter_attr}}" wx:key="{{index}}">
+            <view class="filter-name">{{item.name}}</view>
+            <view class="filter-items">
+                <view class="filter-item" wx:for="{{item.item}}" wx:for-item="items"  wx:key="{{index}}"  data-href="{{items.href}}" bindtap="filterGoods">
+                {{items.name}}</view>
+            </view>
+        </view>
+        <view class="filter-box" wx:if="{{requestData.filter_brand.length>0}}">
+            <view class="filter-name">相关品牌</view>
+            <view class="filter-items">
+                <view class="filter-item" wx:for="{{requestData.filter_brand}}" wx:for-item="items"  wx:key="{{index}}"  data-href="{{items.href}}" bindtap="filterGoods">
+                {{items.name}}</view>
+            </view>
+        </view>
+        <view class="filter-box" wx:if="{{requestData.filter_price.length>0}}">
+            <view class="filter-name">价格区间</view>
+            <view class="filter-items">
+                <view class="filter-item" wx:for="{{requestData.filter_price}}" wx:for-item="items" wx:key="{{index}}"  data-href="{{items.href}}" bindtap="filterGoods">
+                {{items.name}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+
+
+
+
+<!-- 规格弹窗 -->
+<view hidden="{{!openSpecModal}}">
+    <view class="cover-layer" bindtap="closeSpecModal"></view>
+    <view class="spec-model">
+        <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeSpecModal"/>
+        <view class="spec-goods">
+            <image class="wh100 spec-img" src="{{url}}/api/goods/goodsThumImages?goods_id={{data.goods.goods_id}}&width=200&height=200"></image>
+            <view class="spec-goods-info">
+                <view class="spec-goods-name">{{data.goods.goods_name}}</view>
+                  <view class="prom-info" wx:if="{{select.activity.prom_type && select.activity.prom_type != 6}}">
+                    <text class="prom-type">{{select.activity.countName}}</text>
+                    <text>{{select.activity.countTime}}</text>
+                </view>
+                 <navigator class="prom-info" wx:if="{{select.activity.prom_type == 6}}" url="../../team/team_info/team_info?goods_id={{select.activity.goods_id}}&team_id={{select.activity.team_id}}&item_id={{select.activity.item_id}}">
+                    <text class="prom-type">{{select.activity.countName}}</text>
+                    <view style="display:inline-block;" >点击前往</view >
+                </navigator>
+                <view class="spec-goods-price">{{select.activity.priceName?select.activity.priceName:''}}￥ {{select.price[0]}}.{{select.price[1]}}
+                </view>
+                <view class="spec-goods-stock">剩余库存：{{select.stock}}</view>
+            </view>
+        </view>
+        <block wx:for="{{data.goods_spec_list}}" wx:key="{{index}}" wx:for-index="listIdx">
+            <view class="spec-name">规格</view>
+            <view class='spec_types'>
+            <view wx:for="{{item.spec_item}}" wx:for-item='spec' wx:key="{{index}}" class="spec-btn {{item.selectItemId==spec.id?'spec-btn-click':''}}" bindtap="selectSpec" data-listidx="{{listIdx}}" data-itemid="{{spec.id}}">{{spec.item}}</view>
+            </view>
+        </block>
+        <view class='spec-box'>
+          <view class="spec-name">数量</view>
+          <view class="count">
+              <view class="sub" bindtap="subCartNum">-</view>
+              <input type="number" value="{{goodsInputNum}}" bindblur="inputCartNum"/>
+              <view class="add" bindtap="addCartNum">+</view>
+          </view>
+        </view>
+        <view class="spec-cart-btns">
+                <view wx:if="{{data.goods.is_virtual}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='buy' bindtap="addCart">立即购买</view>
+            <block wx:elif="{{select.activity.prom_type == 8}}">                
+                        <view  class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" bindtap="bargainBuy" data-action='add' data-status="{{isSeparate}}">{{isSeparate?'砍价拿':'加入购物车'}}</view>                   
+            </block>
+                 <view wx:elif="{{select.activity.prom_type == 4}}" class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='reserve' bindtap="addCart">立即预订</view>
+           
+            <block wx:elif="{{data.goods.exchange_integral <= 0}}">
+                <!-- <view class="spec-cart-btn spec-add-cart {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='add' bindtap="addCart">加入购物车</view> -->
+                <view class="spec-cart-btn spec-buy {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}" data-action='add' bindtap="addCart">确定</view>
+            </block>
+            <view wx:else class="spec-cart-btn spec-buy spec-cart-btn-lg {{select.stock<=0||shippingCost<0||!hasSpec?'spec-cart-disable':''}}"data-action='exchange' bindtap="addCart">立即兑换</view>
+        </view>
+    </view>
+</view>
+
+
+
+
+

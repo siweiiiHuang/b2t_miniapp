@@ -1,0 +1,21 @@
+<!--guide.wxml-->
+<view class="guide-page">
+    <navigator class="go-index" url="/pages/index/index/index" >
+        <image class="wh100" src="https://apispec.tp-shop.cn/public/static/images/guide/pic-guide-4.png"></image>
+    </navigator>
+    <navigator class="product" url="/pages/index/index/index">
+        <image class="wh100" src="https://apispec.tp-shop.cn/public/static/images/guide/pic-guide-5.png"></image>
+    </navigator>
+    <navigator class="certificate" animation="{{animationData1}}" url="/pages/guide/article/article?id=100">
+        <image class="wh100" src="https://apispec.tp-shop.cn/public/static/images/guide/pic-guide-1.png"></image>
+        <view class="line"></view>
+    </navigator>
+    <navigator class="introduce" animation="{{animationData3}}" url="/pages/guide/article/article?id=101">
+        <image class="wh100" src="https://apispec.tp-shop.cn/public/static/images/guide/pic-guide-3.png"></image>
+        <view class="line"></view>
+    </navigator>
+    <navigator class="join" animation="{{animationData2}}" url="/pages/guide/supplier/supplier">
+        <image class="wh100" src="https://apispec.tp-shop.cn/public/static/images/guide/pic-guide-2.png"></image>
+        <view class="line"></view>
+    </navigator>
+</view>

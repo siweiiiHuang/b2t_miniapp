@@ -1,0 +1,67 @@
+<!--pages/user/binding_info/binding_info.wxml-->
+<view>
+    <view class="binding-top" >
+        <image class='img_back' src="../../../images/binding-bj.jpg"></image>
+        <view class='user-logo'><image src="{{userHeadPic}}"></image></view>
+        <view class='user-text'>
+            <text>亲爱的微信用户</text>
+            <text>{{nickName}}</text>
+        </view>
+        <view class='userbj-cover'><image src='../../../images/white-cover.png'></image></view>
+    </view>
+    <view class='binding-container'>
+        <view class='binding-tips'><text>为了给您更好地服务，请关联一个{{store_name}}账号\n若还没有{{store_name}}账号，则注册后默认完成关联</text></view>
+        <view>
+            <view class="correlation-cont">
+                <view class="connect-item {{isRegist?'':'tp-list-bg'}}" bindtap='account'>关联已有账号</view>
+                <view class="connect-item {{isRegist?'tp-list-bg':''}}" bindtap='regist'>注册并关联账号</view>
+			</view>
+            <view class="correlation-input-wrap">
+				<view class="items-warp" hidden='{{isRegist}}'>
+		            <view class="item_cont">
+		                <image src="../../../images/numb.png"></image>
+                        <text>手机号码</text>
+                        <input name="username" type="number" id="username" placeholder="请输入手机号码" bindinput="setMobile"></input>
+		            </view>
+		            <view class="item_cont ">
+		                <image src="../../../images/code.png"></image>
+                        <text decode="{{true}}" space="{{true}}">验&nbsp;证&nbsp;&nbsp;码</text>
+                        <input name="password" type="number" id="password" placeholder="请输入验证码" bindinput="setCode"></input>
+                        <button class="tp-get-gode {{canGetCode?'btn-disable':''}}" wx:if="{{!is_send}}" bindtap='getCode'>获取验证码</button>
+                        <button class="tp-get-gode {{canGetCode?'btn-disable':''}} countDownNum"  wx:if="{{is_send}}" >{{countDownNum}}秒后重新操作</button>
+                    </view>    
+		            <view class="item-cont">
+		                <button class="correlation-submit" bindtap='bindAccount'>立即绑定</button>
+		            </view>
+		        </view>	
+				<view class="items-warp" hidden='{{!isRegist}}'>
+		            <view class="item_cont">
+		                <image src="../../../images/numb.png"></image>
+                        <text>手机号码</text>
+                        <input name="username" type="number" id="username" placeholder="请输入手机号码" bindinput="setRegMobile"></input>
+		            </view>
+		            <view class="item_cont ">
+		                <image src="../../../images/password.png"></image>
+                        <text>设置密码</text>
+                        <input name="username" type="password" id="username" placeholder="字母和数字组成的6-16位字符" bindinput='setRegPwd'></input>
+		            </view>
+		            <view class="item_cont">
+		                <image src="../../../images/code.png"></image>
+                        <text decode="{{true}}" space="{{true}}">验&nbsp;证&nbsp;&nbsp;码</text>
+                        <input name="password" type="number" id="password" placeholder="请输入验证码" bindinput="setRegCode"></input>
+                        <button class="correlation-get-gode" class="tp-get-gode"  wx:if="{{!is_send}}" bindtap='getRegCode'>获取验证码</button>
+                        <button class="tp-get-gode countDownNum"  wx:if="{{is_send}}" >{{countDownNum}}秒后重新操作</button>
+                    </view>
+		            <view class="item-cont">
+		                <button class="correlation-submit" bindtap='bindReg'>立即绑定</button>
+		            </view>
+		        </view>
+			</view>
+        </view>
+        <view class='bingding-agreement' hidden='{{!isRegist}}'>
+            <checkbox checked='{{isAgree}}' bindtap='check'></checkbox>
+            <label>我已阅读并同意</label>
+            <navigator>《{{store_name}}商城用户注册协议》</navigator>
+        </view>
+    </view>
+</view>

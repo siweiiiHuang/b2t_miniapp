@@ -1,0 +1,72 @@
+<!--comment.wxml-->
+<view class="container">
+   <view class='nav-container'>
+      <view class="nav" style="width:{{width}}rpx">
+        <block wx:for="{{categories}}">
+          <navigator class="nav-item {{cat_id==item.cat_id?'red':''}}" bindtap="changeTab" data-id='{{item.cat_id}}'>{{item.cat_name}}</navigator>
+        </block>
+      </view> 
+    </view>
+    <view class="goods-container">
+        <block wx:for="{{list}}" wx:key="{{index}}">
+           <navigator class="goods-box" url="/pages/news/news_detail/news_detail?article_id={{item.article_id}}" wx:if="{{item.type == 0}}"  style="border-bottom:{{index +1  == list.length ? 10 : 1}}rpx  solid #f0f1f3;" >         
+                <navigator class='goods-desc' style="width:100%;" >
+                    <view class="goods-name ellipsis-1" style="height:55rpx;" >{{ item.title }}</view>       
+                    <view class="buy-time">浏览量:{{item.click}} 评论数: {{item.comment}} {{ item.time }} </view>
+                </navigator>                                
+            </navigator>
+
+            <navigator class="goods-box" wx:if="{{item.type == 1}}"  style="border-bottom:{{index +1  == list.length ? 10 : 1}}rpx  solid #f0f1f3;" url="/pages/news/news_detail/news_detail?article_id={{item.article_id}}">
+                <navigator class="goods-img" >
+                    <image class="wh100"  src="{{item.thumb?url + item.thumb : resourceUrl}}"></image>
+                </navigator>
+                <navigator class='goods-desc'  >
+                    <view class="goods-name ellipsis-1" style="height:55rpx;">{{ item.title }}</view>       
+                    <view class="buy-time">浏览量:{{item.click}} 评论数: {{item.comment}} {{ item.time }} </view>
+                </navigator>                                
+            </navigator>
+
+            <navigator class="goods-box" wx:if="{{item.type == 2}}"  style="border-bottom:{{index +1  == list.length ? 10 : 1}}rpx  solid #f0f1f3;" url="/pages/news/news_detail/news_detail?article_id={{item.article_id}}">
+                <navigator class="goods-img" style="float:right;" >
+                    <image class="wh100"  src="{{item.thumb?url + item.thumb : resourceUrl}}"></image>
+                </navigator>
+                <navigator class='goods-desc' >
+                    <view class="goods-name ellipsis-1">{{ item.title }}</view>       
+                    <view class="buy-time">浏览量:{{item.click}} 评论数: {{item.comment}} {{ item.time }} </view>
+                </navigator>                                
+            </navigator>
+
+            <navigator class="goods-box" wx:if="{{item.type == 3}}"  style="border-bottom:{{index +1  == list.length ? 10 : 1}}rpx  solid #f0f1f3;" url="/pages/news/news_detail/news_detail?article_id={{item.article_id}}">
+                  <navigator class="goods-img"  style="width:100%;">
+                    <image class="wh200"  style="width:185rpx;height:160rpx;" src="{{item.thumb?url + item.thumb : resourceUrl}}"></image>
+                    <image class="wh200" style="width:185rpx;height:160rpx;" src="{{item.thumb2?url + item.thumb2 : resourceUrl}}"></image>
+                    <image class="wh200" style="width:185rpx;height:160rpx;" src="{{item.thumb3?url + item.thumb3 : resourceUrl}}"></image>
+                </navigator>
+                <navigator class='goods-desc' style="width:100%;">
+                    <view class="goods-name ellipsis-1"   >{{ item.title }}</view>       
+                    <view class="buy-time mar-bottom">浏览量:{{item.click}} 评论数: {{item.comment}} {{ item.time }} </view>
+                </navigator>                                
+            </navigator>
+
+             <navigator class="goods-box" wx:if="{{item.type == 4}}"  style="border-bottom:{{index +1  == list.length ? 10 : 1}}rpx  solid #f0f1f3;" url="/pages/news/news_detail/news_detail?article_id={{item.article_id}}" >
+                
+                <navigator class='goods-desc'  style="width:100%;">
+                    <view class="goods-name ellipsis-1"  style="height:auto;" >{{ item.title }}</view>  
+
+                      <navigator class="goods-img mar-bottom"  style="width:100%;">
+                    <image class="wh200"style="width:160rpx;height:160rpx;" src="{{item.thumb?url + item.thumb : resourceUrl}}"></image>
+                    <image class="wh200"style="width:160rpx;height:160rpx;" src="{{item.thumb2?url + item.thumb2 : resourceUrl}}"></image>
+                    <image class="wh200" style="width:160rpx;height:160rpx;" src="{{item.thumb3?url + item.thumb3 : resourceUrl}}"></image>
+                </navigator>
+
+                    <view class="buy-time mar-bottom">浏览量:{{item.click}} 评论数: {{item.comment}} {{ item.time }} </view>
+                </navigator>                                
+            </navigator>
+
+
+        </block>
+    </view>
+    <view class="no-data" wx:if="{{!list || list.length == 0}}">
+        <view class="no-data-title goods-box">暂无新闻</view>
+    </view>
+</view>

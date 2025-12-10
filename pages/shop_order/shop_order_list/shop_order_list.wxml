@@ -1,0 +1,58 @@
+<view class="container">
+    <view class="type-navbar">
+        <view class="type-box" wx:for="{{categories}}" wx:key="{{index}}">
+            <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" bindtap="changeTab">
+                {{item.name}}
+            </view>
+        </view>
+    </view>
+    <view class="goods-container">
+        <view class="goods-box" wx:for="{{orderList.order_list}}" wx:key="{{index}}" data-id="{{item.id}}">
+            <view class="goods-title">
+                <view class="order-number">订单编号:{{item.order_sn}}</view>
+                <view class="pay-status">{{item.order_status_detail!=null?item.order_status_detail:''}}</view>
+            </view>
+            <block wx:for="{{item.order_goods}}" wx:for-item="goods" wx:key="{{index}}">
+                <view class="goods-cont">
+                    <navigator class="img-box" url='/pages/user/order_detail/order_detail?order_id={{goods.order_id}}'>
+                        <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{goods.goods_id}}&width=200&height=200"></image>
+                    </navigator>
+                    <navigator class="goods-mes" url='/pages/user/order_detail/order_detail?order_id={{goods.order_id}}'>
+                        <view class="goods-name">{{goods.goods_name}}</view>
+                        <view class="goods-name">{{goods.spec_key_name}}</view>
+                        <view class="goods-price">¥ {{goods.member_goods_price}}</view>
+                        <view class="goods-num">数量 {{goods.goods_num}}</view>
+                    </navigator>
+                    <block wx:if="{{item.shop_id > 0}}">
+                                <view hidden="{{!(item.return_btn==1)}}" class="return-btn" data-recid="{{goods.rec_id}}" bindtap="checkReturnGoodsStatus">申请售后</view>
+                    </block>
+                    <block wx:else>
+                                <view hidden="{{!(item.return_btn==1&&goods.is_send==1)}}" class="return-btn" data-recid="{{goods.rec_id}}" bindtap="checkReturnGoodsStatus">申请售后</view>
+                    </block>
+                    
+
+                </view>
+            </block>
+            <view class="goods-tips">
+                <view class="order-total">
+                    <view class="goods-total">￥{{item.total_amount}}</view>共{{item.goods_sum}}件
+                </view>
+                <view class="check-btn">
+                    <navigator hidden="{{!(item.pay_btn==1)}}" class="order-btn order-btn-pay" bindtap="jumpToCart4" data-idx="{{index}}">立即付款</navigator>
+                    <view hidden="{{!(item.cancel_btn==1&&item.pay_status==0)}}" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
+                    <navigator hidden="{{!(item.cancel_btn==1&&item.pay_status==1)}}" class="order-btn" url="/pages/order/refund_order/refund_order?order_id={{item.order_id}}">取消订单</navigator>
+                    <view hidden="{{!(item.receive_btn==1)}}" class="order-btn" bindtap="confirmOrder" data-id='{{item.order_id}}'>确认收货</view>
+                    <navigator hidden="{{!(item.comment_btn==1)}}" class="order-btn" url="/pages/user/comment/comment?status=0" redirect>评价</navigator>
+                    <block wx:if="{{item.shipping_name}}">
+                    <navigator hidden="{{!(item.shipping_btn==1)}}" class="order-btn" url="/pages/user/express/express?order_id={{item.order_id}}">查看物流</navigator>
+                    </block>
+                </view>
+            </view>
+        </view>
+        <view class="no-data" wx:if="{{!orderList.order_list || orderList.order_list.length == 0}}">
+            <image src="../../../images/cart-null.png" class="cart-image"/>
+            <view class="no-data-title">暂无订单列表</view>
+            <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+        </view>
+    </view>
+</view>

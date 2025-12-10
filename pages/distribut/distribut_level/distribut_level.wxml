@@ -1,0 +1,14 @@
+<!--pages/wcs/privil-card/priviledge/priviledge.wxml-->
+
+<view class='pri-card'>   
+    <view class='card-item' wx:for="{{list}}" catchtap='info' data-id="{{item.level_id}}">
+        <view class='card-text'>
+            <view class='cardtit'>
+                <view class='cardicon'><image src='../../../images/icon.png'></image></view>
+                <text class='big-txt'>{{item.level_name}}</text>
+            </view>
+            <text class='sm-txt'>{{item.introduction||''}}</text>
+            <text class='cad-price'>￥{{item.join_price}}元</text>
+        </view>
+    </view>
+</view>

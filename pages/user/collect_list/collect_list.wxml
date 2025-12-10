@@ -1,0 +1,21 @@
+<!--collect_list.wxml-->
+<view class="container">
+    <view class="collect-ul">
+        <view class="collect-li" wx:for="{{collects}}" wx:key="{{index}}">
+            <navigator class='img-href' url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                <image class="collect-img" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+            </navigator>
+            <view class="collect-name ellipsis-2">{{item.goods_name}}</view>
+            <view class="collect-footer">
+                <view class="collect-price">￥{{item.shop_price}}</view>
+                <view class="collect-btn" bindtap="cancelCollect" data-id="{{item.goods_id}}">删除</view>
+                <navigator class="collect-btn" url="/pages/goods/goodsList/goodsList?cat_id={{item.cat_id}}">看相似</navigator>
+            </view>
+        </view>
+    </view>
+    <view class="no-data" wx:if="{{!collects || collects.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有相关的数据</view>
+        <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+    </view>
+</view>

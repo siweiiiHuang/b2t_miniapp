@@ -1,0 +1,35 @@
+<!--pages/wcs/privil-card/pricard-detail/pricard-detail.wxml-->
+
+<view class='pri-card'>
+    <!-- <view class='card-item'>
+        <image src='../../../images/dist_list.png'></image>
+        <view class='card-text'>                       
+            <view class='card-txttit'>
+                <image src='../../../images/icon.png'></image>
+                <text class='big-txt'>{{data.level_name}}</text>
+            </view>
+            <text class='sm-txt'>{{data.introduction}}</text>
+            <text class='cad-price'>￥{{data.join_price}}元</text>
+        </view>
+    </view> -->
+    <view class='pri-list'>
+        <view class='pri-item'>
+            <!-- <view class='pri-tit'><text class='pri-count'>01</text><text class='pri-name'>特权标题</text></view> -->           
+                 <import src="../../../utils/wxParse/wxParse.wxml"/>
+                 <view class='pri-txt'> <template is="wxParse"  data="{{wxParseData:content.nodes}}"/></view>                          
+        </view>
+
+    </view>
+</view>
+<view class='pri-interests'>
+    <!-- <view class='inter-t1'><image src='../../../images/icon-pri.png'></image><text>支付权益</text></view>
+    <view class='inter-t2'>
+      <text>支付权益购买后七日内无条件可退款</text>
+      <text>特权有效期：1年</text>
+      <text>我司拥有会员卡最终解释权</text>
+    </view> -->
+    <view class='inter-t3'>
+        <view catchtap='payment'>立即支付</view>
+        <!-- <button open-type='contact'>咨询客服</button> -->
+    </view>
+</view>

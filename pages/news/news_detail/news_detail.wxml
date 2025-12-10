@@ -1,0 +1,115 @@
+<!--comment.wxml-->
+<import src="../../../utils/wxParse/wxParse.wxml" />
+<view class="container">
+    <!-- 标题 -->
+    <view class="title pad20">
+        {{news.title}}
+     </view>
+     <!-- 发布时间-浏览量 -->
+    <view class="plush pad20">
+        <text class="mar-right">发布时间：{{news.publish_time}}</text>
+        <text>浏览量：{{news.click}}</text>
+        <view class='share-btn' catchtap='catchShare'>
+            <image src='../../../images/icon-share.png'></image>
+        </view>
+     </view>
+    <!-- 内容 -->
+    <view class="wxParse">
+        <template is="wxParse" data="{{wxParseData:content.nodes}}" />
+    </view>
+    <!-- 上下篇章 -->
+    <view class="next pad20" >
+        <view  wx:if="{{up}}" class="no-data-title " catchtap='read' data-id="{{up.article_id}}">上一篇 ： {{up.title}}</view>
+        <view wx:if="{{down}}" class="no-data-title " catchtap='read' data-id="{{down.article_id}}" >下一篇 ： {{down.title}}</view>
+    </view>
+
+    <!-- 猜你喜欢 -->
+    <view class="pad20 like" wx:if="{{like.length>0}}">猜你喜欢</view>
+    <view class="goods-container">
+        <block wx:for="{{like}}" wx:key="{{index}}">
+       
+            <view class="goods-box"   style="border-bottom:{{index +1  == like.length ? 10 : 1}}rpx  solid #f0f1f3;"  catchtap='read' data-id="{{item.article_id}}" >
+                <navigator class="goods-img" style="float:right;" >
+                    <image class="wh100" src="{{item.thumb?url + item.thumb : resourceUrl}}"></image>
+                </navigator>
+                <navigator class='goods-desc' >
+                    <view class="goods-name ellipsis-1">{{ item.title }}</view>       
+                    <view class="buy-time">{{ item.time }} 浏览量:{{item.click}}  </view>
+                </navigator>                                
+            </view>
+        </block>
+    </view>
+
+        <!-- 留言板 -->
+          <view class="dynamic-comments" wx:if="{{comment.length > 0}}">
+          
+          <block wx:if="comment.length > 0">
+            <view class="comment-content">
+            	<view>                  
+                <block wx:for="{{comment}}">
+                    <view class="comment-content-li">
+                    	<view class="commle fl">
+                            <image src="{{item.head_pic }}"></image>
+                        </view>
+                        <view class="commri fr" catchtap='is_comment' data-datas="{{item}}">
+                        	<view class="commri-p">
+                                <text class="commri-b">{{item.nickname|| '游客'}}</text>
+                                <text class="commri-i" wx:if="{{item.time < 60 }}">{{item.time||0}}分前</text>
+                                <text class="commri-i" wx:elif="{{item.time < 1440 &&  item.time >= 60}}">{{item.hour||0}}小时前</text>
+                                <text class="commri-i" wx:else >{{item.hour||0}}天前</text>
+                                <view style="float:right;" catchtap='like' data-comment_id="{{item.comment_id}}" >
+                                <image wx:if="{{item.like_id>0}}" src="../../../images/list-icon07.png" class="wh35"></image>
+                                <image wx:else src="../../../images/list-icon02.png" class="wh35"></image>
+
+                                <text class=" {{ item.like_id>0 ? 'like-on' : 'commri-l' }}" >{{item.like_num}}  </text>
+                                </view>
+                            </view>  
+                            <view class="commri-p">
+                                     {{item.content}}
+                            </view>                        
+                        </view>
+                    </view>
+                  </block>
+                </view>
+            </view>
+          </block>
+            
+        </view>
+
+</view>
+
+
+ <view class="footer" >
+        <view class="input on">
+            <input type="text" placeholder='给你留沙发了' bindinput='input' value="{{comment_text}}"></input>
+             <view class="btn" catchtap='send'>发送</view>
+        </view>
+ </view>
+
+
+ 
+<!-- 分享海报生成 -->
+
+<view wx:if='{{share_btn}}'>
+  <view class="cover-layer" bindtap="closePromModal"></view>
+  <view class="prom-model">
+    <icon type="cancel" color="gray" size="22" class="modal-close" bindtap="closeShareModal" />
+    <view class="prom-title">分享到朋友圈</view>
+    <view class='share-pic'>
+      <image catchtap='previewSharePic' style='width:100%;height:100%' src='{{share_pic}}'></image>
+    </view>
+    <view class="share-save-btns">
+      <view class="share-save-btn" catchtap="saveSharePic">保存海报</view>
+      <view class='share-tips'>保存海报至相册，可在朋友圈分享海报</view>
+    </view>
+
+  </view>
+</view>
+
+<action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet">
+  <action-sheet-item>
+    <button class='action-sheet-btn' open-type="share">发送给好友</button>
+  </action-sheet-item>
+  <action-sheet-item catchtap="getSharePic">分享到朋友圈</action-sheet-item>
+  <action-sheet-cancel>取消</action-sheet-cancel>
+</action-sheet>

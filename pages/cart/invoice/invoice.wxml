@@ -1,0 +1,30 @@
+<view class="set-mes">          
+        <view class="invoice-remarks" style="display:{{invoiceToggle?'none':'flex'}}">
+            <view class="">发票抬头 : </view> 
+                <radio-group class="radio-group" bindchange="radioTypeChange">
+                    <label class="radio" wx:for="{{invoicesType}}">
+                        <radio value="{{index}}" checked="{{item.checked}}"/>{{item.name}}
+                    </label>
+                </radio-group>
+            <!-- <input type="text" name="invoice_title" placeholder="单位或个人"/> -->                  
+        </view>
+        <view class="invoice-remarks" style="display:{{Company?'none':'flex'}}">
+            <view class="">单位名称 : </view> <input type="text" bindinput='nameInfo' value="{{name}}"  placeholder="单位名称"/>
+        </view>
+        <view class="invoice-remarks" style="display:{{Company?'none':'flex'}}">
+            <view class="">纳税人识别号 : </view> <input type="text" bindinput='numberInfo' value="{{numbers}}"  placeholder="纳税人识别号"/>
+        </view>
+           <view class="invoice-remarks" style="display:{{Company?'none':'flex'}}">
+            <view class="invoice-text">开企业抬头发票，请准确填写对应的"纳税人识别号"，以免影响您的发票报销. </view> 
+        </view>
+
+        <view class="invoice-remarks" style="display:{{invoiceToggles?'none':'flex'}}">          
+            <view class="">发票内容 : </view> 
+                <radio-group class="radio-group" bindchange="radioContentChange">
+                    <label class="radio" wx:for="{{invoicesContent}}">
+                        <radio value="{{index}}" checked="{{item.checked}}"/>{{item.name}}
+                    </label>
+                </radio-group> 
+        </view>                        
+    </view>
+    <button class="use-btn" bindtap='submit'>确定</button>

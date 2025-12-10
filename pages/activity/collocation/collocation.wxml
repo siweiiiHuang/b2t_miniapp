@@ -1,0 +1,93 @@
+  <!--轮播图-->
+    <block wx:if="{{datas.goods_images_list.length >0}}">
+        <view>
+            <swiper class="swiper_box" indicator-dots="true" vertical="" autoplay="true" interval="3000" duration="1000">
+                <block wx:for="{{datas.goods_images_list}}" wx:key="index">
+                    <swiper-item>
+                        <image bindtap='adTopage' src="{{item.image_url ? url + item.image_url : '../../../images/unknow' }}" data-id='{{item.goods_id}}'  class="slide-image"/>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </block>
+
+
+<view class="justify-content flex top-title">
+    <view>{{datas['combination'][0]['title']}}</view>
+    <view>最多可省￥ {{datas['combination'][0]['count_price']}} </view>
+</view>
+<view class="goods-title-bgcolor">
+    
+    <view class="goods-title-border">
+        <text class="goods-title">搭配商品</text>
+    </view>
+</view>
+<view class="container" wx:if="{{requestData.length > 0}}">
+    <view class="login-in pd-bg-fff">
+        <view class="order-item" wx:for="{{requestData}}" wx:for-index="idx" data-item="{{idx}}" >
+            <view class="goods-ico" bindtap="checkItem" data-check="item.selected" data-item="{{idx}}">
+                <icon type="success" size="16" color="{{item.selected?'red':'gray'}}" />
+            </view>
+            <navigator class="goods-img" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">
+                <image class="wh100" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=200&height=200"></image>
+            </navigator>
+            <view class="goods-cont">
+                <navigator class="goods-name ellipsis-2" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}">{{item.goods_name}}</navigator>
+                <view class="goods-attribute ellipsis-2">{{item.spec_key_name}}</view>
+                <view class="goods-price co-red">￥{{item.price}}</view>
+                <view class="justify-content flex">
+                    <view class="goods-price co-red collocation-li-title-price">省￥{{item.original_price - item.price}}</view>
+                        <view class="count" wx:if="{{idx==0}}">
+                            <view class="sub" catchtap="subNum" data-num="{{item.goods_num?item.goods_num:1}}">-</view>
+                            <input type="number" value="{{item.goods_num?item.goods_num:1}}" data-num="{{item.goods_num?item.goods_num:1}}" bindblur="valueToNum" />
+                            <view class="add" catchtap="addNum" data-num="{{item.goods_num?item.goods_num:1}}">+</view>
+                        </view>
+                        <view  wx:else>
+                            <view>X{{item.goods_num?item.goods_num:1}}</view>
+                        </view>
+                </view>
+            </view>
+        </view>
+    </view>
+ 
+</view>
+
+   <view class="justify-content flex width-100 bottom">
+    <view></view>
+    <view class="bottom-padding">
+        <view>套餐价：<text>￥{{setmeal_price}}</text></view>
+        <view>共省：<text>￥{{cost_saving}}</text> </view>
+     </view>
+</view>
+
+
+<!-- 加入购物车栏  -->
+<view class="join-cart">
+    <view class="custom-service cart-ico">
+        <button wx:if="{{imChoose==1}}" open-type="contact" class='cs-button' session-from="wechat|{{userInfo.user_id}}|{{userInfo.nickname}}|{{userInfo.head_pic}}">
+            <image class="cs-img cs-img-kf" src="../../../images/custom-service.png"></image> 
+            <view class='cs-ing-name'>客服</view>
+        </button>
+        <view wx:elif="{{imChoose==0}}" class='cs-button' bindtap='contactService'>
+            <image class="cs-img cs-img-kf" src="../../../images/custom-service.png"></image> 
+            <view class='cs-ing-name'>客服</view>
+        </view>
+        <view wx:else class='cs-button'>
+            <image class="cs-img cs-img-kf" src="../../../images/custom-service.png"></image> 
+            <view class='cs-ing-name'>客服</view>
+        </view>
+    </view>
+
+    <view class="shopping-cart cart-ico">
+        <navigator catchtap='tocart' >
+            <image class="sc-img" src="../../../images/shopping-cart.png"></image>
+            <view class="cart-num ellipsis-1"> {{cartGoodsNum}} </view>
+            <view>购物车</view>        
+        </navigator>
+    </view>
+   
+        <view class="join-btn cart-btn" bindtap="addCart" data-action='add' >加入购物车</view>
+        <view class="buy-btn cart-btn" bindtap="addCart" data-action='buy' >立即购买</view>
+
+   
+</view>

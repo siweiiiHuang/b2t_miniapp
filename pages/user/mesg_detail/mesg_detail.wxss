@@ -1,0 +1,38 @@
+page{
+    background: white;
+}
+.mesg_detail{ 
+    width:92%; 
+    height:auto; 
+    text-align:center; 
+    padding:0 4%; 
+    padding-top:60rpx;
+}
+.mesg_detail .mesgdeta_tit{ 
+    font-size:36rpx; 
+    color:#333; 
+    font-weight:bold; 
+    letter-spacing:4rpx; 
+    line-height:48rpx;
+}
+.mesg_info{
+    color: #999;
+    font-size:24rpx;
+    line-height:30rpx;
+    margin:30rpx 0;
+}
+.mesg_info .mesg_type{ 
+    margin-right:30rpx;
+}
+.mesg_con{ 
+    min-height: 500rpx;
+    font-size:30rpx; 
+    color:#333; 
+    line-height:42rpx; 
+    text-align:justify;
+}
+.mesg_con img{ 
+    max-width:100%; 
+    height:auto; 
+    margin:30rpx 0;
+}

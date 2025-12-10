@@ -1,0 +1,41 @@
+<!--group_list.wxml-->
+<view class="container">
+ 
+    
+    <view class="choice_box">
+        <!-- <view wx:for="{{requestData}}" wx:for-item="g">
+            <navigator wx:for="{{g.prom_goods_item}}"  class="choice_item" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}&item_id={{item.item_id}}" wx:key="{{index}}">
+              <view class="img-wrap">
+                  <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+                  <view class="discount">{{g.prom_detail}}</view>
+              </view>
+              <view class="title">{{item.goods_name}}</view>
+              <view class="price">￥{{item.price}}</view>
+              <view class="count-down">
+                  <view class="tip-count">剩余</view>
+                  <view class="tip-count">{{ g.remainTime }}</view>
+              </view>
+          </navigator>
+        </view> -->
+        
+        <navigator wx:for="{{requestData}}" url="/pages/goods/goodsInfo/goodsInfo?goods_id={{item.goods_id}}&item_id={{item.item_id}}">
+            <view class='content'>
+                <image src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=400&height=400"></image>
+                <!-- <image src="{{url}}/api/Activity/promote_list?goods_id={{item.goods_id}}&width=400&height=400" style='width:250rpx;height:250rpx;'></image> -->
+                <view>
+                    <text class='name'>{{item.goods_name}}</text>
+                    <view class='price'>￥{{item.shop_price}}元
+                        <!-- <text>已售:{{item.sales_sum+item.virtual_sales_sum}}件</text> -->
+                        <text style=''>{{item.comment_count}}条评价</text>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+
+    </view>
+    <view class="no-data" wx:if="{{!requestData || requestData.length == 0}}">
+        <image src="../../../images/cart-null.png" class="cart-image"/>
+        <view class="no-data-title">没有找到相关的记录</view>
+        <navigator url="/pages/index/index/index" class="lookat" > 去逛逛 </navigator>
+    </view>
+</view>

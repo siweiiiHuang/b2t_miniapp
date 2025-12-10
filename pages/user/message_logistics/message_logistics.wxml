@@ -1,0 +1,30 @@
+ <!-- message_logistics.wxml  -->
+ <view class='container' >
+    <view class='logistics-wrap'>
+        <view class='logistics-empty' bindtap="clearMessage">清空</view>
+          <view class="logistics_mesg" wx:for="{{messageList}}" wx:key="{{index}}">
+              <view class="logistics_items">
+                  <text class='logistics_time'>{{item.send_time_text}}</text>
+                  <view class="mesg_cont">
+                        <text class='logistics_name'>{{item.message_title}}<text wx:if="{{item.is_see == 0}}" class='logistics_icon'></text></text>
+                          <view class='logistics_span'>
+                              <view class='logistics_em'>
+                                  <view class='logistics_b'>
+                                    {{item.message_content}}                          
+                                  </view>
+                                  <view class='logistics_i' wx:if="{{item.mmt_code == 'evaluate_logistics'}}">{{item.order_text}}</view>
+                                             <view class='logistics_i' wx:else>订单编号：{{item.order_sn}}</view>
+                              </view>
+                          </view>
+                      <view class='logistics_a' bindtap='goDetail' data-item='{{item}}' style="background:url(../../../images/yr.png) center right no-repeat;background-size:16rpx 28rpx;">
+                          查看详情
+                      </view>
+                  </view>   
+              </view>
+          </view>
+    </view>
+    <view class="mesg_none" wx:if="{{!messageList || messageList.length == 0}}">
+         <image class='mesg_none_img' src="../../../images/error-img.png"></image> 
+        <text class='mesg_none_span'>暂无消息记录~</text>
+    </view>     
+ </view>

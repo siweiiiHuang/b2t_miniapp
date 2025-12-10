@@ -1,0 +1,98 @@
+page{
+    background-color: #fff;
+}
+.text-color{
+    color:#fff;
+}
+.padding{
+    padding:10px;
+}
+.header .head-image{
+    width: 40px;
+    height: 40px;
+    border-radius:18px;
+
+}
+.header-left{
+    display:flex;
+}
+.header-left-text{
+    font-size:0.7rem;
+    margin-top:25rpx;
+    margin-left:10px;
+}
+.header-right{
+    line-height:16rpx;
+}
+.header-broder {
+    text-align: center;
+    color:#fff;
+    font-size:0.65rem;
+    position:absolute;
+    top:280rpx; 
+    width:100%;
+
+}
+
+
+.header-sing-img{
+    position: absolute;
+    top: 2.765333rem;
+    left: 50%;
+    margin-left: -2.133333rem;
+    width: 4.266666rem;
+    height: 4.966666rem;
+    background-size: 8.533332rem 4.266666rem;
+}
+.header-sing-text{
+    position:absolute;
+    top:90rpx;
+    width:100%;
+    text-align:center;
+    font-size:.63rem;
+    color:red;
+}
+
+
+.justify-content{
+    justify-content:space-between;
+    display:flex;
+}
+
+.space-around{
+    display:flex; 
+}
+.space-around view{
+       width:14%;
+}
+
+.space-around-day{
+    color:darkgray;
+}
+
+.center-year{
+    border-bottom:1px solid #ddd;
+    padding:8px;
+    color:red;
+}
+
+.foot{
+    font-size:0.75rem;
+    line-height:1.35rem;
+    padding:10px;
+
+}
+
+.core{
+    text-align: center;
+    color:#fff;
+    background-color:#ec5151;
+    border-radius: 5px;
+    margin: .42667rem .64rem;
+    height: 60rpx;
+}
+.header-month{
+    position:absolute;
+    top:10px;
+    width:95%;        
+}
