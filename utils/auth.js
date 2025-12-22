@@ -116,15 +116,6 @@ module.exports = {
             code
         );
         
-        // 打印两个code
-        console.log('=== 登录参数打印 ===');
-        console.log('wx.login返回的code:', code);
-        console.log('手机号授权返回的code:', phoneDetail.code);
-        console.log('手机号授权返回的encryptedData:', phoneDetail.encryptedData);
-        console.log('手机号授权返回的iv:', phoneDetail.iv);
-        console.log('生成的phoneCode:', phoneCode);
-        console.log('==================');
-        
         // code使用wx.login返回的code，encryptedData和iv使用getPhoneNumber返回的e.detail
         var loginData = {
             code: code, // 使用wx.login返回的code
@@ -159,14 +150,23 @@ module.exports = {
                 // 检查是否包含 40163 错误码（code 已使用或过期）
                 var errorMsg = res.data.msg || '';
                 if (errorMsg.indexOf('40163') !== -1) {
-                    // code 失效，需要重新获取手机号授权
-                    console.log('检测到 40163 错误，需要重新授权手机号');
-                    wx.showToast({
-                        title: '授权已过期，请重新授权手机号',
-                        icon: 'none'
+                    // code 失效，只需要重新获取 wx.login 的 code，再使用原有手机号信息重试一次登录
+                    console.log('检测到 40163 错误，重新获取 wx.login code 并重试登录');
+                    wx.login({
+                        success: function (loginRes) {
+                            if (!loginRes.code) {
+                                that.clearAuth();
+                                that.alertLoginErrorAndGoHome('重新登录失败，请稍后重试');
+                                return false;
+                            }
+                            // 使用新的 code，沿用原来的手机号信息和其它参数，重试一次登录
+                            that.login(loginRes.code, wxUser, cb, firstLeader, phoneDetail, (retryCount || 0) + 1);
+                        },
+                        fail: function () {
+                            that.clearAuth();
+                            that.alertLoginErrorAndGoHome('重新登录失败，请检查网络后重试');
+                        }
                     });
-                    // 重新跳转到获取手机号页面
-                    that.goGetPhoneNumber(code, wxUser, cb);
                     return false;
                 }
                 //如果还没注册账户,关联账户
