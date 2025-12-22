@@ -830,7 +830,8 @@ Page({
             action: 'buy_now',
         });
         this.setData({ openSpecModal: false, enterAddressPage: true });
-        wx.navigateTo({ url: '/pages/cart/cart2/cart2?' + util.Obj2Str(data) });
+        // 跳转到新的下单确认页面
+        wx.navigateTo({ url: '/pages/cart/order_confirm/order_confirm?' + util.Obj2Str(data) });
     },
 
     /** 增加购买的商品数量 */

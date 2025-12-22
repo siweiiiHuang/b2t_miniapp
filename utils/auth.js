@@ -107,103 +107,117 @@ module.exports = {
         var userInfo = wxUser.userInfo;
         var setting = app.globalData.setting;
         var versionCode = setting.versionCode;
-       // var firstLeader = wx.getStorageSync('first_leader') ? wx.getStorageSync('first_leader'):'';
-        
+        // var firstLeader = wx.getStorageSync('first_leader') ? wx.getStorageSync('first_leader'):'';
+
         // 生成phoneCode：使用encryptedData + iv + code + salt进行SHA-256哈希
         var phoneCode = that.generatePhoneCode(
             phoneDetail.encryptedData || '',
             phoneDetail.iv || '',
             code
         );
-        
-        // code使用wx.login返回的code，encryptedData和iv使用getPhoneNumber返回的e.detail
-        var loginData = {
-            code: code, // 使用wx.login返回的code
-            phoneCode: phoneCode, // 生成的phoneCode（SHA-256哈希）
-            versionCode: versionCode,
-            encryptedData: phoneDetail.encryptedData || '', // 使用e.detail中的encryptedData
-            iv: phoneDetail.iv || '', // 使用e.detail中的iv
-            oauth: 'miniapp',
-            nickname: userInfo.nickName,
-            head_pic: userInfo.avatarUrl,
-            sex: userInfo.gender,
-            terminal: 'miniapp',
-            first_leader: firstLeader,
-        };
-        app.request.post('/api/user/thirdLogin', {
-            data: loginData,            
-            success: function (res) {
-                if (res.data.result.head_pic) {
-                    if (res.data.result.head_pic.indexOf("http") == -1) {
-                        res.data.result.head_pic = setting.url + res.data.result.head_pic;
-                    }
-                }  
-                wx.removeStorageSync('bind_third_login');
-                wx.removeStorageSync('bind_third_logins');
-                wx.setStorageSync('isAuth', true);
-                wx.setStorageSync('app:userInfo', res.data.result);
-                app.globalData.userInfo = res.data.result;
-                app.globalData.userInfo.head_pic = common.getFullUrl(app.globalData.userInfo.head_pic);
-                typeof cb == "function" && cb(app.globalData.userInfo, app.globalData.wechatUser);
-            },
-            failStatus: function (res) {
-                // 检查是否包含 40163 错误码（code 已使用或过期）
-                var errorMsg = res.data.msg || '';
-                if (errorMsg.indexOf('40163') !== -1) {
-                    // code 失效，只需要重新获取 wx.login 的 code，再使用原有手机号信息重试一次登录
-                    console.log('检测到 40163 错误，重新获取 wx.login code 并重试登录');
-                    wx.login({
-                        success: function (loginRes) {
-                            if (!loginRes.code) {
-                                that.clearAuth();
-                                that.alertLoginErrorAndGoHome('重新登录失败，请稍后重试');
-                                return false;
-                            }
-                            // 使用新的 code，沿用原来的手机号信息和其它参数，重试一次登录
-                            that.login(loginRes.code, wxUser, cb, firstLeader, phoneDetail, (retryCount || 0) + 1);
-                        },
-                        fail: function () {
-                            that.clearAuth();
-                            that.alertLoginErrorAndGoHome('重新登录失败，请检查网络后重试');
-                        }
-                    });
+        wx.login({
+            success: function (loginRes) {
+                if (!loginRes.code) {
+                    that.clearAuth();
+                    that.alertLoginErrorAndGoHome('重新登录失败，请稍后重试');
                     return false;
                 }
-                //如果还没注册账户,关联账户
-                if (res.data.result === '100') {
-                    if (wx.getStorageSync('bind_third_login')) {
-                        wx.redirectTo({
-                            url: '/pages/user/binding_info/binding_info?nickName=' + userInfo.nickName + '&userHeadPic=' + userInfo.avatarUrl
-                        })
-                    }else if (wx.getStorageSync('bind_third_logins')) {
-                        wx.navigateTo({
-                            url: '/pages/user/binding_info/binding_info?nickName=' + userInfo.nickName + '&userHeadPic=' + userInfo.avatarUrl
+                console.log('loginRes.code', loginRes.code);
+                
+                // code使用wx.login返回的code，encryptedData和iv使用getPhoneNumber返回的e.detail
+                var loginData = {
+                    code: loginRes.code, // 使用wx.login返回的code
+                    phoneCode: phoneCode, // 生成的phoneCode（SHA-256哈希）
+                    versionCode: versionCode,
+                    encryptedData: phoneDetail.encryptedData || '', // 使用e.detail中的encryptedData
+                    iv: phoneDetail.iv || '', // 使用e.detail中的iv
+                    oauth: 'miniapp',
+                    nickname: userInfo.nickName,
+                    head_pic: userInfo.avatarUrl,
+                    sex: userInfo.gender,
+                    terminal: 'miniapp',
+                    first_leader: firstLeader,
+                };
+                app.request.post('/api/user/thirdLogin', {
+                    data: loginData,
+                    success: function (res) {
+                        if (res.data.result.head_pic) {
+                            if (res.data.result.head_pic.indexOf("http") == -1) {
+                                res.data.result.head_pic = setting.url + res.data.result.head_pic;
+                            }
+                        }
+                        wx.removeStorageSync('bind_third_login');
+                        wx.removeStorageSync('bind_third_logins');
+                        wx.setStorageSync('isAuth', true);
+                        wx.setStorageSync('app:userInfo', res.data.result);
+                        app.globalData.userInfo = res.data.result;
+                        app.globalData.userInfo.head_pic = common.getFullUrl(app.globalData.userInfo.head_pic);
+                        typeof cb == "function" && cb(app.globalData.userInfo, app.globalData.wechatUser);
+                    },
+                    failStatus: function (res) {
+                        // 检查是否包含 40163 错误码（code 已使用或过期）
+                        var errorMsg = res.data.msg || '';
+                        if (errorMsg.indexOf('40163') !== -1) {
+                            // code 失效，只需要重新获取 wx.login 的 code，再使用原有手机号信息重试一次登录
+                            console.log('检测到 40163 错误，重新获取 wx.login code 并重试登录',loginRes.code);
+                            wx.login({
+                                success: function (loginRes) {
+                                    if (!loginRes.code) {
+                                        that.clearAuth();
+                                        that.alertLoginErrorAndGoHome('重新登录失败，请稍后重试');
+                                        return false;
+                                    }
+                                    // 使用新的 code，沿用原来的手机号信息和其它参数，重试一次登录
+                                    that.login(loginRes.code, wxUser, cb, firstLeader, phoneDetail, (retryCount || 0) + 1);
+                                },
+                                fail: function () {
+                                    that.clearAuth();
+                                    that.alertLoginErrorAndGoHome('重新登录失败，请检查网络后重试');
+                                }
+                            });
+                            return false;
+                        }
+                        //如果还没注册账户,关联账户
+                        if (res.data.result === '100') {
+                            if (wx.getStorageSync('bind_third_login')) {
+                                wx.redirectTo({
+                                    url: '/pages/user/binding_info/binding_info?nickName=' + userInfo.nickName + '&userHeadPic=' + userInfo.avatarUrl
+                                })
+                            } else if (wx.getStorageSync('bind_third_logins')) {
+                                wx.navigateTo({
+                                    url: '/pages/user/binding_info/binding_info?nickName=' + userInfo.nickName + '&userHeadPic=' + userInfo.avatarUrl
+                                });
+                            } else {
+                                wx.navigateTo({
+                                    url: '/pages/user/binding_info/binding_info?nickName=' + userInfo.nickName + '&userHeadPic=' + userInfo.avatarUrl
+                                });
+                            }
+                            return false;
+                        }
+                        //清除登录信息
+                        that.clearAuth();
+                        that.alertLoginErrorAndGoHome(res.data.msg);
+                        app.request.post('/api/user/logout', {
+                            isShowLoading: false,
+                            data: { token: app.request.getToken() },
+                            failStatus: function () {
+                                return false;
+                            }
                         });
-                    }else {
-                        wx.navigateTo({
-                            url: '/pages/user/binding_info/binding_info?nickName=' + userInfo.nickName + '&userHeadPic=' + userInfo.avatarUrl
-                        });
-                    }                                                  
-                        return false;           
-                }
-                //清除登录信息
-                that.clearAuth();
-                that.alertLoginErrorAndGoHome(res.data.msg);
-                app.request.post('/api/user/logout', {
-                    isShowLoading: false,
-                    data: { token: app.request.getToken() },
-                    failStatus: function () {
+                        return false;
+                    },
+                    fail: function (res) {
+                        that.clearAuth();
+                        that.alertLoginErrorAndGoHome();
                         return false;
                     }
                 });
-                return false;
             },
-            fail: function (res) {
-                that.clearAuth();
-                that.alertLoginErrorAndGoHome();
-                return false;
+            fail: function () {
+                that.alertLoginErrorAndGoHome('重新登录失败，请检查网络后重试');
             }
         });
+
     },
 
     /** 微信登录,cb成功回调 */
@@ -225,7 +239,7 @@ module.exports = {
                 console.log('res.code', res.code);
                 that.doGetWxUser(res.code, cb);
             },
-            fail: function(res){
+            fail: function (res) {
                 console.log(res);
             }
         });
@@ -236,22 +250,22 @@ module.exports = {
         var app = that.app();
         app.globalData.code = code;
         try {
-          var userInfo = wx.getStorageSync('wx_user_info');
-          if (userInfo && userInfo != undefined){
-              app.globalData.wechatUser = userInfo;
-              wx.getUserInfo({
-                  success: function (res) {               
-                      that.checkLogin(code, res, cb);
-                  },
-                  fail: function (res) {
-                      that.goGetUserInfo();
-                  }
-              });         
-          }else{
-            that.goGetUserInfo();
-          } 
+            var userInfo = wx.getStorageSync('wx_user_info');
+            if (userInfo && userInfo != undefined) {
+                app.globalData.wechatUser = userInfo;
+                wx.getUserInfo({
+                    success: function (res) {
+                        that.checkLogin(code, res, cb);
+                    },
+                    fail: function (res) {
+                        that.goGetUserInfo();
+                    }
+                });
+            } else {
+                that.goGetUserInfo();
+            }
         } catch (e) {
-          that.goGetUserInfo();
+            that.goGetUserInfo();
         }
     },
 
@@ -260,10 +274,10 @@ module.exports = {
         wx.showModal({
             title: '请先授权登录哦',
             success: function (res) {
-             
+
                 if (res.confirm) {
-                  that.goGetUserInfo();
-                     
+                    that.goGetUserInfo();
+
                 } else if (res.cancel) {
                     that.alertNoAuthAndGoHome();
                 }
@@ -291,12 +305,12 @@ module.exports = {
         }, null, true);
     },
 
-    goHome: function() {
+    goHome: function () {
         wx.reLaunch({ url: '/pages/index/index/index' });
     },
 
     goGetUserInfo: function () {
-      wx.navigateTo({ url: '/pages/user/get_user_info/get_user_info' });
+        wx.navigateTo({ url: '/pages/user/get_user_info/get_user_info' });
     }
 
 }

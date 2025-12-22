@@ -313,7 +313,8 @@ Page({
         if (!hasAnySelected) {
             return;
         }
-        wx.navigateTo({ url: '/pages/cart/cart2/cart2' });
+        // 跳转到新的下单确认页面
+        wx.navigateTo({ url: '/pages/cart/order_confirm/order_confirm' });
     },
 
     // 底部导航栏跳转

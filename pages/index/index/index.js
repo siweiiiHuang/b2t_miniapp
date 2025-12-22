@@ -123,11 +123,49 @@ Page({
       });
       return;
     }
-    // TODO: 调用加入购物车接口
-    wx.showToast({
-      title: '加入购物车成功！',
-      icon: 'success',
-      duration: 1500
+
+    // 检查用户是否登录
+    if (!app.auth.isAuth()) {
+      app.auth.auth(() => {
+        this.addCart(e); // 登录成功后重新调用
+      });
+      return;
+    }
+
+    // 调用加入购物车接口
+    const data = {
+      goods_id: goodsId,
+      goods_num: 1,
+      item_id: 0 // 默认规格
+    };
+
+    request.post('/api/cart/add', {
+      data: data,
+      isShowLoading: true,
+      success: function (res) {
+        wx.showToast({
+          title: '加入购物车成功！',
+          icon: 'success',
+          duration: 1500
+        });
+        // 更新购物车数量
+        request.checkUniqueId();
+      },
+      fail: function (res) {
+        wx.showToast({
+          title: '加入购物车失败',
+          icon: 'none',
+          duration: 1500
+        });
+      },
+      failStatus: function (res) {
+        wx.showToast({
+          title: res.data.msg || '加入购物车失败',
+          icon: 'none',
+          duration: 1500
+        });
+        return false;
+      }
     });
   },
 

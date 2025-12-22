@@ -69,6 +69,8 @@ Page({
         if (this.data.operate == 'select') {          
             //更新订单页的地址           
             wx.setStorageSync('cart:cart2:address', data);
+            // 同时为新的下单确认页面保存地址
+            wx.setStorageSync('selectedAddress', data);
         } else if (this.data.operate == 'teamSelect') {
             //更新拼团订单页的地址
             wx.setStorageSync('team:confirm:address', data);

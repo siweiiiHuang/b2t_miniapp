@@ -27,6 +27,7 @@
         "pages/activity/coupon_list/coupon_list",
         "pages/cart/cart/cart",
         "pages/cart/cart2/cart2",
+        "pages/cart/order_confirm/order_confirm",
         "pages/cart/cart4/cart4",
         "pages/cart/invoice/invoice",
         "pages/cart/submit_address/submit_address",

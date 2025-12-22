@@ -1,0 +1,133 @@
+<!--下单确认页面-->
+<view class="container">
+
+  <!-- 收货地址 -->
+  <view class="address-box" bindtap="selectAddress">
+    <view wx:if="{{order.userAddress}}" class="address-content">
+      <view class="user-info">
+        <view class="user-name">{{order.userAddress.consignee}}</view>
+        <view class="user-phone">{{order.userAddress.mobile}}</view>
+      </view>
+      <view class="address-info">
+        {{order.userAddress.province_name}}{{order.userAddress.city_name}}{{order.userAddress.district_name}}{{order.userAddress.twon_name}}{{order.userAddress.address}}
+      </view>
+    </view>
+    <view wx:else class="no-address">
+      <view class="add-address-text">请选择收货地址</view>
+    </view>
+    <view class="edit-icon">＞</view>
+  </view>
+
+  <!-- 商品信息 -->
+  <view class="product-list">
+    <view class="product-box" wx:for="{{order.cartList}}" wx:key="id">
+      <image class="product-img" src="{{resourceUrl}}{{item.original_img}}" mode="aspectFill"></image>
+      <view class="product-info">
+        <view class="product-name">{{item.goods_name}}</view>
+        <view class="product-spec" wx:if="{{item.spec_key_name}}">{{item.spec_key_name}}</view>
+        <view class="product-price-row">
+          <view class="product-price">¥{{item.member_goods_price[0]}}.{{item.member_goods_price[1]}}</view>
+          <view class="product-num">x{{item.goods_num}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快递选择 -->
+  <view class="express-box" wx:if="{{!isPickup}}">
+    <view class="express-title">配送快递选择</view>
+    <view class="express-list">
+      <view class="express-item {{selectedExpressCode == 'sf' ? 'active' : ''}}" 
+            data-code="sf" data-name="顺丰快递" bindtap="selectExpress">
+        <view class="express-left">
+          <view class="express-icon">📦</view>
+          <view>
+            <view class="express-name">顺丰快递</view>
+            <view class="express-fee">{{sfFeeText}}</view>
+          </view>
+        </view>
+        <view class="radio-icon {{selectedExpressCode == 'sf' ? 'active' : ''}}"></view>
+      </view>
+      <!-- 京东快递暂时屏蔽 -->
+      <!-- <view class="express-item {{selectedExpressCode == 'jd' ? 'active' : ''}}" 
+            data-code="jd" data-name="京东快递" bindtap="selectExpress">
+        <view class="express-left">
+          <view class="express-icon">🚛</view>
+          <view>
+            <view class="express-name">京东快递</view>
+            <view class="express-fee">{{jdFeeText}}</view>
+          </view>
+        </view>
+        <view class="radio-icon {{selectedExpressCode == 'jd' ? 'active' : ''}}"></view>
+      </view> -->
+    </view>
+  </view>
+
+  <!-- 其他信息 -->
+  <view class="other-box">
+    <view class="info-item" bindtap="selectInvoice">
+      <view class="info-label">发票信息</view>
+      <view class="info-value">
+        {{invoiceText}}
+        <view class="arrow-icon">＞</view>
+      </view>
+    </view>
+    <view class="info-item" bindtap="selectCoupon">
+      <view class="info-label">优惠券</view>
+      <view class="info-value">
+        <view class="coupon-tag" wx:if="{{coupons.length > 0}}">{{coupons.length}}张可用</view>
+        <view class="coupon-tag" wx:else>0张可用</view>
+        {{couponText}}
+        <view class="arrow-icon">＞</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 买家留言 -->
+  <view class="message-box">
+    <view class="message-title">买家留言（50字）</view>
+    <textarea class="message-input" 
+              placeholder="选填：对本次交易的说明..." 
+              value="{{formData.user_note}}"
+              bindinput="onMessageInput"
+              maxlength="50"></textarea>
+    <view class="word-count">{{messageLength}}/50</view>
+  </view>
+
+  <!-- 金额统计 -->
+  <view class="amount-box">
+    <view class="amount-item">
+      <view class="amount-label">商品金额</view>
+      <view class="amount-value">¥{{orderPrices.goodsTotalPrice || '0.00'}}</view>
+    </view>
+    <view class="amount-item" wx:if="{{!isPickup}}">
+      <view class="amount-label">物流费用</view>
+      <view class="amount-value">¥{{orderPrices.expressFee || expressFee || '0.00'}}</view>
+    </view>
+    <view class="amount-item" wx:if="{{coupon}}">
+      <view class="amount-label">优惠券抵扣</view>
+      <view class="amount-value">-¥{{coupon.money}}</view>
+    </view>
+    <view class="amount-total">
+      <view class="total-label">应付金额</view>
+      <view class="total-value">¥{{orderPrices.orderTotalPrice || '0.00'}}</view>
+    </view>
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="submit-bar">
+    <view class="total-price">
+      <text>应付金额：</text>¥{{orderPrices.orderTotalPrice || '0.00'}}
+    </view>
+    <button class="submit-btn {{canSubmit ? '' : 'disabled'}}" 
+            disabled="{{!canSubmit}}" 
+            bindtap="submitOrder">
+      {{submitBtnText}}
+    </button>
+  </view>
+</view>
+
+<!-- 提示弹窗 -->
+<view class="toast {{showToast ? 'show' : ''}}" wx:if="{{toastText}}">
+  {{toastText}}
+</view>
