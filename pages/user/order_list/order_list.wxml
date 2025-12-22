@@ -62,3 +62,10 @@
         </view>
     </view>
 </view>
+
+<!-- 底部导航 -->
+<import src="../../index/publics/publics.wxml"/>
+<template is="bottomNav" data="{{currentPage:2}}"/>
+
+<!-- 悬浮客服球 -->
+<template is="floatService"/>

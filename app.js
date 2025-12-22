@@ -15,6 +15,7 @@ App({
         menu_model:[],      //自定义菜单模型
         defaultMenu:false,  //自定义菜单状态  
 		is_apply:0,         //是否在审核阶段
+        pendingLogin: null, //待登录信息（用于获取手机号后登录）
     },
 
     /** 授权对象 */

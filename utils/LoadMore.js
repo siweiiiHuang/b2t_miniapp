@@ -13,7 +13,8 @@ class LoadMore {
             resultListName: '',
             scrollTimeStamp: 0, //事件时间戳，用于去动
             goodsLoadFinishFlag: false, //加载完成标志
-            goodsLoading: false //正在加载中标志
+            goodsLoading: false, //正在加载中标志
+            showFinishToast: true //是否显示"加载完啦"的toast提示，默认true
         }
     }
 
@@ -23,8 +24,9 @@ class LoadMore {
      * listName：请求的结果result中列表数据所在的属性名或键值
      * resultName：保存在page页面data中请求数据result所在的属性名
      * resultListName：保存在page data中resultName中的列表数据的属性名，不填与listName一致
+     * showFinishToast：是否显示"加载完啦"的toast提示，默认true
      */
-    init(page, listName, resultName, resultListName) {
+    init(page, listName, resultName, resultListName, showFinishToast) {
         this.data.scrollTimeStamp = 0;
         this.data.page = page;
         this.data.listName = listName;
@@ -32,6 +34,7 @@ class LoadMore {
         this.data.resultListName = (resultListName == undefined) ? listName : resultListName;
         this.data.goodsLoadFinishFlag = false;
         this.data.goodsLoading = false;
+        this.data.showFinishToast = (showFinishToast == undefined) ? true : showFinishToast;
     }
 
     /**
@@ -84,7 +87,9 @@ class LoadMore {
                 });
                 if (!inList || inList.length == 0) {
                     that.data.goodsLoadFinishFlag = true;
-                    hasPreData && app.showWarning('加载完啦', null, 500, false);
+                    if (hasPreData && that.data.showFinishToast) {
+                        app.showWarning('加载完啦', null, 500, false);
+                    }
                 }
             },
             fail: function (res) {
@@ -109,7 +114,9 @@ class LoadMore {
         console.log('loadMore...Finish:', this.data.goodsLoadFinishFlag);
         var that = this;
         if (that.data.goodsLoadFinishFlag) {
-            app.showWarning('加载完啦', null, 500, false);
+            if (that.data.showFinishToast) {
+                app.showWarning('加载完啦', null, 500, false);
+            }
             return false;
         }
         //抖动时间

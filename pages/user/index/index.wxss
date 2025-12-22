@@ -1,3 +1,6 @@
+/* 引入公共样式 */
+@import "../../index/publics/publics.wxss";
+
 /**index.wxss**/
 .userinfo {
     width: 100%;

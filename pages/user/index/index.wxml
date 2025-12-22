@@ -94,12 +94,9 @@
     </view>
 </view>
 
-<!-- 底部菜单 -->
+<!-- 底部导航 -->
 <import src="../../index/publics/publics.wxml"/>
-<block wx:if="{{menu_model.length > 0}}">
-    <template is="model" data="{{page:menu_index,menu_model:menu_model,url:url,defaultMenu:defaultMenu}}" />
-</block>
+<template is="bottomNav" data="{{currentPage:3}}"/>
 
-<block wx:else>
-    <template is="model" data="{{page:3,menu_model:[],url:url,defaultMenu:defaultMenu}}" />
-</block>
+<!-- 悬浮客服球 -->
+<template is="floatService"/>

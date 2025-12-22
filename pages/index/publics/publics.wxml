@@ -17,6 +17,28 @@
   </view>
 </template>
 
+<!-- 底部导航栏 -->
+<template name="bottomNav">
+  <view class="bottom-nav">
+    <view class="bottom-nav-item {{currentPage == 0 ? 'bottom-nav-active' : ''}}" catchtap="navigateToPage" data-index="0">
+      <view class="bottom-nav-icon">🏠</view>
+      <view class="bottom-nav-text">首页</view>
+    </view>
+    <view class="bottom-nav-item {{currentPage == 1 ? 'bottom-nav-active' : ''}}" catchtap="navigateToPage" data-index="1">
+      <view class="bottom-nav-icon">🛒</view>
+      <view class="bottom-nav-text">点单</view>
+    </view>
+    <view class="bottom-nav-item {{currentPage == 2 ? 'bottom-nav-active' : ''}}" catchtap="navigateToPage" data-index="2">
+      <view class="bottom-nav-icon">📝</view>
+      <view class="bottom-nav-text">取单</view>
+    </view>
+    <view class="bottom-nav-item {{currentPage == 3 ? 'bottom-nav-active' : ''}}" catchtap="navigateToPage" data-index="3">
+      <view class="bottom-nav-icon">👤</view>
+      <view class="bottom-nav-text">个人中心</view>
+    </view>
+  </view>
+</template>
+
 
 
 <template name="distributMenu">
@@ -31,4 +53,11 @@
         <view hover-class="none" catchtap='distributTopages'  data-idx="4" class="{{page == 4?'tpd-footer-select':''}}"><image src="{{page == 4?'/images/distribut/shop_red@2x.png':'/images/distribut/shop_black@2x.png'}}"></image><text>我的网店</text></view>
     </view>
   </view>
+</template>
+
+<!-- 悬浮客服球 -->
+<template name="floatService">
+  <button class="float-service-btn" open-type="contact" session-from="miniapp">
+    <view class="float-service-icon">💬</view>
+  </button>
 </template>

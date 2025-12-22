@@ -1,0 +1,17 @@
+<!--pages/user/get_phone_number/get_phone_number.wxml-->
+<view class="container">
+  <view class="phone-auth-box">
+    <view class="phone-auth-title">授权手机号</view>
+    <view class="phone-auth-desc">为了给您提供更好的服务体验，需要获取您的手机号</view>
+    <button 
+      class="phone-auth-btn" 
+      open-type="getPhoneNumber" 
+      bindgetphonenumber="getPhoneNumber">
+      授权手机号
+    </button>
+  </view>
+</view>
+
+
+
+

@@ -104,3 +104,49 @@ button{
     margin: 0 auto;
 }
 
+/* 全局样式重置 */
+page {
+  background-color: #f9f6f0;
+  color: #333;
+  font-family: "思源黑体", "PingFang SC", "Microsoft YaHei", sans-serif;
+  padding-bottom: 160rpx; /* 为底部导航留空间 */
+  box-sizing: border-box;
+}
+
+/* 通用样式 */
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.text-primary {
+  color: #8B4513;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.radius-12 {
+  border-radius: 12rpx;
+}
+
+.radius-8 {
+  border-radius: 8rpx;
+}
+
+.margin-10 {
+  margin: 10rpx;
+}
+
+.margin-15 {
+  margin: 15rpx;
+}
+
+.padding-15 {
+  padding: 15rpx;
+}

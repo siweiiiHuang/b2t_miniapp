@@ -1,6 +1,5 @@
 {
     "pages": [  
-        "pages/home/home",    
         "pages/index/index/index",
         "pages/activity/collocation/collocation",
         "pages/Bargain/order_list/order_list",
@@ -66,6 +65,7 @@
         "pages/user/express/express",
         "pages/user/binding_info/binding_info",
         "pages/user/get_user_info/get_user_info",
+        "pages/user/get_phone_number/get_phone_number",
         "pages/virtual/buy_step/buy_step",
         "pages/virtual/virtual_list/virtual_list",
         "pages/distribut/index/index",

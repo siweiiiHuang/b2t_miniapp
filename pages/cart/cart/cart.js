@@ -314,6 +314,38 @@ Page({
             return;
         }
         wx.navigateTo({ url: '/pages/cart/cart2/cart2' });
+    },
+
+    // 底部导航栏跳转
+    navigateToPage(e) {
+        const index = parseInt(e.currentTarget.dataset.index);
+        
+        // 如果点击的是当前页面，不进行跳转
+        if (index === 1) {
+            return;
+        }
+
+        // 根据索引跳转到对应页面
+        switch(index) {
+            case 0: // 首页
+                wx.reLaunch({
+                    url: '/pages/index/index/index'
+                });
+                break;
+            case 1: // 点单（购物车）
+                // 当前页面，不跳转
+                break;
+            case 2: // 取单（订单列表）
+                wx.reLaunch({
+                    url: '/pages/user/order_list/order_list'
+                });
+                break;
+            case 3: // 个人中心
+                wx.reLaunch({
+                    url: '/pages/user/index/index'
+                });
+                break;
+        }
     }
 
 });
