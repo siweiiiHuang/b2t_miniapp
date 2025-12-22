@@ -5,6 +5,61 @@
   padding-bottom: 80px;
 }
 
+/* 配送方式选择 */
+.delivery-box {
+  background-color: #fff;
+  padding: 15px 20px;
+  margin: 10px 0;
+}
+
+.delivery-title {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.delivery-list {
+  display: flex;
+  flex-direction: row;
+}
+
+.delivery-item {
+  flex: 1;
+  padding: 12px 0;
+  text-align: center;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  font-size: 15px;
+  position: relative;
+}
+
+.delivery-item + .delivery-item {
+  margin-left: 15px;
+}
+
+.delivery-item.active {
+  border-color: #8B4513;
+  background-color: #fff3e0;
+  color: #8B4513;
+}
+
+.self-pick-info {
+  background-color: #fff3e0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-top: 10px;
+}
+
+.self-pick-item {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.self-pick-label {
+  color: #8B4513;
+}
+
 /* 收货地址 */
 .address-box {
   background-color: #fff;
@@ -347,13 +402,14 @@
 }
 
 .submit-btn {
-  padding: 12px 30px;
+  padding: 8px 24px;
   background-color: #f44336;
   color: #fff;
   border: none;
   border-radius: 25px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
+  margin: 0;
 }
 
 .submit-btn.disabled {

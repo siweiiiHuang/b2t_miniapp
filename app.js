@@ -29,6 +29,22 @@ App({
         this.initExt();
         var setting = this.globalData.setting;
         setting.resourceUrl = setting.url + '/template/mobile/rainbow';
+        // 从本地缓存恢复登录状态（token 等），避免每次重新编译后都要重新登录
+        try {
+            var isAuth = wx.getStorageSync('isAuth');
+            if (isAuth) {
+                var userInfo = wx.getStorageSync('app:userInfo');
+                if (userInfo) {
+                    this.globalData.userInfo = userInfo;
+                }
+                var wechatUser = wx.getStorageSync('wx_user_info');
+                if (wechatUser) {
+                    this.globalData.wechatUser = wechatUser;
+                }
+            }
+        } catch (e) {
+            // 读取缓存失败时忽略，正常走未登录流程
+        }
     },
 
     initExt: function () {
