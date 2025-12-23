@@ -46,7 +46,7 @@ Page({
     onLoad: function (options) { 
         //获取全部分类
         this.restoreData()
-        var hot_keywords = common.getConfigByName(app.globalData.config['config'], 'hot_keywords'); 
+        var hot_keywords = app.globalData.config && app.globalData.config['config'] ? common.getConfigByName(app.globalData.config['config'], 'hot_keywords') : ''; 
         if (hot_keywords && hot_keywords.indexOf("|") != -1){
             var data = hot_keywords.split('|')
             var arrs = [];

@@ -32,7 +32,7 @@ Page({
     },
 
     onLoad: function() {
-        var types = common.getConfigByName(app.globalData.config['config'], 'category_switch') || 1;
+        var types = (app.globalData.config && app.globalData.config['config'] ? common.getConfigByName(app.globalData.config['config'], 'category_switch') : null) || 1;
       console.log(types)
         if (types == 1) {      
             this.requestFirstCategoris();            

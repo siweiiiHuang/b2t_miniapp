@@ -7,7 +7,7 @@ Page({
     data: {
         url: setting.url,
         resourceUrl: setting.resourceUrl,
-        defaultAvatar: setting.resourceUrl + "/static/images/user68.jpg",
+        defaultAvatar: "/images/user1.png",
         userInfo: {
             collect_count: 0,
             message_count: 0,
@@ -20,6 +20,7 @@ Page({
             pay_points: 0,
             
         },
+        storageUserInfo: {},
         defaultMenu: false,  //默认底部菜单显示状态
         distribut:0,
         sign:0,
@@ -30,6 +31,32 @@ Page({
     onShow: function() {
         var that = this;
         that.data.click = false;
+        
+        // 从Storage读取app:userInfo
+        try {
+            var storageUserInfo = wx.getStorageSync('app:userInfo');
+            if (storageUserInfo) {
+                that.setData({
+                    storageUserInfo: storageUserInfo
+                });
+            }
+        } catch (e) {
+            console.log('读取Storage中的app:userInfo失败:', e);
+        }
+        
+        // 确保配置已加载
+        if (!app.globalData.config) {
+            app.getConfig(function(config) {
+                that.initPageData();
+            });
+        } else {
+            that.initPageData();
+        }
+    },
+    
+    initPageData: function() {
+        var that = this;
+        
         if (app.globalData.menu_model.length == 0) {
             app.globalData.menu_index = 3
         } else {
@@ -45,8 +72,8 @@ Page({
             defaultMenu: app.globalData.defaultMenu,
             menu_index: app.globalData.menu_index,
             menu_model: app.globalData.menu_model,
-            distribut: common.getConfigByName(app.globalData.config['config'], 'switch'),
-            sign: common.getConfigByName(app.globalData.config['config'], 'sign_on_off')
+            distribut: app.globalData.config && app.globalData.config['config'] ? common.getConfigByName(app.globalData.config['config'], 'switch') : 0,
+            sign: app.globalData.config && app.globalData.config['config'] ? common.getConfigByName(app.globalData.config['config'], 'sign_on_off') : 0
         })     
         var status = false;
         //先预设值，加速加载
@@ -64,7 +91,6 @@ Page({
             }, true, false); 
         }
 
-    
         request.get('/api/user/center_menu', {
             success: function (res) {
                 wx.setStorageSync('custom_menu', res.data.result.menu_list);
@@ -75,16 +101,16 @@ Page({
 
         wx.setNavigationBarColor({
             frontColor: '#000000',
-            backgroundColor: '#eeeeee',
+            backgroundColor: '#fdda65',
             animation: {
                 duration: 400,
                 timingFunc: 'easeIn'
             }
         })
         wx.setBackgroundColor({
-            backgroundColor:'#eeeeee',
-            backgroundColorTop: '#eeeeee',
-            backgroundColorBottom: '#eeeeee',
+            backgroundColor:'#fdda65',
+            backgroundColorTop: '#fdda65',
+            backgroundColorBottom: '#fdda65',
         })
        
     },
@@ -162,6 +188,37 @@ Page({
                 that.setData({ userInfo: userInfo });
             }, true, false); 
         }       
+    },
+
+    /** 处理用户信息授权 */
+    bindGetUserinfo: function(res) {
+        var that = this;
+        if (that.data.click) return false;
+        that.data.click = true;
+        
+        if (res.detail.userInfo != undefined) {
+            try {
+                wx.setStorageSync('wx_user_info', res.detail);
+                wx.setStorageSync('bind_third_login', true);
+                app.globalData.wechatUser = res.detail.userInfo;
+                
+                app.auth.checkLogin(app.globalData.code, res.detail, function (loginData) {
+                    app.showSuccess('登录成功', function () {
+                        wx.removeStorageSync('first_leader');
+                        wx.removeStorageSync('unique_id');
+                        wx.removeStorageSync('login_user_info');
+                        // 刷新用户信息
+                        that.onShow();
+                    });
+                });
+            } catch (e) {
+                console.log(e);
+                that.data.click = false;
+            }
+        } else {
+            console.log('bindGetUserinfo fail . res.detail.userInfo is undefined');
+            that.data.click = false;
+        }
     },
     menu:function(data){
        var menu = [      

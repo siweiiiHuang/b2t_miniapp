@@ -1,35 +1,25 @@
 <!--index.wxml-->
 <view class="container">
-    <view class="userinfo" style="background-color:{{head_color?head_color:'#EB4142'}};">
-        <view class="user-box">
-            <view style="margin:auto;">
-                <view catchtap='clickMenu' data-url="/pages/user/userinfo/userinfo">
-                    <image class="userinfo-avatar" src="{{userInfo.head_pic?userInfo.head_pic:defaultAvatar}}"></image>
-                </view>
-                <view style="text-align:center;font-size:.7rem;" catchtap='login'><text>{{userInfo.nickname?userInfo.nickname:userInfo.user_id?userInfo.user_id + '用户' : '点击登录'}}</text></view>     
-                 <view style="text-align:center;font-size:12px;" wx:if="{{userInfo.user_id}}"><text>{{userInfo.describe?userInfo.describe:'注册会员'}}</text></view>                 
-            </view>
+  <!-- 头部黄色背景，简洁设计 -->
+  <view class="userinfo">
+    <view class="user-container">
+        <view class="user-center">
             <view catchtap='clickMenu' data-url="/pages/user/userinfo/userinfo">
-                <image class="set-btn" src="../../../images/set.png"></image>
+            <image class="userinfo-avatar" src="{{userInfo.head_pic?userInfo.head_pic:defaultAvatar}}"></image>
             </view>
+            <view class="user-name" catchtap='login'>
+            <text wx:if="{{userInfo.nickname || userInfo.user_id}}">{{storageUserInfo.mobile}}</text>
+            <button wx:else open-type="getUserInfo" bindgetuserinfo='bindGetUserinfo' class='login-btn'>立即登录</button>
+            </view>
+            <view class="user-desc" wx:if="{{userInfo.user_id}}">
+            <text>{{userInfo.describe?userInfo.describe:'注册会员'}}</text>
+            </view>                 
         </view>
-        <view class="user-mes">
-            <view class='user-mes-bg'>
-            </view>
-            <view class='mes-item-wrap'>
-                <view class="mes-item" catchtap='clickMenu'  data-url="/pages/user/account/account">
-                    <view class="mes-num">{{userInfo.user_money}}</view>
-                    <view class="mes-title">我的余额</view>
-                </view>
-                <view class="mes-item" catchtap='clickMenu'  data-url="/pages/user/points_list/points_list">
-                    <view class="mes-num">{{userInfo.pay_points}}</view>
-                    <view class="mes-title">我的积分</view>
-                </view>
-            </view>
-        </view>
-    </view>       
+    </view>
+  </view>       
     <view class="manage-list">    
-    <block wx:for="{{userInfoList.manageList}}">
+    <block wx:for="{{userInfoList.manageList}}" wx:key="index">
+        <!-- 订单模块（menu_id=1） -->
         <block wx:if="{{item.menu_id == 1}}">
         <view style="margin-bottom:{{item.is_tab == 1?'20':'0'}}rpx">
              <view class="my-order" catchtap='clickMenu'  data-url="/pages/user/order_list/order_list" >
@@ -74,8 +64,9 @@
                 </view>
              </view>
         </block>
+        <!-- 普通菜单（非menu_id=1） -->
         <block wx:else>
-            <navigator wx:key="{{index}}" class="manage-item" catchtap='clickMenu' data-url="{{item.url}}" style="margin-bottom:{{item.is_tab == 1?'20':'0'}}rpx">
+            <navigator class="manage-item" catchtap='clickMenu' data-url="{{item.url}}" style="margin-bottom:{{item.is_tab == 1?'20':'0'}}rpx">
                     <view class="order-title">
                         <image class="order-ico" src="{{item.logo}}"></image>
                         <text>{{item.menu_name?item.menu_name:item.default_name}}</text>
@@ -84,13 +75,6 @@
                 </navigator>   
         </block>                        
     </block>     
-         <navigator  class="manage-item" catchtap='authorization' >
-            <view class="order-title">
-                <image class="order-ico" src="../../../images/author.png"></image>
-                <text>授权管理</text>
-            </view>
-            <image class="arrow-right" src="../../../images/icon-arrowdown.png"></image>
-        </navigator>
     </view>
 </view>
 

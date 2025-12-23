@@ -310,7 +310,62 @@ module.exports = {
     },
 
     goGetUserInfo: function () {
-        wx.navigateTo({ url: '/pages/user/get_user_info/get_user_info' });
+        // 不再跳转到get_user_info页面，而是直接显示授权弹窗
+        this.showUserInfoModal();
+    },
+
+    /** 显示用户信息授权弹窗 */
+    showUserInfoModal: function () {
+        var that = this;
+        wx.showModal({
+            title: '授权登录',
+            content: '需要获取您的用户信息以便为您提供更好的服务',
+            confirmText: '立即登录',
+            cancelText: '取消',
+            success: function (res) {
+                if (res.confirm) {
+                    // 用户同意授权，触发getUserInfo
+                    that.triggerGetUserInfo();
+                } else {
+                    // 用户取消授权
+                    that.alertNoAuthAndGoHome();
+                }
+            }
+        });
+    },
+
+    /** 触发获取用户信息 */
+    triggerGetUserInfo: function () {
+        var that = this;
+        var app = that.app();
+        
+        wx.getUserInfo({
+            success: function (res) {
+                // 保存微信用户信息
+                wx.setStorageSync('wx_user_info', res.detail || res);
+                wx.setStorageSync('bind_third_login', true);
+                app.globalData.wechatUser = res.userInfo || res.detail.userInfo;
+                
+                // 执行登录检查
+                that.checkLogin(app.globalData.code, res, function (loginData) {
+                    app.showSuccess('登录成功', function () {
+                        wx.removeStorageSync('first_leader');
+                        wx.removeStorageSync('unique_id');
+                        wx.removeStorageSync('login_user_info');
+                        // 刷新当前页面数据
+                        var pages = getCurrentPages();
+                        var currentPage = pages[pages.length - 1];
+                        if (currentPage && currentPage.onShow) {
+                            currentPage.onShow();
+                        }
+                    });
+                });
+            },
+            fail: function (res) {
+                console.log('getUserInfo fail:', res);
+                that.alertNoAuthAndGoHome();
+            }
+        });
     }
 
 }
