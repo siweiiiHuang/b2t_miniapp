@@ -19,9 +19,10 @@ Page({
     // 配送 / 快递相关
     selectedExpressCode: '', // 选中的快递编码
     expressFee: '0.00', // 快递费用
-    sfFeeText: '物流费：计算中...', // 顺丰快递费文本
-    jdFeeText: '物流费：计算中...', // 京东快递费文本
+    sfFeeText: '物流费：请选择快递方式', // 初始提示选择快递
+    jdFeeText: '物流费：请选择快递方式', 
     isPickup: false, // 是否自提
+    expressFeeCalculated: false, // 物流费是否计算完成
     pickupStore: {   // 自提门店信息（固定写死）
       name: '酥仙记（番禺总店）',
       address: '广东省广州市番禺区繁华路128号',
@@ -147,7 +148,7 @@ Page({
             selectedAddress: res.data.result.userAddress,
             'order.userAddress': res.data.result.userAddress
           });
-          // 有地址后计算物流费
+          // 有地址后计算物流费(但不显示，等待选择后显示)
           that.getExpressFee();
         } else {
           // 没有地址信息时，从用户地址列表中获取默认地址
@@ -184,7 +185,7 @@ Page({
             selectedAddress: defaultAddress,
             'order.userAddress': defaultAddress
           });
-          // 有地址后计算物流费
+          // 有地址后计算物流费(但不显示，等待选择后显示)
           that.getExpressFee();
         } else {
           that.showToastMsg('请先选择收货地址');
@@ -199,6 +200,12 @@ Page({
 
     // 自提不需要计算快递费
     if (that.data.isPickup) {
+      that.setData({
+        expressFeeCalculated: true,
+        expressFee: '0.00',
+        sfFeeText: '物流费：¥0.00'
+      });
+      that.calculatePrice();
       return;
     }
     
@@ -212,9 +219,10 @@ Page({
       return;
     }
     
-    // 显示计算中状态
+    // 显示提示选择状态，重置计算完成标识
     that.setData({
-      sfFeeText: '物流费：计算中...'
+      sfFeeText: '物流费：请选择快递方式',
+      expressFeeCalculated: false
     });
     
     console.log('开始计算物流费，参数：', {
@@ -239,23 +247,26 @@ Page({
         // 接口返回格式：
         // { success: true, errorCode: '', errorMessage: '', data: { totalPrice: 10, ... } }
         if (res.data && res.data.success && res.data.data && res.data.data.totalPrice != null) {
-          var fee = parseFloat(res.data.data.totalPrice || 0);
+          var fee = parseFloat(res.data.data.totalPrice || 0).toFixed(2);
+          // 只计算不显示，等待选择后再显示
           that.setData({
-            sfFeeText: '物流费：¥' + fee,
             expressFee: fee,
+            expressFeeCalculated: true // 标记计算完成
           });
           // 物流费获取成功后重新计算总价
           that.calculatePrice();
         } else {
           that.setData({
-            sfFeeText: '物流费：计算失败'
+            sfFeeText: '物流费：计算失败',
+            expressFeeCalculated: true // 即使失败也标记为已计算
           });
           console.log('物流费计算失败：', res.data && (res.data.errorMessage || res.data.msg || res.errMsg));
         }
       },
       fail: function (err) {
         that.setData({
-          sfFeeText: '物流费：计算失败'
+          sfFeeText: '物流费：计算失败',
+          expressFeeCalculated: true // 即使失败也标记为已计算
         });
         console.log('物流费计算接口调用失败：', err);
       }
@@ -274,8 +285,12 @@ Page({
     var code = e.currentTarget.dataset.code;
     var name = e.currentTarget.dataset.name;
     
+    // 选择后才显示计算好的费用
+    let feeText = `物流费：¥${that.data.expressFee}`;
+    
     that.setData({
       selectedExpressCode: code,
+      sfFeeText: feeText, // 显示费用
       canSubmit: true,
       submitBtnText: '提交订单'
     });
@@ -296,11 +311,9 @@ Page({
     
     var data = {
       address_id: that.data.order.userAddress.address_id,
-      // 价格计算仍然沿用原有规则，避免影响后端逻辑
-      expressFee: that.data.expressFee,
-      // 如果没有明确选择快递，默认使用顺丰（sf），保证后端可以正常计算价格
+      // 未选择快递时传递0作为运费
+      expressFee: that.data.selectedExpressCode ? that.data.expressFee : '0.00',
       expressCompany: that.data.selectedExpressCode || 'sf',
-      // 新增：是否自提参数，供 /api/cart/cart3 判断（后端可用于区分场景）
       is_pickup: that.data.isPickup ? 1 : 0
     };
     
@@ -322,17 +335,29 @@ Page({
       success: function (res) {
         if (res.data.status == 1) {
           var prices = res.data.result;
+          
+          // 统一价格格式为两位小数
+          prices.goods_price = parseFloat(prices.goods_price || 0).toFixed(2);
+          prices.order_amount = parseFloat(prices.order_amount || 0).toFixed(2);
+          prices.shipping_price = parseFloat(prices.shipping_price || 0).toFixed(2);
+          
           // 自提：直接使用后端返回的订单金额（不再叠加快递费），快递费显示为 0
           if (that.data.isPickup) {
             prices.expressFee = '0.00';
+            prices.total_amount = prices.order_amount;
           } else {
-            // 快递：如果选择了快递并有快递费，则在前端加上运费显示
-            if (that.data.selectedExpressCode && that.data.expressFee) {
-              var totalPrice = parseFloat(prices.orderTotalPrice) + parseFloat(that.data.expressFee);
-              prices.orderTotalPrice = totalPrice.toFixed(2);
+            // 快递：使用接口返回的运费计算应付金额
+            if (that.data.selectedExpressCode && that.data.expressFeeCalculated && that.data.expressFee) {
+              let totalPrice = parseFloat(prices.goods_price) + parseFloat(that.data.expressFee);
+              // 扣除优惠券金额
+              if (that.data.coupon && that.data.coupon.money) {
+                totalPrice -= parseFloat(that.data.coupon.money);
+              }
+              prices.total_amount = totalPrice.toFixed(2);
               prices.expressFee = that.data.expressFee;
             } else {
               prices.expressFee = '0.00';
+              prices.total_amount = prices.goods_price;
             }
           }
           
@@ -367,6 +392,8 @@ Page({
         isPickup: true,
         selectedExpressCode: '',
         expressFee: '0.00',
+        expressFeeCalculated: true,
+        sfFeeText: '物流费：¥0.00', // 自提始终显示0
         canSubmit: true,              // 自提不需要再选快递，允许直接提交
         submitBtnText: '提交订单'
       });
@@ -379,6 +406,8 @@ Page({
         isPickup: false,
         selectedExpressCode: '',
         expressFee: '0.00',
+        expressFeeCalculated: false,
+        sfFeeText: '物流费：请选择快递方式', // 重置为提示选择
         canSubmit: false,             // 需要重新选择快递公司
         submitBtnText: '请选择快递'
       });

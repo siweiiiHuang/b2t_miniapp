@@ -1,419 +1,305 @@
-/* 下单确认页面样式 */
-.container {
-  background-color: #f9f6f0;
-  min-height: 100vh;
-  padding-bottom: 80px;
-}
-
-/* 配送方式选择 */
-.delivery-box {
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px 0;
-}
-
-.delivery-title {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.delivery-list {
-  display: flex;
-  flex-direction: row;
-}
-
-.delivery-item {
-  flex: 1;
-  padding: 12px 0;
-  text-align: center;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  font-size: 15px;
-  position: relative;
-}
-
-.delivery-item + .delivery-item {
-  margin-left: 15px;
-}
-
-.delivery-item.active {
-  border-color: #8B4513;
-  background-color: #fff3e0;
-  color: #8B4513;
-}
-
-.self-pick-info {
-  background-color: #fff3e0;
-  border-radius: 8px;
-  padding: 10px 15px;
-  margin-top: 10px;
-}
-
-.self-pick-item {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.6;
-}
-
-.self-pick-label {
-  color: #8B4513;
-}
-
-/* 收货地址 */
-.address-box {
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.address-content {
-  flex: 1;
-}
-
-.user-info {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.user-name {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.user-phone {
-  font-size: 16px;
-  color: #666;
-}
-
-.address-info {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.4;
-}
-
-.no-address {
-  flex: 1;
-}
-
-.add-address-text {
-  font-size: 16px;
-  color: #999;
-}
-
-.edit-icon {
-  font-size: 14px;
-  color: #8B4513;
-  margin-left: 10px;
-}
-
-/* 商品信息 */
-.product-list {
-  background-color: #fff;
-  margin: 10px 0;
-}
-
-.product-box {
-  padding: 15px 20px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #f5f5f5;
-}
-
-.product-box:last-child {
-  border-bottom: none;
-}
-
-.product-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  margin-right: 15px;
-}
-
-.product-info {
-  flex: 1;
-}
-
-.product-name {
-  font-size: 16px;
-  margin-bottom: 5px;
-  color: #333;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.product-spec {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 10px;
-}
-
-.product-price-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.product-price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #f44336;
-}
-
-.product-num {
-  font-size: 14px;
-  color: #666;
-}
-
-/* 快递选择 */
-.express-box {
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px 0;
-}
-
-.express-title {
-  font-size: 16px;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.express-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.express-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.order-confirm-container {
   padding: 10px;
-  border: 1px solid #eee;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 通用section样式 */
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 15px 0 10px 0;
+  color: #333;
+}
+
+/* 商品列表 */
+.goods-list-section {
+  background: white;
+  padding: 10px;
   border-radius: 8px;
   margin-bottom: 10px;
 }
 
-.express-item:last-child {
-  margin-bottom: 0;
-}
-
-.express-item.active {
-  border-color: #8B4513;
-  background-color: #fff3e0;
-}
-
-.express-left {
+.goods-item {
   display: flex;
-  align-items: center;
-}
-
-.express-icon {
-  font-size: 24px;
-  color: #8B4513;
-  margin-right: 10px;
-}
-
-.express-name {
-  font-size: 15px;
-  color: #333;
-}
-
-.express-fee {
-  font-size: 14px;
-  color: #f44336;
-  margin-top: 3px;
-}
-
-.radio-icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.radio-icon.active {
-  background-color: #8B4513;
-  border-color: #8B4513;
-}
-
-.radio-icon.active::after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #fff;
-}
-
-/* 其他信息 */
-.other-box {
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px 0;
-}
-
-.info-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
 }
 
-.info-item:last-child {
+.goods-item:last-child {
   border-bottom: none;
 }
 
-.info-label {
-  font-size: 15px;
-  color: #333;
+.goods-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  margin-right: 10px;
 }
 
-.info-value {
+.goods-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.goods-name {
   font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-spec {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.goods-price {
+  font-size: 14px;
+  color: #ff4400;
+  font-weight: bold;
+}
+
+.goods-num {
+  font-size: 12px;
   color: #666;
+  text-align: right;
+}
+
+/* 配送方式 */
+.delivery-type-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.delivery-options {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+}
+
+.delivery-option {
   display: flex;
   align-items: center;
-}
-
-.coupon-tag {
-  background-color: #f44336;
-  color: #fff;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-right: 5px;
-}
-
-.arrow-icon {
   font-size: 14px;
-  color: #ccc;
+}
+
+.delivery-option radio {
   margin-left: 5px;
 }
 
-/* 留言框 */
-.message-box {
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px 0;
+/* 收货地址 */
+.address-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-.message-title {
-  font-size: 15px;
+.address-content {
+  padding: 10px;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+}
+
+.address-info {
+  font-size: 14px;
+}
+
+.address-name {
+  margin-bottom: 5px;
   color: #333;
+}
+
+.address-detail {
+  color: #666;
+  line-height: 1.4;
+}
+
+.address-empty {
+  text-align: center;
+  color: #999;
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+/* 快递选择 */
+.express-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.express-options {
+  padding: 10px 0;
+}
+
+.express-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.express-option:last-child {
+  border-bottom: none;
+}
+
+.express-fee {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 自提信息 */
+.pickup-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.pickup-info {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.pickup-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.pickup-address, .pickup-time, .pickup-phone {
+  color: #666;
+  margin-bottom: 3px;
+}
+
+/* 优惠券 */
+.coupon-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.coupon-content {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.coupon-num {
+  margin: 0 10px;
+  color: #ff4400;
+}
+
+/* 发票 */
+.invoice-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.invoice-content {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 留言 */
+.message-section {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
 .message-input {
   width: 100%;
+  min-height: 80px;
   padding: 10px;
   border: 1px solid #eee;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 14px;
-  height: 80px;
   box-sizing: border-box;
 }
 
-.message-input:focus {
-  border-color: #8B4513;
-}
-
-.word-count {
+.message-length {
   text-align: right;
   font-size: 12px;
   color: #999;
   margin-top: 5px;
 }
 
-/* 金额统计 */
-.amount-box {
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px 0;
+/* 价格汇总 */
+.price-summary {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-.amount-item {
+.price-item {
   display: flex;
   justify-content: space-between;
+  padding: 8px 0;
   font-size: 14px;
-  margin-bottom: 8px;
+  border-bottom: 1px solid #eee;
 }
 
-.amount-label {
+.price-item.total {
+  border-bottom: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.price-item .label {
   color: #666;
 }
 
-.amount-value {
-  color: #333;
+.price-item .value {
+  color: #ff4400;
 }
 
-.amount-total {
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-}
-
-.total-label {
-  color: #333;
-}
-
-.total-value {
-  color: #f44336;
-}
-
-/* 底部提交栏 */
-.submit-bar {
+/* 提交按钮 */
+.submit-btn-area {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #fff;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 1px solid #eee;
-  z-index: 99;
-}
-
-.total-price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #f44336;
-}
-
-.total-price text {
-  font-size: 14px;
-  color: #666;
-  font-weight: normal;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
 
 .submit-btn {
-  padding: 8px 24px;
-  background-color: #f44336;
-  color: #fff;
-  border: none;
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
   border-radius: 25px;
-  font-size: 14px;
-  font-weight: bold;
-  margin: 0;
-}
-
-.submit-btn.disabled {
-  background-color: #ccc;
+  font-size: 16px;
 }
 
 /* 提示弹窗 */
@@ -423,15 +309,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(0,0,0,0.7);
-  color: #fff;
+  color: white;
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: 5px;
   font-size: 14px;
   z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.toast.show {
-  opacity: 1;
 }

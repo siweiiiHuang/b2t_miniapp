@@ -13,20 +13,6 @@
                 <image class="set-btn" src="../../../images/set.png"></image>
             </view>
         </view>
-        <view class="user-mes">
-            <view class='user-mes-bg'>
-            </view>
-            <view class='mes-item-wrap'>
-                <view class="mes-item" catchtap='clickMenu'  data-url="/pages/user/account/account">
-                    <view class="mes-num">{{userInfo.user_money}}</view>
-                    <view class="mes-title">我的余额</view>
-                </view>
-                <view class="mes-item" catchtap='clickMenu'  data-url="/pages/user/points_list/points_list">
-                    <view class="mes-num">{{userInfo.pay_points}}</view>
-                    <view class="mes-title">我的积分</view>
-                </view>
-            </view>
-        </view>
     </view>       
     <view class="manage-list">    
     <block wx:for="{{userInfoList.manageList}}">
