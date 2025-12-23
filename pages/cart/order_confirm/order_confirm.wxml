@@ -1,165 +1,130 @@
-<!--下单确认页面-->
-<view class="container">
-
-  <!-- 配送方式选择 -->
-  <view class="delivery-box">
-    <view class="delivery-title">配送方式</view>
-    <view class="delivery-list">
-      <view class="delivery-item {{!isPickup ? 'active' : ''}}"
-            data-type="express"
-            bindtap="changeDeliveryType">
-        快递配送
-      </view>
-      <view class="delivery-item {{isPickup ? 'active' : ''}}"
-            data-type="self"
-            bindtap="changeDeliveryType">
-        到店自提
-      </view>
-    </view>
-    <!-- 到店自提信息 -->
-    <view class="self-pick-info" wx:if="{{isPickup}}">
-      <view class="self-pick-item">
-        <text class="self-pick-label">自提门店：</text>{{pickupStore.name}}
-      </view>
-      <view class="self-pick-item">
-        <text class="self-pick-label">自提地址：</text>{{pickupStore.address}}
-      </view>
-      <view class="self-pick-item">
-        <text class="self-pick-label">营业时间：</text>{{pickupStore.businessTime}}
-      </view>
-      <view class="self-pick-item">
-        <text class="self-pick-label">联系电话：</text>{{pickupStore.phone}}
-      </view>
-    </view>
-  </view>
-
-  <!-- 收货地址（自提时隐藏） -->
-  <view class="address-box" wx:if="{{!isPickup}}" bindtap="selectAddress">
-    <view wx:if="{{order.userAddress}}" class="address-content">
-      <view class="user-info">
-        <view class="user-name">{{order.userAddress.consignee}}</view>
-        <view class="user-phone">{{order.userAddress.mobile}}</view>
-      </view>
-      <view class="address-info">
-        {{order.userAddress.province_name}}{{order.userAddress.city_name}}{{order.userAddress.district_name}}{{order.userAddress.twon_name}}{{order.userAddress.address}}
-      </view>
-    </view>
-    <view wx:else class="no-address">
-      <view class="add-address-text">请选择收货地址</view>
-    </view>
-    <view class="edit-icon">＞</view>
-  </view>
-
-  <!-- 商品信息 -->
-  <view class="product-list">
-    <view class="product-box" wx:for="{{order.cartList}}" wx:key="id">
-      <image class="product-img" src="{{url}}/api/goods/goodsThumImages?goods_id={{item.goods_id}}&width=100&height=100" mode="aspectFill"></image>
-      <view class="product-info">
-        <view class="product-name">{{item.goods_name}}</view>
-        <view class="product-spec" wx:if="{{item.spec_key_name}}">{{item.spec_key_name}}</view>
-        <view class="product-price-row">
-          <view class="product-price">¥{{item.member_goods_price[0]}}.{{item.member_goods_price[1]}}</view>
-          <view class="product-num">x{{item.goods_num}}</view>
+<view class="order-confirm-container">
+  <!-- 订单商品列表 -->
+  <view class="goods-list-section">
+    <view class="section-title">订单商品</view>
+    <view class="goods-item" wx:for="{{order.cartList}}" wx:key="index">
+      <image class="goods-img" src="{{resourceUrl}}{{item.goods_img}}" mode="widthFix"></image>
+      <view class="goods-info">
+        <view class="goods-name">{{item.goods_name}}</view>
+        <view class="goods-spec" wx:if="{{item.goods_attr}}">{{item.goods_attr}}</view>
+        <view class="goods-price">
+          <text>¥</text>
+          <text>{{item.member_goods_price[0]}}</text>
+          <text>.{{item.member_goods_price[1]}}</text>
         </view>
+        <view class="goods-num">x{{item.goods_num}}</view>
       </view>
     </view>
   </view>
 
-  <!-- 快递选择 -->
-  <view class="express-box" wx:if="{{!isPickup}}">
-    <view class="express-title">配送快递选择</view>
-    <view class="express-list">
-      <view class="express-item {{selectedExpressCode == 'sf' ? 'active' : ''}}" 
-            data-code="sf" data-name="顺丰快递" bindtap="selectExpress">
-        <view class="express-left">
-          <view class="express-icon">📦</view>
-          <view>
-            <view class="express-name">顺丰快递</view>
-            <view class="express-fee">{{sfFeeText}}</view>
-          </view>
-        </view>
-        <view class="radio-icon {{selectedExpressCode == 'sf' ? 'active' : ''}}"></view>
+  <!-- 配送方式区域 -->
+  <view class="delivery-type-section">
+    <view class="section-title">配送方式</view>
+    <view class="delivery-options">
+      <view class="delivery-option" bindtap="changeDeliveryType" data-type="express">
+        <text>快递配送</text>
+        <radio checked="{{!isPickup}}" color="#ff4400"></radio>
       </view>
-      <!-- 京东快递暂时屏蔽 -->
-      <!-- <view class="express-item {{selectedExpressCode == 'jd' ? 'active' : ''}}" 
-            data-code="jd" data-name="京东快递" bindtap="selectExpress">
-        <view class="express-left">
-          <view class="express-icon">🚛</view>
-          <view>
-            <view class="express-name">京东快递</view>
-            <view class="express-fee">{{jdFeeText}}</view>
-          </view>
-        </view>
-        <view class="radio-icon {{selectedExpressCode == 'jd' ? 'active' : ''}}"></view>
-      </view> -->
-    </view>
-  </view>
-
-  <!-- 其他信息 -->
-  <view class="other-box">
-    <view class="info-item" bindtap="selectInvoice">
-      <view class="info-label">发票信息</view>
-      <view class="info-value">
-        {{invoiceText}}
-        <view class="arrow-icon">＞</view>
-      </view>
-    </view>
-    <view class="info-item" bindtap="selectCoupon">
-      <view class="info-label">优惠券</view>
-      <view class="info-value">
-        <view class="coupon-tag" wx:if="{{coupons.length > 0}}">{{coupons.length}}张可用</view>
-        <view class="coupon-tag" wx:else>0张可用</view>
-        {{couponText}}
-        <view class="arrow-icon">＞</view>
+      <view class="delivery-option" bindtap="changeDeliveryType" data-type="self">
+        <text>到店自提</text>
+        <radio checked="{{isPickup}}" color="#ff4400"></radio>
       </view>
     </view>
   </view>
 
-  <!-- 买家留言 -->
-  <view class="message-box">
-    <view class="message-title">买家留言（50字）</view>
-    <textarea class="message-input" 
-              placeholder="选填：对本次交易的说明..." 
-              value="{{formData.user_note}}"
-              bindinput="onMessageInput"
-              maxlength="50"></textarea>
-    <view class="word-count">{{messageLength}}/50</view>
-  </view>
-
-  <!-- 金额统计 -->
-  <view class="amount-box">
-    <view class="amount-item">
-      <view class="amount-label">商品金额</view>
-      <view class="amount-value">¥{{orderPrices.goodsTotalPrice || '0.00'}}</view>
-    </view>
-    <view class="amount-item" wx:if="{{!isPickup}}">
-      <view class="amount-label">物流费用</view>
-      <view class="amount-value">¥{{orderPrices.expressFee || expressFee || '0.00'}}</view>
-    </view>
-    <view class="amount-item" wx:if="{{coupon}}">
-      <view class="amount-label">优惠券抵扣</view>
-      <view class="amount-value">-¥{{coupon.money}}</view>
-    </view>
-    <view class="amount-total">
-      <view class="total-label">应付金额</view>
-      <view class="total-value">¥{{orderPrices.orderTotalPrice || '0.00'}}</view>
+  <!-- 收货地址区域（仅快递配送时显示） -->
+  <view class="address-section" wx:if="{{!isPickup}}">
+    <view class="section-title">收货地址</view>
+    <view class="address-content" bindtap="selectAddress">
+      <view wx:if="{{selectedAddress}}" class="address-info">
+        <view class="address-name">{{selectedAddress.consignee}} {{selectedAddress.mobile}}</view>
+        <view class="address-detail">{{selectedAddress.province}}{{selectedAddress.city}}{{selectedAddress.district}}{{selectedAddress.address}}</view>
+      </view>
+      <view wx:else class="address-empty">请选择收货地址</view>
     </view>
   </view>
 
-  <!-- 底部提交栏 -->
-  <view class="submit-bar">
-    <view class="total-price">
-      <text>应付金额：</text>¥{{orderPrices.orderTotalPrice || '0.00'}}
+  <!-- 快递选择区域（仅快递配送时显示） -->
+  <view class="express-section" wx:if="{{!isPickup}}">
+    <view class="section-title">选择快递公司</view>
+    <view class="express-options">
+      <view class="express-option" bindtap="selectExpress" data-code="sf" data-name="顺丰速运">
+        <text>顺丰速运</text>
+        <radio checked="{{selectedExpressCode == 'sf'}}" color="#ff4400"></radio>
+      </view>
+      <view class="express-option" bindtap="selectExpress" data-code="jd" data-name="京东快递" wx:if="{{false}}">
+        <text>京东快递</text>
+        <radio checked="{{selectedExpressCode == 'jd'}}" color="#ff4400"></radio>
+      </view>
     </view>
-    <button class="submit-btn {{canSubmit ? '' : 'disabled'}}" 
-            disabled="{{!canSubmit}}" 
-            bindtap="submitOrder">
+    <!-- 物流费显示 -->
+    <view class="express-fee">{{sfFeeText}}</view>
+  </view>
+
+  <!-- 自提信息区域（仅自提时显示） -->
+  <view class="pickup-section" wx:if="{{isPickup}}">
+    <view class="section-title">自提门店信息</view>
+    <view class="pickup-info">
+      <view class="pickup-name">{{pickupStore.name}}</view>
+      <view class="pickup-address">{{pickupStore.address}}</view>
+      <view class="pickup-time">营业时间：{{pickupStore.businessTime}}</view>
+      <view class="pickup-phone">联系电话：{{pickupStore.phone}}</view>
+    </view>
+  </view>
+
+  <!-- 优惠券区域 -->
+  <view class="coupon-section" bindtap="selectCoupon">
+    <view class="section-title">优惠券</view>
+    <view class="coupon-content">
+      <text>{{couponText}}</text>
+      <text class="coupon-num" wx:if="{{coupons.length > 0}}">{{coupons.length}}张可用</text>
+      <icon type="arrowright" size="16"></icon>
+    </view>
+  </view>
+
+  <!-- 留言区域 -->
+  <view class="message-section">
+    <view class="section-title">买家留言</view>
+    <textarea 
+      placeholder="请输入留言内容（选填）" 
+      bindinput="onMessageInput" 
+      value="{{formData.user_note}}"
+      maxlength="100"
+      class="message-input"
+    ></textarea>
+    <view class="message-length">{{messageLength}}/100</view>
+  </view>
+
+  <!-- 价格汇总 -->
+  <view class="price-summary">
+    <view class="price-item">
+      <text class="label">商品总价：</text>
+      <text class="value">¥{{orderPrices.goods_price || 0.00}}</text>
+    </view>
+    <view class="price-item">
+      <text class="label">物流费用：</text>
+      <text class="value">¥{{orderPrices.expressFee || 0.00}}</text>
+    </view>
+    <view class="price-item total">
+      <text class="label">订单总价：</text>
+      <text class="value">¥{{orderPrices.total_amount || 0.00}}</text>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-btn-area">
+    <button 
+      class="submit-btn" 
+      bindtap="submitOrder" 
+      disabled="{{!canSubmit}}"
+      style="background: {{canSubmit ? '#ff4400' : '#cccccc'}}; color: white;"
+    >
       {{submitBtnText}}
     </button>
   </view>
-</view>
 
-<!-- 提示弹窗 -->
-<view class="toast {{showToast ? 'show' : ''}}" wx:if="{{toastText}}">
-  {{toastText}}
+  <!-- 提示弹窗 -->
+  <view class="toast" wx:if="{{showToast}}">
+    <text>{{toastText}}</text>
+  </view>
 </view>

@@ -108,41 +108,6 @@
         <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
       </view>
     </view>
-    <view class="logistics-item" hidden="{{data.goods.is_virtual||select.activity.prom_type==4}}">
-      <view class="item-title">运费</view>
-      <view class="item-mes">{{shipping}}</view>
-      <view style='height:0' class="item-img">
-        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
-      </view>
-    </view>
-    <view class="logistics-item" wx:if="{{!data.goods.is_virtual && data.goods.exchange_integral <= 0 && select.activity.data}}" bindtap="openPromModal">
-      <view class="item-title">
-        <text class="prom-item">{{select.activity.data[0].title}}</text>
-      </view>
-      <view class="item-mes ellipsis-1">{{select.activity.data[0].content}}</view>
-      <view class="item-img">
-        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
-      </view>
-    </view>
-
-    <view class="logistics-item">
-                    <view class="item-title">服务</view>
-                    <view class="item-mes ellipsis-1">由商城自营发货并提供售后服务</view>
-                    <view style='height:0' class="item-img">
-                        <image class="wh100" src="../../../images/icon-arrowdown.png"></image>
-                    </view>
-                    <!-- <icon type="warn" size="16" color="#bbb"/> -->
-                </view>
-                <!-- <view class="guarantee logistics-item">
-                    <view wx:if="{{!data.goods.is_virtual}}"><image class="ico-item" src="../../../images/hdfk.png"></image>{{auto_service_date}}天保修</view>
-                    <view><image class="ico-item" src="../../../images/qttk.png"></image>正品保障</view>
-                     <view wx:if="{{data.goods.store_free_price}}"><image class="ico-item" src="../../../images/hdfk.png"></image>满{{data.goods.store_free_price}}包邮</view>
-                    
-                </view> -->
-    <!-- <view class="look-detail logistics-item" bindtap="tabGoodsContent">
-                    <view class="co-red">查看商品详情</view>
-                    <view class="item-img"><image class="wh100" src="../../../images/icon-arrowdown.png" ></image></view>
-                </view> -->
   </view>
 </template>
 
