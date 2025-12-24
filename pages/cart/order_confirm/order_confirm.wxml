@@ -1,9 +1,10 @@
+<form bindsubmit="submitForm">
 <view class="order-confirm-container">
   <!-- 订单商品列表 -->
   <view class="goods-list-section">
     <view class="section-title">订单商品</view>
     <view class="goods-item" wx:for="{{order.cartList}}" wx:key="index">
-      <image class="goods-img" src="{{resourceUrl}}{{item.goods_img}}" mode="widthFix"></image>
+      <image class="goods-img" src="{{item.imageUrl}}" mode="aspectFill"></image>
       <view class="goods-info">
         <view class="goods-name">{{item.goods_name}}</view>
         <view class="goods-spec" wx:if="{{item.goods_attr}}">{{item.goods_attr}}</view>
@@ -82,10 +83,20 @@
     </view>
   </view>
 
+  <!-- 发票区域 -->
+  <view class="invoice-section" bindtap="selectInvoice">
+    <view class="section-title">发票信息</view>
+    <view class="invoice-content">
+      <text>{{invoiceText}}</text>
+      <icon type="arrowright" size="16"></icon>
+    </view>
+  </view>
+
   <!-- 留言区域 -->
   <view class="message-section">
     <view class="section-title">买家留言</view>
     <textarea 
+      name="user_note"
       placeholder="请输入留言内容（选填）" 
       bindinput="onMessageInput" 
       value="{{formData.user_note}}"
@@ -115,7 +126,8 @@
   <view class="submit-btn-area">
     <button 
       class="submit-btn" 
-      bindtap="submitOrder" 
+      form-type="submit"
+      id="submitOrder"
       disabled="{{!canSubmit}}"
       style="background: {{canSubmit ? '#ff4400' : '#cccccc'}}; color: white;"
     >
@@ -128,3 +140,4 @@
     <text>{{toastText}}</text>
   </view>
 </view>
+</form>

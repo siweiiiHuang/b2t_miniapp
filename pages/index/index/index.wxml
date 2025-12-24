@@ -42,15 +42,15 @@
 
 <!-- 功能入口区 -->
 <view class="func-entry">
-  <view class="func-item">
+  <view class="func-item" bindtap="navigateToUser">
     <view class="func-icon">👤</view>
     <view class="func-text">个人中心</view>
   </view>
-  <view class="func-item">
+  <view class="func-item" bindtap="navigateToCoupon">
     <view class="func-icon">🎫</view>
     <view class="func-text">优惠券</view>
   </view>
-  <view class="func-item">
+  <view class="func-item" bindtap="navigateToOrder">
     <view class="func-icon">📝</view>
     <view class="func-text">查看订单</view>
   </view>

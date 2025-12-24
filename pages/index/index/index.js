@@ -35,6 +35,67 @@ Page({
   // 阻止弹窗冒泡
   stopPropagation() {},
 
+  // 导航到个人中心
+  navigateToUser() {
+    wx.navigateTo({
+      url: '/pages/user/index/index',
+      fail: function(err) {
+        console.error('跳转个人中心失败', err);
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none',
+          duration: 1500
+        });
+      }
+    });
+  },
+
+  // 导航到优惠券页面
+  navigateToCoupon() {
+    // 检查用户是否登录
+    if (!app.auth.isAuth()) {
+      app.auth.auth(() => {
+        this.navigateToCoupon(); // 登录成功后重新调用
+      });
+      return;
+    }
+
+    wx.navigateTo({
+      url: '/pages/user/coupon/coupon',
+      fail: function(err) {
+        console.error('跳转优惠券页面失败', err);
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none',
+          duration: 1500
+        });
+      }
+    });
+  },
+
+  // 导航到订单列表
+  navigateToOrder() {
+    // 检查用户是否登录
+    if (!app.auth.isAuth()) {
+      app.auth.auth(() => {
+        this.navigateToOrder(); // 登录成功后重新调用
+      });
+      return;
+    }
+
+    wx.navigateTo({
+      url: '/pages/user/order_list/order_list',
+      fail: function(err) {
+        console.error('跳转订单列表失败', err);
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none',
+          duration: 1500
+        });
+      }
+    });
+  },
+
   // 拨打电话
   makePhoneCall(e) {
     const phoneNumber = e.currentTarget.dataset.phone;

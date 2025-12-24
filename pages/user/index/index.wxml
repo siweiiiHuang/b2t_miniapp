@@ -4,7 +4,7 @@
   <view class="userinfo">
     <view class="user-container">
         <view class="user-center">
-            <view catchtap='clickMenu' data-url="/pages/user/userinfo/userinfo">
+            <view catchtap='clickMenu'>
             <image class="userinfo-avatar" src="{{userInfo.head_pic?userInfo.head_pic:defaultAvatar}}"></image>
             </view>
             <view class="user-name" catchtap='login'>

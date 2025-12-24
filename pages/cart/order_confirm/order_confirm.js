@@ -24,10 +24,10 @@ Page({
     isPickup: false, // 是否自提
     expressFeeCalculated: false, // 物流费是否计算完成
     pickupStore: {   // 自提门店信息（固定写死）
-      name: '酥仙记（番禺总店）',
-      address: '广东省广州市番禺区繁华路128号',
-      businessTime: '08:00-22:00',
-      phone: '020-88888888'
+      name: '酥仙记',
+      address: '广东省中山市东区街道三溪路18号三溪市场首层F14-17铺位',
+      businessTime: '08:30-18:30',
+      phone: '13902829834/14748088324'
     },
     
     // 优惠券相关
@@ -83,20 +83,63 @@ Page({
     
     // 加载订单数据
     that.requestCart2();
+    
+    // 加载发票信息
+    that.requestInvoice();
   },
 
   onShow: function () {
+    var that = this;
+    
     // 从地址选择页面返回时刷新
     var selectedAddress = wx.getStorageSync('selectedAddress');
     if (selectedAddress) {
-      this.setData({
+      that.setData({
         'order.userAddress': selectedAddress
       });
       wx.removeStorageSync('selectedAddress');
       // 地址变化后重新计算物流费和价格
-      this.getExpressFee();
-      this.calculatePrice();
+      that.getExpressFee();
+      that.calculatePrice();
+      return;
     }
+    
+    // 从优惠券选择页面返回时刷新
+    var couponUse = wx.getStorageSync('cart:cart2:cid');
+    if (couponUse) {
+      that.setData({ 
+        coupon: couponUse,
+        couponText: couponUse.name || '已选择优惠券'
+      });
+      that.calculatePrice(); // 重新计算价格
+    }
+  },
+
+  onUnload: function () {
+    var couponUse = wx.getStorageSync('cart:cart2:cid');
+    if (couponUse) {
+      wx.removeStorageSync('cart:cart2:cid');
+    }
+  },
+
+  /** 发票 */
+  requestInvoice: function () {
+    var that = this;
+    request.get('/api/cart/invoice', {
+      failRollback: false,
+      successReload: true,
+      success: function (res) {
+        if (res.data.result && res.data.result.invoice_title) {
+          var text = res.data.result.invoice_desc == '不开发票' ? '不开发票' : '纸质 ( ' + res.data.result.invoice_title + '-' + res.data.result.invoice_desc + ' )';
+          that.setData({
+            invoiceText: text,
+            invoice_title: res.data.result.invoice_title,
+            invoice_desc: res.data.result.invoice_desc,
+            taxpayer: res.data.result.taxpayer,
+          });
+        }
+      }
+    });
   },
 
   /** 请求订单数据 */
@@ -125,6 +168,19 @@ Page({
         cartList.forEach(function(item) {
           if (item.member_goods_price) {
             item.member_goods_price = parseFloat(item.member_goods_price).toFixed(2).split('.');
+          }
+          // 处理商品图片URL
+          if (item.goods_img) {
+            // 如果goods_img是完整的URL（以http开头），直接使用
+            if (item.goods_img.indexOf('http') === 0) {
+              item.imageUrl = item.goods_img;
+            } else {
+              // 否则拼接resourceUrl
+              item.imageUrl = that.data.resourceUrl + item.goods_img;
+            }
+          } else {
+            // 如果没有goods_img字段，使用API生成图片URL
+            item.imageUrl = that.data.url + '/api/goods/goodsThumImages?goods_id=' + item.goods_id + '&width=200&height=200';
           }
           totalBoxCount += parseInt(item.goods_num);
         });
@@ -302,74 +358,89 @@ Page({
   },
 
   /** 计算订单价格 */
-  calculatePrice: function () {
+  calculatePrice: function (formData, submitOrder) {
     var that = this;
     
     if (!that.data.order || !that.data.order.userAddress) {
       return;
     }
     
-    var data = {
+    if (typeof formData == 'undefined') {
+      formData = that.data.formData;
+    } else {
+      that.data.formData = formData;
+    }
+    
+    var postData = {
       address_id: that.data.order.userAddress.address_id,
-      // 未选择快递时传递0作为运费
-      expressFee: that.data.selectedExpressCode ? that.data.expressFee : '0.00',
-      expressCompany: that.data.selectedExpressCode || 'sf',
+      invoice_title: that.data.invoice_title || '',
+      taxpayer: that.data.taxpayer || '',
+      invoice_desc: that.data.invoice_desc || '不开发票',
+      act: submitOrder ? 'submit_order' : 'order_price',
+      user_note: formData.user_note || '',
+      coupon_id: that.data.coupon ? that.data.coupon.id : '',
+      // 物流相关参数
+      express_code: that.data.isPickup ? '' : that.data.selectedExpressCode,
+      express_fee: that.data.isPickup ? 0 : (that.data.selectedExpressCode ? that.data.expressFee : 0),
       is_pickup: that.data.isPickup ? 1 : 0
     };
     
-    // 添加优惠券
-    if (that.data.coupon) {
-      data.coupon_id = that.data.coupon.id;
-    }
-    
-    // 添加商品信息
+    // 添加商品信息（立即购买）
     if (that.data.goods) {
-      data.goods_id = that.data.goods.goods_id;
-      data.item_id = that.data.goods.item_id;
-      data.goods_num = that.data.goods.goods_num;
-      data.action = that.data.goods.action;
+      postData.goods_id = that.data.goods.goods_id;
+      postData.item_id = that.data.goods.item_id;
+      postData.goods_num = that.data.goods.goods_num;
+      postData.action = that.data.goods.action;
     }
     
-    request.get('/api/cart/cart3', {
-      data: data,
+    request.post('/api/cart/cart3', {
+      data: postData,
       success: function (res) {
         if (res.data.status == 1) {
-          var prices = res.data.result;
-          
-          // 统一价格格式为两位小数
-          prices.goods_price = parseFloat(prices.goods_price || 0).toFixed(2);
-          prices.order_amount = parseFloat(prices.order_amount || 0).toFixed(2);
-          prices.shipping_price = parseFloat(prices.shipping_price || 0).toFixed(2);
-          
-          // 自提：直接使用后端返回的订单金额（不再叠加快递费），快递费显示为 0
-          if (that.data.isPickup) {
-            prices.expressFee = '0.00';
-            prices.total_amount = prices.order_amount;
-          } else {
-            // 快递：使用接口返回的运费计算应付金额
-            if (that.data.selectedExpressCode && that.data.expressFeeCalculated && that.data.expressFee) {
-              let totalPrice = parseFloat(prices.goods_price) + parseFloat(that.data.expressFee);
-              // 扣除优惠券金额
-              if (that.data.coupon && that.data.coupon.money) {
-                totalPrice -= parseFloat(that.data.coupon.money);
-              }
-              prices.total_amount = totalPrice.toFixed(2);
-              prices.expressFee = that.data.expressFee;
-            } else {
+          if (!submitOrder) {
+            // 只是计算价格，更新显示
+            var prices = res.data.result;
+            
+            // 统一价格格式为两位小数
+            prices.goods_price = parseFloat(prices.goods_price || 0).toFixed(2);
+            prices.order_amount = parseFloat(prices.order_amount || 0).toFixed(2);
+            prices.shipping_price = parseFloat(prices.shipping_price || 0).toFixed(2);
+            prices.total_amount = parseFloat(prices.total_amount || 0).toFixed(2);
+            
+            // 设置物流费显示
+            if (that.data.isPickup) {
               prices.expressFee = '0.00';
-              prices.total_amount = prices.goods_price;
+            } else {
+              prices.expressFee = that.data.selectedExpressCode ? that.data.expressFee : '0.00';
             }
+            
+            that.setData({
+              orderPrices: prices
+            });
+            
+            console.log('价格计算完成：', prices);
+          } else {
+            // 提交订单成功，跳转到支付页面
+            var result = res.data.result;
+            console.log(result,'res');
+            
+            wx.redirectTo({
+              url: '/pages/cart/cart4/cart4?order_sn=' + result.order_sn + 
+                   '&order_id=' + (result.order_id || '') + 
+                   '&order_amount=' + that.data.orderPrices.total_amount
+            });
           }
-          
-          that.setData({
-            orderPrices: prices
-          });
-          
-          console.log('价格计算完成：', prices);
+        } else {
+          if (submitOrder) {
+            that.showToastMsg(res.data.msg || '订单提交失败');
+          }
         }
       },
       fail: function (err) {
         console.log('价格计算失败：', err);
+        if (submitOrder) {
+          that.showToastMsg('订单提交失败，请重试');
+        }
       }
     });
   },
@@ -425,16 +496,22 @@ Page({
       that.showToastMsg('暂无可用优惠券');
       return;
     }
-    // 跳转到优惠券选择页面
-    wx.navigateTo({
-      url: '/pages/user/coupon_list/coupon_list?from=order'
-    });
+    
+    // 跳转到优惠券选择页面，使用与cart2相同的参数格式
+    var params = {
+      lid: that.data.coupon ? that.data.coupon.id : '0',
+    };
+    var url = '/pages/user/checkcoupon/checkcoupon';
+    if (params.lid !== '0') {
+      url += '?lid=' + params.lid;
+    }
+    wx.navigateTo({ url: url });
   },
 
   /** 选择发票 */
   selectInvoice: function () {
     wx.navigateTo({
-      url: '/pages/user/invoice/invoice'
+      url: '../../cart/invoice/invoice'
     });
   },
 
@@ -447,7 +524,18 @@ Page({
     });
   },
 
-  /** 提交订单 */
+  /** 表单提交处理 */
+  submitForm: function (e) {
+    var that = this;
+    
+    // 检查是否是提交订单按钮
+    var submitOrder = (e.detail.target.id == 'submitOrder') ? true : false;
+    
+    // 调用calculatePrice，传入表单数据和是否提交订单的标识
+    that.calculatePrice(e.detail.value, submitOrder);
+  },
+
+  /** 提交订单（保留原有函数作为备用） */
   submitOrder: function () {
     var that = this;
     
@@ -463,52 +551,8 @@ Page({
     
     that.showToastMsg('订单提交中，请稍候...');
     
-    // 构建订单参数
-    var orderData = {
-      address_id: that.data.order.userAddress.address_id,
-      invoice_title: that.data.invoice_title,
-      taxpayer: that.data.taxpayer,
-      user_note: that.data.formData.user_note,
-      // 自提不需要快递公司和费用，后台通过 is_pickup 判断
-      express_code: that.data.isPickup ? '' : that.data.selectedExpressCode,
-      express_fee: that.data.isPickup ? 0 : that.data.expressFee,
-      // 新增：是否自提参数，供 /api/cart/cart3 判断
-      is_pickup: that.data.isPickup ? 1 : 0
-    };
-    
-    // 添加优惠券
-    if (that.data.coupon) {
-      orderData.coupon_id = that.data.coupon.id;
-    }
-    
-    // 添加商品信息（立即购买）
-    if (that.data.goods) {
-      orderData.goods_id = that.data.goods.goods_id;
-      orderData.item_id = that.data.goods.item_id;
-      orderData.goods_num = that.data.goods.goods_num;
-      orderData.action = that.data.goods.action;
-    }
-    
-    // 提交订单
-    request.post('/api/cart/cart3', {
-      data: orderData,
-      success: function (res) {
-        if (res.data.status == 1) {
-          var result = res.data.result;
-          // 跳转到支付页面
-          wx.redirectTo({
-            url: '/pages/cart/cart4/cart4?order_sn=' + result.order_sn + 
-                 '&order_id=' + result.order_id + 
-                 '&order_amount=' + result.order_amount
-          });
-        } else {
-          that.showToastMsg(res.data.msg || '订单提交失败');
-        }
-      },
-      fail: function () {
-        that.showToastMsg('订单提交失败，请重试');
-      }
-    });
+    // 使用 calculatePrice 函数提交订单，传入 submitOrder = true
+    that.calculatePrice(that.data.formData, true);
   },
 
   /** 显示提示信息 */
