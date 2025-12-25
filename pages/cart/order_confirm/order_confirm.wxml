@@ -77,7 +77,7 @@
   <view class="coupon-section" bindtap="selectCoupon">
     <view class="section-title">优惠券</view>
     <view class="coupon-content">
-      <text>{{couponText}}</text>
+      <text>{{coupon ? (coupon.coupon ? coupon.coupon.name : coupon.name) : '未使用'}}</text>
       <text class="coupon-num" wx:if="{{coupons.length > 0}}">{{coupons.length}}张可用</text>
       <icon type="arrowright" size="16"></icon>
     </view>
@@ -115,6 +115,18 @@
     <view class="price-item">
       <text class="label">物流费用：</text>
       <text class="value">¥{{orderPrices.expressFee || 0.00}}</text>
+    </view>
+    <view class="price-item" wx:if="{{orderPrices.coupon_price > 0}}">
+      <text class="label">优惠券抵扣：</text>
+      <text class="value discount">-¥{{orderPrices.coupon_price}}</text>
+    </view>
+    <view class="price-item" wx:if="{{orderPrices.integral_money > 0}}">
+      <text class="label">积分抵扣：</text>
+      <text class="value discount">-¥{{orderPrices.integral_money}}</text>
+    </view>
+    <view class="price-item" wx:if="{{orderPrices.order_prom_amount > 0}}">
+      <text class="label">订单优惠：</text>
+      <text class="value discount">-¥{{orderPrices.order_prom_amount}}</text>
     </view>
     <view class="price-item total">
       <text class="label">订单总价：</text>

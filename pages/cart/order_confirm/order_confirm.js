@@ -33,7 +33,6 @@ Page({
     // 优惠券相关
     coupons: [], // 可用优惠券列表
     coupon: null, // 已选优惠券
-    couponText: '未使用',
     
     // 发票相关
     invoiceText: '不开发票',
@@ -108,8 +107,7 @@ Page({
     var couponUse = wx.getStorageSync('cart:cart2:cid');
     if (couponUse) {
       that.setData({ 
-        coupon: couponUse,
-        couponText: couponUse.name || '已选择优惠券'
+        coupon: couponUse
       });
       that.calculatePrice(); // 重新计算价格
     }
@@ -406,6 +404,11 @@ Page({
             prices.order_amount = parseFloat(prices.order_amount || 0).toFixed(2);
             prices.shipping_price = parseFloat(prices.shipping_price || 0).toFixed(2);
             
+            // 处理优惠券抵扣金额
+            prices.coupon_price = parseFloat(prices.coupon_price || 0).toFixed(2);
+            prices.integral_money = parseFloat(prices.integral_money || 0).toFixed(2);
+            prices.order_prom_amount = parseFloat(prices.order_prom_amount || 0).toFixed(2);
+            
             // 设置物流费显示并重新计算总价
             var expressFee = 0;
             if (that.data.isPickup) {
@@ -416,8 +419,8 @@ Page({
               prices.expressFee = expressFee.toFixed(2);
             }
             
-            // 确保订单总价 = 商品总价 + 物流费
-            var totalAmount = parseFloat(prices.order_amount) + expressFee;
+            // 确保订单总价 = 商品总价 + 物流费 - 优惠券抵扣 - 积分抵扣 - 订单优惠
+            var totalAmount = parseFloat(prices.goods_price) + expressFee - parseFloat(prices.coupon_price) - parseFloat(prices.integral_money) - parseFloat(prices.order_prom_amount);
             prices.total_amount = totalAmount.toFixed(2);
             
             that.setData({

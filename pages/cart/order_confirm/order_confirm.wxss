@@ -285,6 +285,10 @@
   color: #ff4400;
 }
 
+.price-item .value.discount {
+  color: #ff4400;
+}
+
 /* 提交按钮 */
 .submit-btn-area {
   position: fixed;
