@@ -7,7 +7,7 @@
             <view catchtap='clickMenu'>
             <image class="userinfo-avatar" src="{{userInfo.head_pic?userInfo.head_pic:defaultAvatar}}"></image>
             </view>
-            <view class="user-name" catchtap='login'>
+            <view class="user-name">
             <text wx:if="{{userInfo.nickname || userInfo.user_id}}">{{storageUserInfo.mobile}}</text>
             <button wx:else open-type="getUserInfo" bindgetuserinfo='bindGetUserinfo' class='login-btn'>立即登录</button>
             </view>

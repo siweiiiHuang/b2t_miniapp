@@ -405,14 +405,20 @@ Page({
             prices.goods_price = parseFloat(prices.goods_price || 0).toFixed(2);
             prices.order_amount = parseFloat(prices.order_amount || 0).toFixed(2);
             prices.shipping_price = parseFloat(prices.shipping_price || 0).toFixed(2);
-            prices.total_amount = parseFloat(prices.total_amount || 0).toFixed(2);
             
-            // 设置物流费显示
+            // 设置物流费显示并重新计算总价
+            var expressFee = 0;
             if (that.data.isPickup) {
+              expressFee = 0;
               prices.expressFee = '0.00';
             } else {
-              prices.expressFee = that.data.selectedExpressCode ? that.data.expressFee : '0.00';
+              expressFee = that.data.selectedExpressCode ? parseFloat(that.data.expressFee) : 0;
+              prices.expressFee = expressFee.toFixed(2);
             }
+            
+            // 确保订单总价 = 商品总价 + 物流费
+            var totalAmount = parseFloat(prices.order_amount) + expressFee;
+            prices.total_amount = totalAmount.toFixed(2);
             
             that.setData({
               orderPrices: prices

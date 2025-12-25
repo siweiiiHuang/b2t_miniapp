@@ -29,21 +29,19 @@ App({
         this.initExt();
         var setting = this.globalData.setting;
         setting.resourceUrl = setting.url + '/template/mobile/rainbow';
-        // 从本地缓存恢复登录状态（token 等），避免每次重新编译后都要重新登录
+        // 从本地缓存恢复登录状态（用户信息等），避免每次重新编译后都要重新登录
         try {
-            var isAuth = wx.getStorageSync('isAuth');
-            if (isAuth) {
-                var userInfo = wx.getStorageSync('app:userInfo');
-                if (userInfo) {
-                    this.globalData.userInfo = userInfo;
-                }
-                var wechatUser = wx.getStorageSync('wx_user_info');
-                if (wechatUser) {
-                    this.globalData.wechatUser = wechatUser;
-                }
+            var userInfo = wx.getStorageSync('app:userInfo');
+            if (userInfo && userInfo.user_id) {
+                this.globalData.userInfo = userInfo;
+            }
+            var wechatUser = wx.getStorageSync('wx_user_info');
+            if (wechatUser) {
+                this.globalData.wechatUser = wechatUser.userInfo || wechatUser;
             }
         } catch (e) {
             // 读取缓存失败时忽略，正常走未登录流程
+            console.log('恢复登录状态失败:', e);
         }
     },
 
@@ -74,29 +72,36 @@ App({
      */
     getUserInfo: function (cb, force, isShowLoading) {
         var that = this;
-        if (auth.isAuth() && !force) {
+        
+        // 如果有用户信息且不强制更新，直接返回
+        if (that.globalData.userInfo && that.globalData.userInfo.user_id && !force) {
             typeof cb == "function" && cb(that.globalData.userInfo, that.globalData.wechatUser);
-        } else {
-            if (!auth.isAuth()) {
-                return auth.auth(cb); //授权操作
-            }
-            request.get('/api/user/userInfo', {
-                isShowLoading: typeof isShowLoading == 'undefined' ? true : isShowLoading,
-                success: function (res) {                   
-                    if (res.data.result.head_pic) {
-                        if (res.data.result.head_pic.indexOf("http") == -1) {
-                            res.data.result.head_pic = setting.url + res.data.result.head_pic;
-                        }
-                    }                   
-                    wx.removeStorageSync('bind_third_login');
-                    wx.removeStorageSync('bind_third_logins');
-                    wx.setStorageSync('app:userInfo', res.data.result);
-                    that.globalData.userInfo = res.data.result;
-                    that.globalData.userInfo.head_pic = common.getFullUrl(that.globalData.userInfo.head_pic);
-                    typeof cb == "function" && cb(that.globalData.userInfo, that.globalData.wechatUser);
-                }
-            });
+            return;
         }
+        
+        // 如果没有用户信息，先尝试授权获取
+        if (!that.globalData.userInfo || !that.globalData.userInfo.user_id) {
+            return auth.auth(cb); //授权操作
+        }
+        
+        // 有用户信息但需要更新，直接请求API（token有效性由API返回状态判断）
+        request.get('/api/user/userInfo', {
+            isShowLoading: typeof isShowLoading == 'undefined' ? true : isShowLoading,
+            success: function (res) {                   
+                if (res.data.result.head_pic) {
+                    if (res.data.result.head_pic.indexOf("http") == -1) {
+                        res.data.result.head_pic = setting.url + res.data.result.head_pic;
+                    }
+                }                   
+                wx.removeStorageSync('bind_third_login');
+                wx.removeStorageSync('bind_third_logins');
+                wx.setStorageSync('app:userInfo', res.data.result);
+                that.globalData.userInfo = res.data.result;
+                that.globalData.userInfo.head_pic = common.getFullUrl(that.globalData.userInfo.head_pic);
+                typeof cb == "function" && cb(that.globalData.userInfo, that.globalData.wechatUser);
+            }
+            // 移除failStatus处理，让request.js统一处理token失效
+        });
     },
     
     /** 获取app系统配置 */

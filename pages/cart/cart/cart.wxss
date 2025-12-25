@@ -10,7 +10,7 @@ page{
     align-items: center;/*垂直居中*/
     justify-content: center;/*水平居中*/
     background-color: #fff;
-    padding-bottom:250rpx;
+    padding-bottom:0;
 }
 .login-in{
     width: 100%;

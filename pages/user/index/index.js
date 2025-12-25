@@ -20,12 +20,16 @@ Page({
             pay_points: 0,
             
         },
+        userInfoList: {
+            manageList: []
+        },
         storageUserInfo: {},
         defaultMenu: false,  //默认底部菜单显示状态
         distribut:0,
         sign:0,
         webUrl:'',
         click:false, //避免多次发出登录请求造成token的覆盖
+        isAuthenticating: false, // 添加授权状态标记，避免重复授权
     },
 
     onShow: function() {
@@ -39,6 +43,10 @@ Page({
                 that.setData({
                     storageUserInfo: storageUserInfo
                 });
+                // 如果缓存中有用户信息，更新到全局数据
+                if (storageUserInfo.user_id && (!app.globalData.userInfo || !app.globalData.userInfo.user_id)) {
+                    app.globalData.userInfo = storageUserInfo;
+                }
             }
         } catch (e) {
             console.log('读取Storage中的app:userInfo失败:', e);
@@ -56,6 +64,7 @@ Page({
     
     initPageData: function() {
         var that = this;
+        var status = false; // 声明 status 变量
         
         if (app.globalData.menu_model.length == 0) {
             app.globalData.menu_index = 3
@@ -75,27 +84,59 @@ Page({
             distribut: app.globalData.config && app.globalData.config['config'] ? common.getConfigByName(app.globalData.config['config'], 'switch') : 0,
             sign: app.globalData.config && app.globalData.config['config'] ? common.getConfigByName(app.globalData.config['config'], 'sign_on_off') : 0
         })     
-        var status = false;
-        //先预设值，加速加载
-        if (app.globalData.userInfo) {
+        // 先预设值，加速加载
+        if (app.globalData.userInfo && app.globalData.userInfo.user_id) {
             that.setData({ userInfo: app.globalData.userInfo });
             status = true;
         }
-        if (!app.auth.isAuth()) {
+        
+        // 只有在没有用户信息时才显示loading
+        if (!app.globalData.userInfo || !app.globalData.userInfo.user_id) {
             app.showLoading(null, 1500);
         }        
 
-        if (status){
+        // 获取或更新用户信息（token有效性由API调用时检查）
+        // 检查是否需要获取用户信息
+        var needGetUserInfo = false;
+        
+        if (!app.globalData.userInfo || !app.globalData.userInfo.user_id) {
+            // 没有用户信息，且当前不在授权过程中
+            if (!that.data.isAuthenticating) {
+                needGetUserInfo = true;
+            }
+        } else if (status) {
+            // 有用户信息但需要强制更新
+            needGetUserInfo = true;
+        }
+        
+        if (needGetUserInfo) {
+            if (!app.globalData.userInfo || !app.globalData.userInfo.user_id) {
+                that.data.isAuthenticating = true;
+            }
+            
             app.getUserInfo(function (userInfo) {
                 that.setData({ userInfo: userInfo });
-            }, true, false); 
+                that.data.isAuthenticating = false;
+            }, status ? true : false, false);
         }
 
         request.get('/api/user/center_menu', {
             success: function (res) {
-                wx.setStorageSync('custom_menu', res.data.result.menu_list);
-                that.menu(res.data.result.menu_list);
-                that.setData({ head_color: res.data.result.header_background })
+                console.log('center_menu API response:', res.data);
+                if (res.data && res.data.result && res.data.result.menu_list) {
+                    wx.setStorageSync('custom_menu', res.data.result.menu_list);
+                    that.menu(res.data.result.menu_list);
+                    that.setData({ head_color: res.data.result.header_background })
+                } else {
+                    console.log('center_menu API返回数据格式错误:', res.data);
+                    // 如果API失败，使用默认菜单数据
+                    that.setDefaultMenu();
+                }
+            },
+            fail: function(error) {
+                console.log('center_menu API调用失败:', error);
+                // API调用失败时，使用默认菜单数据
+                that.setDefaultMenu();
             }
         });
 
@@ -116,10 +157,17 @@ Page({
     },
     onLoad: function () {
         var that = this;
+        that.data.isAuthenticating = false; // 重置授权状态
 
         //预加载自定义缓存菜单
-        if (wx.getStorageSync('custom_menu')) {
-            that.menu(wx.getStorageSync('custom_menu'));
+        var cachedMenu = wx.getStorageSync('custom_menu');
+        console.log('缓存的菜单数据:', cachedMenu);
+        if (cachedMenu) {
+            that.menu(cachedMenu);
+        } else {
+            console.log('没有缓存的菜单数据，将等待API调用');
+            // 临时添加测试数据，确认渲染是否正常
+            that.setDefaultMenu();
         }
 
         if (app.globalData.menu_model.length == 0 || !app.globalData.menu_model) {
@@ -182,12 +230,19 @@ Page({
     login:function(){
         var that = this;
         if(that.data.click) return false;
+        
+        // 如果已经有用户信息，不需要重新登录
+        if (that.data.userInfo && that.data.userInfo.user_id) {
+            return false;
+        }
+        
         that.data.click = true;
-        if (!that.data.userInfo.user_id){
-            app.getUserInfo(function (userInfo) {
-                that.setData({ userInfo: userInfo });
-            }, true, false); 
-        }       
+        
+        // 直接调用getUserInfo，让它处理登录逻辑
+        app.getUserInfo(function (userInfo) {
+            that.setData({ userInfo: userInfo });
+            that.data.click = false;
+        }, false, false);
     },
 
     /** 处理用户信息授权 */
@@ -220,7 +275,21 @@ Page({
             that.data.click = false;
         }
     },
+    
+    // 设置默认菜单数据
+    setDefaultMenu: function() {
+        var defaultMenuData = [
+            { menu_id: 1, menu_name: '我的订单', default_name: '我的订单', is_tab: 1 },
+            { menu_id: 2, menu_name: '我的优惠券', default_name: '我的优惠券', is_tab: 0 },
+            { menu_id: 13, menu_name: '我的收藏', default_name: '我的收藏', is_tab: 0 },
+            { menu_id: 17, menu_name: '地址管理', default_name: '地址管理', is_tab: 0 }
+        ];
+        this.menu(defaultMenuData);
+    },
+    
     menu:function(data){
+        console.log('menu函数接收到的数据:', data);
+        
        var menu = [      
             { id:2, url: '/pages/user/coupon/coupon', logo: '../../../images/w4.png' },                       //我的优惠券             
             { id:4, url: '/pages/distribut/index/index', logo: '../../../images/w1.png' },                    //我的团队
@@ -250,30 +319,55 @@ Page({
                 }
             }  
         }
-        this.setData({ 'userInfoList.manageList': data })
+        
+        console.log('处理后的菜单数据:', data);
+        this.setData({ 'userInfoList.manageList': data });
+        
+        // 验证数据是否设置成功
+        console.log('当前页面数据中的userInfoList:', this.data.userInfoList);
     },
     clickMenu(e){
         var that = this;
         if(that.data.click) return false;
         that.data.click = true;
-        //在个人中心浏览其他入口页面前判断是否登录
+        
+        // 检查是否有用户信息，没有则获取（token有效性由API检查）
         if (!that.data.userInfo.user_id) {
             app.getUserInfo(function (userInfo) {
                 that.setData({ userInfo: userInfo });
-            }, true, false); 
+                that.data.click = false;
+                // 登录成功后重新执行点击逻辑
+                that.executeMenuClick(e);
+            }, false, false); 
             return false;
         }
+        
+        that.executeMenuClick(e);
+    },
+    
+    /** 执行菜单点击逻辑 */
+    executeMenuClick: function(e) {
+        var that = this;
+        
         if (e.currentTarget.dataset.url == '/pages/distribut/index/index'){
             if (that.data.distribut == 0){
+               that.data.click = false;
                return app.showTextWarining('分销功能已关闭')
             }
         } 
         if (e.currentTarget.dataset.url == '/pages/user/sign_in/sign_in'){
             if (that.data.sign == 0) {
+                that.data.click = false;
                 return app.showTextWarining('签到功能已关闭')
             }
         }
-        wx.navigateTo({ url: e.currentTarget.dataset.url });
+        
+        wx.navigateTo({ 
+            url: e.currentTarget.dataset.url,
+            complete: function() {
+                that.data.click = false;
+            }
+        });
     },
     /** 跳转模式 自定义页面 || 自定义菜单 || 自定义控件控件*/
     topage(e) {

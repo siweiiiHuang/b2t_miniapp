@@ -11,25 +11,50 @@ module.exports = {
     auth: function (cb) {
         var app = this.app();
         var that = this;
-        wx.checkSession({
-            success: function () {
-                !app.globalData.wechatUser && that.wxLogin(cb);
-            },
-            fail: function () {
-                that.wxLogin(cb);
+        
+        // 如果已经有用户信息，直接回调（token有效性由API调用时检查）
+        if (app.globalData.userInfo && app.globalData.userInfo.user_id) {
+            typeof cb == "function" && cb(app.globalData.userInfo, app.globalData.wechatUser);
+            return;
+        }
+        
+        // 尝试从缓存恢复用户信息
+        try {
+            var cachedUserInfo = wx.getStorageSync('app:userInfo');
+            var cachedWxUser = wx.getStorageSync('wx_user_info');
+            if (cachedUserInfo && cachedUserInfo.user_id) {
+                app.globalData.userInfo = cachedUserInfo;
+                if (cachedWxUser) {
+                    app.globalData.wechatUser = cachedWxUser.userInfo || cachedWxUser;
+                }
+                typeof cb == "function" && cb(app.globalData.userInfo, app.globalData.wechatUser);
+                return;
             }
-        })
+        } catch (e) {
+            console.log('从缓存恢复用户信息失败:', e);
+        }
+        
+        // 没有用户信息，开始登录流程
+        that.wxLogin(cb);
     },
 
-    /** 是否已授权 */
+    /** 是否已授权（简化版：主要检查是否有基本的用户信息） */
     isAuth: function () {
-        return (this.app().globalData.wechatUser) ? true : false;
+        var app = this.app();
+        // 只检查是否有基本的用户信息，token有效性由后端API返回状态判断
+        return !!(app.globalData.userInfo && app.globalData.userInfo.user_id);
     },
 
     /** 清除授权 */
     clearAuth: function () {
-        this.app().globalData.wechatUser = null;
-        wx.setStorageSync('isAuth', false);
+        var app = this.app();
+        app.globalData.wechatUser = null;
+        app.globalData.userInfo = null;
+        // 移除isAuth标记，因为我们主要依赖token状态
+        wx.removeStorageSync('isAuth');
+        wx.removeStorageSync('app:userInfo');
+        wx.removeStorageSync('wx_user_info');
+        console.log('已清除所有登录状态');
     },
 
     /** 是否有登录过 */
