@@ -8,6 +8,8 @@ Page({
     data: {
         url: app.globalData.setting.url,
         resourceUrl: app.globalData.setting.resourceUrl,
+        currentTab: 0, // 当前选中的tab，0-自提取单码，1-我的订单
+        searchValue: '', // 搜索框的值
         categories: [
             { name: "全部", id: 0 },
             { name: "待付款", id: 1 },
@@ -33,6 +35,44 @@ Page({
             this.resetData();
             this.requestOrderList(this.data.activeCategoryId);
         }
+    },
+
+    // 切换tab
+    switchTab: function(e) {
+        const tab = parseInt(e.currentTarget.dataset.tab);
+        this.setData({
+            currentTab: tab
+        });
+        
+        // 如果切换到我的订单tab，加载订单数据
+        if (tab === 1 && !this.data.orderList) {
+            this.requestOrderList(this.data.activeCategoryId);
+        }
+    },
+
+    // 搜索输入
+    onSearchInput: function(e) {
+        this.setData({
+            searchValue: e.detail.value
+        });
+    },
+
+    // 搜索订单
+    searchOrder: function() {
+        const searchValue = this.data.searchValue.trim();
+        if (!searchValue) {
+            wx.showToast({
+                title: '请输入订单编号或手机号',
+                icon: 'none'
+            });
+            return;
+        }
+        
+        // TODO: 这里可以添加搜索逻辑
+        wx.showToast({
+            title: '搜索功能开发中',
+            icon: 'none'
+        });
     },
 
     changeTab: function(e) {
