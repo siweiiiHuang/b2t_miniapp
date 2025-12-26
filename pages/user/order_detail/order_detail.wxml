@@ -1,12 +1,10 @@
 <!--order_detail.wxml-->
 <view class="container">
-  <block wx:if="{{order.shop_id > 1}}">
+  <block wx:if="{{order.shop_id > 0}}">
     <view class="user-mes">
       <view class="user-contact submit_header">
         <view class="submit_waitsubmit_text">
           <image src='../../../images/z-dengziti.png'></image>{{order.order_status_detail!=null?order.order_status_detail:'待自提'}}</view>
-        <view catchtap='submit_phone' class='submit_phone' data-phone="{{order.shop.shop_phone}}">
-          <image src='../../../images/z-iphone.png'></image>联系自提点</view>
         <view class='widthcode' catchtap='showModel'>
           <image src='../../../images/z-tihuoma.png'></image>
           <text>点击查看</text>
@@ -34,20 +32,6 @@
             <image wx:if="{{order.confirm_time > 0}}" src='../../../images/z-chengs.png'></image>
           </view>
         </view>
-      </view>
-
-
-      <view class="user-contact submit_header" style="margin-top:20rpx;">
-        <view>自提时间</view>
-        <view class="submit_text">{{order.shop_order.take_time}}{{}}</view>
-      </view>
-      <view class="user-contact submit_header">
-        <view>自提地点</view>
-        <view class="submit_text">{{order.shop.shop_name}}</view>
-      </view>
-      <view class="user-contact submit_header">
-        <view>提货人</view>
-        <view class="submit_text">{{order.consignee}}{{' '}}{{order.mobile}}</view>
       </view>
       <view class="border-img">
         <image class="wh100" src="../../../images/tt.png" />
@@ -99,12 +83,13 @@
             <navigator hidden="{{!(order.cancel_btn==1&&order.pay_status==1)}}" class="cancel-order goods-btn" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}">取消订单</navigator>
              <navigator class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.prom_type !==6}}" url="/pages/order/cancel_order_info/cancel_order_info?order_id={{order.order_id}}" >取消进度</navigator> -->
       <view wx:if="{{optionIsGoup && order.order_status !==3 && order.order_status !==4}}" class="contact-us check-btn" bindtap='checkTeam'>查看拼团详情</view>
-      <navigator class="cancel-order goods-btn" wx:if="{{order.prom_type == 5&&order.cancel_btn==2&&order.pay_status==1}}" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}&prom_type=5">取消订单</navigator>
+      <!-- 隐藏取消订单按钮 -->
+      <navigator hidden="true" class="cancel-order goods-btn" wx:if="{{order.prom_type == 5&&order.cancel_btn==2&&order.pay_status==1}}" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}&prom_type=5">取消订单</navigator>
 
       
-      <navigator wx:if="{{order.cancel_btn==1 && order.pay_status==1 }}" class="cancel-order goods-btn" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}">取消订单</navigator>
-       <view class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.order_status==0 && order.pay_status==0}}" bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
-      <navigator class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.order_status ==3 && order.pay_status!==0}}" url="/pages/order/cancel_order_info/cancel_order_info?order_id={{order.order_id}}">取消进度</navigator>
+      <navigator hidden="true" wx:if="{{order.cancel_btn==1 && order.pay_status==1 }}" class="cancel-order goods-btn" url="/pages/order/refund_order/refund_order?order_id={{order.order_id}}">取消订单</navigator>
+       <view hidden="true" class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.order_status==0 && order.pay_status==0}}" bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
+      <navigator hidden="true" class="cancel-order goods-btn" wx:if="{{order.cancel_btn==0 && order.order_status ==3 && order.pay_status!==0}}" url="/pages/order/cancel_order_info/cancel_order_info?order_id={{order.order_id}}">取消进度</navigator>
 
 
 
@@ -119,15 +104,6 @@
     <view class="item">
       <view>下单时间</view>
       <view>{{order.addTimeFormat}}</view>
-    </view>
-    <view class="item" wx:if="{{!optionIsGoup && order.prom_type!=5}}">
-      <view>收货地址</view>
-      <view class="delivery-address" wx:if="{{order.shop_id > 0}}">{{order.address_region}}{{order.shop.shop_address}}</view>
-      <view class="delivery-address" wx:else>{{order.address_region}}{{order.address}}</view>
-    </view>
-    <view class="item" wx:if="{{!optionIsGoup && order.prom_type!=5}}">
-      <view>收货人</view>
-      <view>{{order.consignee}}{{'　　'}}{{order.mobile}}</view>
     </view>
     <view class="item">
       <view>支付方式</view>
@@ -239,10 +215,6 @@
       <view>- ￥ {{order.coupon_price}}元</view>
     </view>
     <view class="item">
-      <view>积分</view>
-      <view>- ￥ {{order.integral_money}}元</view>
-    </view>
-    <view class="item">
       <view>余额</view>
       <view>- ￥ {{order.user_money}}元</view>
     </view>
@@ -286,19 +258,6 @@
       </view>
       <view class="">
         <view class="user-contact model-view-padding">
-          <view class="modal-show-text">
-            <text>提货人：</text>
-            <text>{{order.consignee}}</text>
-            <text>{{order.mobile}}</text>
-          </view>
-          <view class="modal-show-text">
-            <text>提货地址：</text>
-            <text>{{order.address_region}}{{order.shop.shop_address}}</text>
-          </view>
-          <view class="modal-show-text">
-            <text>提货时间：</text>
-            <text>{{order.shop_order.take_time}}</text>
-          </view>
           <view class="modal-show-text">
             <text>订单编号：</text>
             <text>{{order.order_sn}}</text>

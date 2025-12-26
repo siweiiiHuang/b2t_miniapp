@@ -34,7 +34,8 @@
 
                 <view class="check-btn">
                     <navigator hidden="{{item.pay_btn !=1}}" class="order-btn order-btn-pay" bindtap="jumpToCart4" data-idx="{{index}}">立即付款</navigator> 
-                    <view hidden="{{!(item.cancel_btn==1 && item.pay_status == 0)}}" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
+                    <!-- 隐藏取消订单按钮 -->
+                    <view hidden="true" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
                     <navigator hidden="{{!(item.cancel_btn ==1 && item.shop_refund_btn==1)}}" class="order-btn" url="/pages/order/refund_order/refund_order?order_id={{item.order_id}}">申请退款</navigator>
                 
                     <view hidden="{{item.receive_btn!=1}}" class="order-btn" bindtap="confirmOrder" data-id='{{item.order_id}}'>确认使用</view>

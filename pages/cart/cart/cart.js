@@ -338,7 +338,7 @@ Page({
                 break;
             case 2: // 取单（订单列表）
                 wx.reLaunch({
-                    url: '/pages/user/order_list/order_list'
+                    url: '/pages/shop_order/shop_order_list/shop_order_list'
                 });
                 break;
             case 3: // 个人中心

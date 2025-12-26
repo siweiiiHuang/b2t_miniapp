@@ -8,7 +8,6 @@ Page({
     data: {
         url: app.globalData.setting.url,
         resourceUrl: app.globalData.setting.resourceUrl,
-        currentTab: 0, // 当前选中的tab，0-自提取单码，1-我的订单
         searchValue: '', // 搜索框的值
         categories: [
             { name: "全部", id: 0 },
@@ -33,19 +32,6 @@ Page({
         if (wx.getStorageSync('order:order_list:update')) {
             wx.setStorageSync('order:order_list:update', false);
             this.resetData();
-            this.requestOrderList(this.data.activeCategoryId);
-        }
-    },
-
-    // 切换tab
-    switchTab: function(e) {
-        const tab = parseInt(e.currentTarget.dataset.tab);
-        this.setData({
-            currentTab: tab
-        });
-        
-        // 如果切换到我的订单tab，加载订单数据
-        if (tab === 1 && !this.data.orderList) {
             this.requestOrderList(this.data.activeCategoryId);
         }
     },
@@ -197,40 +183,9 @@ Page({
         var order = this.data.orderList.order_list[e.currentTarget.dataset.idx];
         common.jumpToCart4({
             order_sn: order.order_sn,
+            order_type: order.prom_type,
             order_amount: order.order_amount
         });
-    },
-
-    // 底部导航栏跳转
-    navigateToPage(e) {
-        const index = parseInt(e.currentTarget.dataset.index);
-        
-        // 如果点击的是当前页面，不进行跳转
-        if (index === 2) {
-            return;
-        }
-
-        // 根据索引跳转到对应页面
-        switch(index) {
-            case 0: // 首页
-                wx.reLaunch({
-                    url: '/pages/index/index/index'
-                });
-                break;
-            case 1: // 点单（购物车）
-                wx.reLaunch({
-                    url: '/pages/cart/cart/cart'
-                });
-                break;
-            case 2: // 取单（订单列表）
-                // 当前页面，不跳转
-                break;
-            case 3: // 个人中心
-                wx.reLaunch({
-                    url: '/pages/user/index/index'
-                });
-                break;
-        }
     }
 
 });

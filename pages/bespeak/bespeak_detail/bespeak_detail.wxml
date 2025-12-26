@@ -116,7 +116,8 @@
             <view class="contact-us goods-btn" bindtap='contactService'>联系客服</view>
                       <navigator url='/pages/order/cancel_order/cancel_order?order_id={{order.order_id}}' class="cancel-order goods-btn" wx:if="{{order.cancel_info == 1}}" >取消进度</navigator>
             <view wx:if="{{order.pay_status == 1 &&  order.cancel_btn == 1 && order.shop_consumption== 0 && order.order_goods[0].goods.invalid_refund ==2 }}" class="cancel-order goods-btn"  bindtap="refoundOrder" data-id='{{order.order_id}}'>申请退款</view>
-            <view wx:if="{{order.cancel_btn == 1 && order['shop_consumption'] == 0 && order.order_goods[0]['goods']['invalid_refund']==2 && order.pay_status != 1}}" class="cancel-order goods-btn"  bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
+            <!-- 隐藏取消订单按钮 -->
+            <view hidden="true" wx:if="{{order.cancel_btn == 1 && order['shop_consumption'] == 0 && order.order_goods[0]['goods']['invalid_refund']==2 && order.pay_status != 1}}" class="cancel-order goods-btn"  bindtap="cancelOrder" data-id='{{order.order_id}}'>取消订单</view>
         </view>
             
     </view>

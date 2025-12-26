@@ -39,8 +39,9 @@
                 </view>
                 <view class="check-btn">
                     <navigator hidden="{{!(item.pay_btn==1)}}" class="order-btn order-btn-pay" bindtap="jumpToCart4" data-idx="{{index}}">立即付款</navigator>
-                    <view hidden="{{!(item.cancel_btn==1&&item.pay_status==0)}}" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
-                    <navigator hidden="{{!(item.cancel_btn==1&&item.pay_status==1)}}" class="order-btn" url="/pages/order/refund_order/refund_order?order_id={{item.order_id}}">取消订单</navigator>
+                    <!-- 隐藏取消订单按钮 -->
+                    <view hidden="true" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
+                    <navigator hidden="true" class="order-btn" url="/pages/order/refund_order/refund_order?order_id={{item.order_id}}">取消订单</navigator>
                     <view hidden="{{!(item.receive_btn==1)}}" class="order-btn" bindtap="confirmOrder" data-id='{{item.order_id}}'>确认收货</view>
                     <navigator hidden="{{!(item.comment_btn==1)}}" class="order-btn" url="/pages/user/comment/comment?status=0" redirect>评价</navigator>
                     <block wx:if="{{item.shipping_name}}">
@@ -56,3 +57,10 @@
         </view>
     </view>
 </view>
+
+<!-- 底部导航 -->
+<import src="../../index/publics/publics.wxml"/>
+<template is="bottomNav" data="{{currentPage:2}}"/>
+
+<!-- 悬浮客服球 -->
+<template is="floatService"/>

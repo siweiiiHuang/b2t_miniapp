@@ -83,15 +83,6 @@
     </view>
   </view>
 
-  <!-- 发票区域 -->
-  <view class="invoice-section" bindtap="selectInvoice">
-    <view class="section-title">发票信息</view>
-    <view class="invoice-content">
-      <text>{{invoiceText}}</text>
-      <icon type="arrowright" size="16"></icon>
-    </view>
-  </view>
-
   <!-- 留言区域 -->
   <view class="message-section">
     <view class="section-title">买家留言</view>

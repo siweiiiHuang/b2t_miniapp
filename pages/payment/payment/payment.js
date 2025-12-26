@@ -41,8 +41,8 @@ Page({
           wx.setStorageSync('order:shop_order_list:update', true);
           wx.redirectTo({ url: '/pages/shop_order/shop_order_list/shop_order_list' });
         } else {
-            wx.setStorageSync('order:order_list:update', true);
-            wx.redirectTo({ url: '/pages/user/order_list/order_list' });
+            // 直接跳转到订单详情页面，而不是订单列表
+            wx.redirectTo({ url: '/pages/user/order_detail/order_detail?order_id=' + this.data.order.order_id });
         }
     },
 

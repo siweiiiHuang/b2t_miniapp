@@ -32,8 +32,9 @@
                 </view>
                 <view class="check-btn">
                     <view wx:if="{{item.pay_btn==1}}" class="order-btn order-btn-pay" bindtap="jumpToCart4" data-idx="{{index}}">立即付款</view>
-                    <view wx:if="{{item.cancel_btn==1&&item.pay_status==0}}" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
-                    <navigator wx:if="{{item.cancel_btn==1&&item.pay_status==1}}" class="order-btn" url="/pages/order/refund_order/refund_order?order_id={{item.order_id}}">取消订单</navigator>
+                    <!-- 隐藏取消订单按钮 -->
+                    <view hidden="true" wx:if="{{item.cancel_btn==1&&item.pay_status==0}}" class="order-btn" bindtap="cancelOrder" data-id='{{item.order_id}}'>取消订单</view>
+                    <navigator hidden="true" wx:if="{{item.cancel_btn==1&&item.pay_status==1}}" class="order-btn" url="/pages/order/refund_order/refund_order?order_id={{item.order_id}}">取消订单</navigator>
                     <view wx:if="{{item.receive_btn==1}}" class="order-btn" bindtap="confirmOrder" data-id='{{item.order_id}}'>确认收货</view>
                     <view wx:if="{{item.comment_btn==1}}" class="order-btn" data-idx='{{index}}' bindtap='comment'>评价</view>
                 </view>
